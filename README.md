@@ -1,2 +1,3 @@
 # QuickServeSystem
 QuickServe System using: Reactjs, Typescript, Tailwind CSS, Redux Toolkit....
+update
