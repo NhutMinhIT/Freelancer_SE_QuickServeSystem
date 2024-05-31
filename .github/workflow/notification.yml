@@ -1,6 +1,3 @@
-scrollbar-primary box-popup-apply relative w-full overflow-y-auto rounded bg-white
-
-
 name: Notifier
 
 on:
