@@ -112,6 +112,20 @@ export const authSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         });
+
+        //State Logout
+        builder.addCase(logoutUser.pending, (state) => {
+            state.loading = true;
+        });
+        builder.addCase(logoutUser.fulfilled, (state) => {
+            state.loading = false;
+            state.account = null;
+            state.success = true;
+        });
+        builder.addCase(logoutUser.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        });
     },
 });
 
