@@ -43,9 +43,19 @@ const listMenu = {
     ],
     brandManagementMenu: [
         {
-            title: 'Brand Management',
-            url: '/brand-management',
-            icon: 'fa fa-building',
+            title: 'Thống Kê',
+            url: '/brand-dashboard',
+            icon: chartRevenueIcon,
+        },
+        {
+            title: 'QL. Phân Loại',
+            url: '/brand-category',
+            icon: feedbackIcon,
+        },
+        {
+            title: 'QL. Mẫu Sản Phẩm',
+            url: '/brand-menu-template',
+            icon: feedbackIcon,
         },
     ],
 };

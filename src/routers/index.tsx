@@ -9,6 +9,7 @@ import { useAppSelector } from '../services/store/store';
 import PageNotFoundPrevious from '../pages/page-not-found/PageNotFoundPrevious';
 import PageNotFoundLogin from '../pages/page-not-found/PageNotFoundLogin';
 import EmployeeManagement from '../pages/store-manager/employee-management/EmployeeManagement';
+import CategoryManagement from '../pages/brand-manager/category-management/CategoryManagement';
 
 const AppRouter = () => {
     const token = localStorage.getItem('quickServeToken');
@@ -61,7 +62,8 @@ const AppRouter = () => {
                     {/* Brand Manager  */}
                     {isBrandManager && (
                         <>
-                            <Route path="/dashboard" element={<Dashboard />} />
+                            <Route path="/brand-dashboard" element={<Dashboard />} />
+                            <Route path="/brand-category" element={<CategoryManagement />} />
                         </>
                     )}
                     {/* Page Not Found */}

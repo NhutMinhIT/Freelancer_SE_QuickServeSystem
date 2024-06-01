@@ -37,6 +37,16 @@ const SidebarComponent = () => {
             </Link>
           </ul>
         ))}
+        {account?.roles[0] === 'Brand_Manager' && menu.brandManagementMenu.map((item, index) => (
+          <ul className='mt-3 text-white-500 font-bold' key={index}>
+            <Link to={item.url} className=''>
+              <li className={`mb-2 gap-6 rounded hover:shadow hover:bg-orange-500 py-2 cursor-pointer flex ${item.url === location.pathname ? 'text-orange-500' : ''}`}>
+                <i className={item.icon} />
+                <span>{item.title}</span>
+              </li>
+            </Link>
+          </ul>
+        ))}
       </div>
       <NavbarComponent />
     </div>
