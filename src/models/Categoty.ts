@@ -7,3 +7,6 @@ export interface ICategory {
     lastModifiedBy: string;
     lastModified: Date | string;
 }
+export interface ICategoryCreate {
+    name: string;
+}

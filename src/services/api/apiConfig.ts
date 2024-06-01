@@ -10,3 +10,4 @@ export const getUserByIdEndpoint = `${BASE_URL}/Account/GetAccountById`;
 
 //Category endpoints
 export const getAllCategoriesEndpoint = `${BASE_URL}/Category/GetPagedListCategory`;
+export const createCategoryEndpoint = `${BASE_URL}/Category/CreateCategory`;

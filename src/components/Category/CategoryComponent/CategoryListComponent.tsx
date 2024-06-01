@@ -1,9 +1,9 @@
 import { MRT_ColumnDef, MRT_GlobalFilterTextField, MRT_TableBodyCellValue, MRT_TablePagination, MRT_ToolbarAlertBanner, flexRender, useMaterialReactTable } from 'material-react-table';
-import { ICategory } from '../../models/Categoty';
-import { useAppDispatch, useAppSelector } from '../../services/store/store';
 import { useEffect } from 'react';
-import { getAllCategories } from '../../services/features/categorySlice';
 import { Box, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
+import { useAppDispatch, useAppSelector } from '../../../services/store/store';
+import { getAllCategories } from '../../../services/features/categorySlice';
+import { ICategory } from '../../../models/Categoty';
 
 const columns: MRT_ColumnDef<ICategory>[] = [
     {
@@ -36,7 +36,7 @@ const columns: MRT_ColumnDef<ICategory>[] = [
     }
 
 ];
-const CategoryComponent = () => {
+const CategoryListComponent = () => {
     const dispatch = useAppDispatch();
     const { categories } = useAppSelector(state => state.categories);
 
@@ -117,4 +117,4 @@ const CategoryComponent = () => {
     )
 }
 
-export default CategoryComponent
+export default CategoryListComponent;

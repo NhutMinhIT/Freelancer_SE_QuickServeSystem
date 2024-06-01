@@ -44,7 +44,7 @@ const listMenu = {
     brandManagementMenu: [
         {
             title: 'Thống Kê',
-            url: '/brand-dashboard',
+            url: '/dashboard',
             icon: chartRevenueIcon,
         },
         {

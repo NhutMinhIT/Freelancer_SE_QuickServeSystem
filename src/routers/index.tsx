@@ -62,7 +62,7 @@ const AppRouter = () => {
                     {/* Brand Manager  */}
                     {isBrandManager && (
                         <>
-                            <Route path="/brand-dashboard" element={<Dashboard />} />
+                            <Route path="/dashboard" element={<Dashboard />} />
                             <Route path="/brand-category" element={<CategoryManagement />} />
                         </>
                     )}
