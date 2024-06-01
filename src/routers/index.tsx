@@ -4,11 +4,11 @@ import Home from '../pages/admin/admin-home/Home';
 import RegisterAccount from '../pages/admin/register/RegisterAccount';
 import UserProfile from '../pages/user-profile/UserProfile';
 import AccountManagement from '../pages/admin/account-management/AccountManagement';
-import EmployeeManagement from '../pages/store-manager/EmployeeManagement/EmployeeManagement';
 import Dashboard from '../pages/brand-manager/dashboard/Dashboard';
 import { useAppSelector } from '../services/store/store';
 import PageNotFoundPrevious from '../pages/page-not-found/PageNotFoundPrevious';
 import PageNotFoundLogin from '../pages/page-not-found/PageNotFoundLogin';
+import EmployeeManagement from '../pages/store-manager/employee-management/EmployeeManagement';
 
 const AppRouter = () => {
     const token = localStorage.getItem('quickServeToken');
