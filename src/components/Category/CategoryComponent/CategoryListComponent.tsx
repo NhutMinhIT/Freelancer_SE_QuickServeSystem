@@ -1,9 +1,10 @@
 import { MRT_ColumnDef, MRT_GlobalFilterTextField, MRT_TableBodyCellValue, MRT_TablePagination, MRT_ToolbarAlertBanner, flexRender, useMaterialReactTable } from 'material-react-table';
-import { useEffect } from 'react';
-import { Box, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { Box, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Button } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../../services/store/store';
 import { getAllCategories } from '../../../services/features/categorySlice';
 import { ICategory } from '../../../models/Categoty';
+import PopupCreateCategory from '../CreateCategory/PopupCreateCategory';
 
 const columns: MRT_ColumnDef<ICategory>[] = [
     {
@@ -34,15 +35,22 @@ const columns: MRT_ColumnDef<ICategory>[] = [
             return typeof lastModified === 'string' ? lastModified.split('T')[0] : new Date(lastModified).toISOString().split('T')[0];
         },
     }
-
 ];
+
 const CategoryListComponent = () => {
     const dispatch = useAppDispatch();
     const { categories } = useAppSelector(state => state.categories);
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
 
     useEffect(() => {
         dispatch(getAllCategories());
     }, [dispatch]);
+
+    useEffect(() => {
+        if (!isPopupOpen) {
+            dispatch(getAllCategories());
+        }
+    }, [isPopupOpen, dispatch]);
 
     const table = useMaterialReactTable({
         columns,
@@ -58,6 +66,15 @@ const CategoryListComponent = () => {
         },
         paginationDisplayMode: 'pages',
     });
+
+    const handlePopupOpen = () => {
+        setIsPopupOpen(true);
+    };
+
+    const handlePopupClose = () => {
+        setIsPopupOpen(false);
+    };
+
     return (
         <Stack sx={{ m: '2rem 0' }}>
             <Box
@@ -70,8 +87,16 @@ const CategoryListComponent = () => {
             >
                 <MRT_GlobalFilterTextField table={table} />
                 <MRT_TablePagination table={table} />
+                <Button variant="contained" onClick={handlePopupOpen} sx={{
+                    color: 'black',
+                    backgroundColor: 'orange',
+                }}>
+                    Thêm thể loại
+                </Button>
             </Box>
-            <Typography variant="subtitle2" sx={{ textAlign: 'left', marginLeft: '16px', fontSize: '14px', color: 'red' }}>* Vui lòng nhấn đúp vào 1 hàng để xem thông tin chi tiết</Typography>
+            <Typography variant="subtitle2" sx={{ textAlign: 'left', marginLeft: '16px', fontSize: '14px', color: 'red' }}>
+                * Vui lòng nhấn đúp vào 1 hàng để xem thông tin chi tiết
+            </Typography>
             <TableContainer className='p-4'>
                 <Table>
                     <TableHead className='bg-orange-500'>
@@ -108,13 +133,9 @@ const CategoryListComponent = () => {
                 </Table>
             </TableContainer>
             <MRT_ToolbarAlertBanner stackAlertBanner table={table} />
-            {/* <PopupUserDetail
-                user={userData}
-                onPopupDetail={onPopupDetail}
-                setOnPopupDetail={setOnPopupDetail}
-            /> */}
+            <PopupCreateCategory isPopupOpen={isPopupOpen} closePopup={handlePopupClose} />
         </Stack>
-    )
+    );
 }
 
 export default CategoryListComponent;

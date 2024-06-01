@@ -23,19 +23,6 @@ const CategoryManagement = () => {
                         <FaAcquisitionsIncorporated className="text-3xl text-orange-500" />
                         <h3 className="text-3xl font-bold">Quản Lí Danh Sách Phân Loại</h3>
                     </div>
-                    <div className="flex items-center">
-                        <button
-                            onClick={togglePopup}
-                            className="mr-4 rounded-lg bg-orange-500 py-2 px-4 text-center font-sans
-                            text-xs font-bold uppercase text-white shadow-md shadow-gray-900/10
-                            transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none
-                            active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                        >
-                            <FaPlus className="inline-block" />
-                            Thêm Thể Loại
-                        </button>
-                        <PopupCreateCategory isPopupOpen={isPopupOpen} closePopup={togglePopup} />
-                    </div>
                 </div>
 
                 <CategoryListComponent />

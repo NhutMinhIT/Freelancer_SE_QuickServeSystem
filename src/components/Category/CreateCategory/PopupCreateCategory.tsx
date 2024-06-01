@@ -1,5 +1,5 @@
 import { XMarkIcon } from '@heroicons/react/16/solid';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useAppDispatch } from '../../../services/store/store';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -10,8 +10,9 @@ type PopupCreateCategoryProps = {
     isPopupOpen: boolean;
     closePopup: () => void;
 }
+
 type FormCreateCategoryValues = {
-    categoryName: string;
+    name: string;
 }
 
 const PopupCreateCategory: React.FC<PopupCreateCategoryProps> = ({ isPopupOpen, closePopup }) => {
@@ -23,6 +24,7 @@ const PopupCreateCategory: React.FC<PopupCreateCategoryProps> = ({ isPopupOpen, 
     });
 
     const onSubmit = (data: FormCreateCategoryValues) => {
+        setIsLoading(true);
         dispatch(createCategory(data))
             .unwrap()
             .then(() => {
@@ -50,15 +52,15 @@ const PopupCreateCategory: React.FC<PopupCreateCategoryProps> = ({ isPopupOpen, 
                     <div>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <div className="mb-4">
-                                <label htmlFor="categoryName" className="block text-sm font-medium text-gray-700">Name</label>
+                                <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
                                 <input
-                                    {...register('categoryName')}
+                                    {...register('name')}
                                     type="text"
-                                    name="categoryName"
-                                    id="categoryName"
+                                    name="name"
+                                    id="name"
                                     className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
                                 />
-                                {errors.categoryName && <p className='text-red-500 text-xs mt-2'>* {errors.categoryName.message}</p>}
+                                {errors.name && <p className='text-red-500 text-xs mt-2'>* {errors.name.message}</p>}
                             </div>
                             <div className="flex justify-end">
                                 <button
@@ -92,7 +94,7 @@ const PopupCreateCategory: React.FC<PopupCreateCategoryProps> = ({ isPopupOpen, 
                 </div>
             </div>
         )
-    )
+    );
 }
 
 export default PopupCreateCategory;
