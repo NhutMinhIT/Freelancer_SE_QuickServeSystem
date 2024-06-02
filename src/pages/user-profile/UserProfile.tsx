@@ -2,15 +2,14 @@ import { FaKey, FaLock } from "react-icons/fa"
 import SidebarComponent from "../../components/ManagementComponent/SidebarComponent "
 import UserInformation from "../../components/UserProfileComponent/UserInformation"
 import { Link } from "react-router-dom"
-import { useAppDispatch } from "../../services/store/store"
-import { useSelector } from "react-redux"
+import { useAppDispatch, useAppSelector } from "../../services/store/store"
 import { useEffect } from "react"
 import { getUserById } from "../../services/features/userSlice"
 
 const UserProfile = () => {
     const dispatch = useAppDispatch()
-    const { account } = useSelector((state: any) => state.account)
-    const { user } = useSelector((state: any) => state.users)
+    const { account } = useAppSelector((state: any) => state.account)
+    const { user } = useAppSelector((state: any) => state.users)
     console.log(user)
 
     useEffect(() => {
