@@ -21,7 +21,7 @@ export const getAllUser = createAsyncThunk<IUserInfo[], void>(
     'users/getAllUser',
     async (_, thunkAPI) => {
         try {
-            const token = localStorage.getItem('quickServeToken');
+            const token = sessionStorage.getItem('quickServeToken');
             const response = await axios.get(getAllUsersEndpoint, {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -40,7 +40,7 @@ export const getUserById = createAsyncThunk<IUserInfo, { id: string }>(
     async (data, thunkAPI) => {
         const { id } = data;
         try {
-            const token = localStorage.getItem('quickServeToken');
+            const token = sessionStorage.getItem('quickServeToken');
             const response = await axios.get(
                 `${getUserByIdEndpoint}?id=${id}`,
                 {

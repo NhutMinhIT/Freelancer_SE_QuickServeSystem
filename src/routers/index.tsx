@@ -12,7 +12,7 @@ import EmployeeManagement from '../pages/store-manager/employee-management/Emplo
 import CategoryManagement from '../pages/brand-manager/category-management/CategoryManagement';
 
 const AppRouter = () => {
-    const token = localStorage.getItem('quickServeToken');
+    const token = sessionStorage.getItem('quickServeToken');
     const { account } = useAppSelector((state) => state.account);
 
     const isAdmin = account?.roles.includes('Admin');
@@ -21,7 +21,7 @@ const AppRouter = () => {
 
     return (
         <Routes>
-            {token === null && account === null ? (
+            {token === null || account === null ? (
                 <>
                     <Route
                         path="/"

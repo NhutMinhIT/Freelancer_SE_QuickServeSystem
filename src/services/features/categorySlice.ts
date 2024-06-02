@@ -7,6 +7,7 @@ import {
     getAllCategoriesEndpoint,
     updateStatusCategoryEndpoint,
 } from '../api/apiConfig';
+import { toast } from 'react-toastify';
 
 type CategoryState = {
     loading: boolean;
@@ -27,7 +28,7 @@ export const getAllCategories = createAsyncThunk<ICategory[], void>(
     'categories/getAllCategories',
     async (_, thunkAPI) => {
         try {
-            const token = localStorage.getItem('quickServeToken');
+            const token = sessionStorage.getItem('quickServeToken');
             const response = await axios.get(getAllCategoriesEndpoint, {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -45,7 +46,7 @@ export const createCategory = createAsyncThunk<ICategoryCreate, Object>(
     'categories/createCategory',
     async (category, thunkAPI) => {
         try {
-            const token = localStorage.getItem('quickServeToken');
+            const token = sessionStorage.getItem('quickServeToken');
             const response = await axios.post(
                 createCategoryEndpoint,
                 category,
@@ -55,11 +56,11 @@ export const createCategory = createAsyncThunk<ICategoryCreate, Object>(
                     },
                 },
             );
+            toast.success('Tạo thể loại thành công ! Có thể sử dụng ngay.');
             return response.data.data;
         } catch (error: any) {
-            return thunkAPI.rejectWithValue(
-                error.response?.data?.errorMessages || 'Unknown error',
-            );
+            toast.error('Tạo thể loại thất bại !');
+            return thunkAPI.rejectWithValue(error.response.data);
         }
     },
 );
@@ -69,7 +70,7 @@ export const updateStatusCategoryById = createAsyncThunk<
     { id: number }
 >('users/updateStatusCategoryById', async ({ id }, thunkAPI) => {
     try {
-        const token = localStorage.getItem('quickServeToken');
+        const token = sessionStorage.getItem('quickServeToken');
         const response = await axios.put(
             `${updateStatusCategoryEndpoint}`,
             { id },
@@ -79,19 +80,18 @@ export const updateStatusCategoryById = createAsyncThunk<
                 },
             },
         );
-        return response;
+        toast.success('Cập nhật trạng thái thể loại thành công !');
+        return response.data;
     } catch (error: any) {
-        return thunkAPI.rejectWithValue(
-            error.response?.data?.errorMessages || 'Unknown error',
-        );
+        toast.error('Cập nhật trạng thái thể loại không thành công!');
+        return thunkAPI.rejectWithValue(error.response.data);
     }
 });
-
 export const deleteCategoryById = createAsyncThunk<void, { id: number }>(
     'users/deleteCategoryById',
     async ({ id }, thunkAPI) => {
         try {
-            const token = localStorage.getItem('quickServeToken');
+            const token = sessionStorage.getItem('quickServeToken');
             const response = await axios.delete(
                 `${deleteCategoryEndpoint}?Id=${id}`,
                 {
@@ -100,11 +100,11 @@ export const deleteCategoryById = createAsyncThunk<void, { id: number }>(
                     },
                 },
             );
-            return response;
+            toast.success('Cập nhật trạng thái thể loại thành công !');
+            return response.data;
         } catch (error: any) {
-            return thunkAPI.rejectWithValue(
-                error.response?.data?.errorMessages || 'Unknown error',
-            );
+            toast.error('Cập nhật trạng thái thể loại không thành công!');
+            return thunkAPI.rejectWithValue(error.response.data);
         }
     },
 );

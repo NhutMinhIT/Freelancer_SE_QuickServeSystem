@@ -27,7 +27,7 @@ export const registerAccountByAdmin = createAsyncThunk<IRegister, Object>(
     'auth/registerAccountByAdmin',
     async (data, thunkAPI) => {
         try {
-            const token = localStorage.getItem('quickServeToken');
+            const token = sessionStorage.getItem('quickServeToken');
             const response = await axios.post(
                 registerAccountByAdminEndpoint,
                 data,
@@ -54,11 +54,11 @@ export const loginUser = createAsyncThunk<ILoginResponse, ILogin>(
         try {
             const response = await axios.post(loginEndpoint, data);
             const token = response.data.data.accessToken;
-            localStorage.setItem('quickServeToken', token);
-            toast.success('Login successfully!');
+            sessionStorage.setItem('quickServeToken', token);
+            toast.success('Đăng nhập thành công!');
             return response.data;
         } catch (error: any) {
-            toast.error('Login failed!');
+            toast.error('Đăng nhập thất bại!');
             return thunkAPI.rejectWithValue(error.response.data);
         }
     },
@@ -68,7 +68,7 @@ export const logoutUser = createAsyncThunk<
     string | Object
 >('auth/logout-user', async (_, thunkAPI) => {
     try {
-        localStorage.removeItem('quickServeToken');
+        sessionStorage.removeItem('quickServeToken');
         toast.success('Đăng xuất thành công !');
         return null;
     } catch (error: any) {
