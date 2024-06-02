@@ -1,16 +1,8 @@
-import { FaAcquisitionsIncorporated, FaPlus } from "react-icons/fa";
+import { FaAcquisitionsIncorporated } from "react-icons/fa";
 import CategoryListComponent from "../../../components/Category/CategoryComponent/CategoryListComponent";
-import { useState } from "react";
 import SidebarComponent from "../../../components/ManagementComponent/SidebarComponent ";
-import PopupCreateCategory from "../../../components/Category/CreateCategory/PopupCreateCategory";
 
 const CategoryManagement = () => {
-    const [isPopupOpen, setIsPopoupOpen] = useState(false);
-
-    const togglePopup = () => {
-        setIsPopoupOpen(!isPopupOpen);
-    };
-
     return (
         <div className="grid grid-cols-1 md:grid-cols-12 md:p-0">
             <div className="md:col-span-2">
