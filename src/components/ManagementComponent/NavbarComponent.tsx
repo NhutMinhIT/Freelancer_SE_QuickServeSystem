@@ -20,7 +20,7 @@ const NavbarComponent = () => {
     };
 
     return (
-        <nav className="bg-gray-900 py-3 flex justify-between w-full fixed">
+        <nav className="bg-gray-900 py-3 flex justify-between w-full fixed z-50">
             <div className="flex items-center text-xl">
                 <img src={Logo} alt="Logo" className="w-10 h-10 sm:w-10 sm:h-10" />
                 <span className="text-white-500 font-semibold ml-5">Quick Serve Management</span>

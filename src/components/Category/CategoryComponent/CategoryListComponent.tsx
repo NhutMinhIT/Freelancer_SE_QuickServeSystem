@@ -3,8 +3,11 @@ import { useEffect, useState } from 'react';
 import { Box, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Button } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../../services/store/store';
 import { getAllCategories } from '../../../services/features/categorySlice';
-import { ICategory } from '../../../models/Categoty';
 import PopupCreateCategory from '../CreateCategory/PopupCreateCategory';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import { ICategory } from '../../../models/Categoty';
+import PopupCategoryDetail from '../../Popup/PopupCategoryDetail';
 
 const columns: MRT_ColumnDef<ICategory>[] = [
     {
@@ -16,7 +19,7 @@ const columns: MRT_ColumnDef<ICategory>[] = [
         header: 'Trạng thái',
         Cell: ({ cell }) => {
             const status = cell.row.original.status;
-            return status === 1 ? 'Active' : 'Inactive';
+            return status === 1 ? <CheckCircleOutlineIcon className='text-green-500' /> : <HighlightOffIcon />;
         }
     },
     {
@@ -34,13 +37,16 @@ const columns: MRT_ColumnDef<ICategory>[] = [
             const lastModified = cell.row.original.lastModified;
             return typeof lastModified === 'string' ? lastModified.split('T')[0] : new Date(lastModified).toISOString().split('T')[0];
         },
-    }
+    },
 ];
 
 const CategoryListComponent = () => {
     const dispatch = useAppDispatch();
     const { categories } = useAppSelector(state => state.categories);
     const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+    const [cateData, setCateData] = useState<ICategory | null>(null);
+    const [onPopupCategoryDetail, setOnPopupCategoryDetail] = useState<boolean>(false);
 
     useEffect(() => {
         dispatch(getAllCategories());
@@ -74,6 +80,12 @@ const CategoryListComponent = () => {
     const handlePopupClose = () => {
         setIsPopupOpen(false);
     };
+
+    const handleShowCategoryDetail = (cate: ICategory) => {
+        setCateData(cate);
+        setOnPopupCategoryDetail(true);
+    };
+
 
     return (
         <Stack sx={{ m: '2rem 0' }}>
@@ -119,7 +131,7 @@ const CategoryListComponent = () => {
                             <TableRow
                                 key={row.id}
                                 selected={row.getIsSelected()}
-                                // onDoubleClick={() => handleShowDetail(row.original)}
+                                onDoubleClick={() => handleShowCategoryDetail(row.original)}
                                 style={{ backgroundColor: rowIndex % 2 === 0 ? 'white' : '#d9d9d9', cursor: 'pointer' }}
                             >
                                 {row.getVisibleCells().map((cell) => (
@@ -134,6 +146,11 @@ const CategoryListComponent = () => {
             </TableContainer>
             <MRT_ToolbarAlertBanner stackAlertBanner table={table} />
             <PopupCreateCategory isPopupOpen={isPopupOpen} closePopup={handlePopupClose} />
+            <PopupCategoryDetail
+                cate={cateData}
+                onPopupDetail={onPopupCategoryDetail}
+                setOnPopupDetail={setOnPopupCategoryDetail}
+            />
         </Stack>
     );
 }
