@@ -1,13 +1,37 @@
-import { MRT_ColumnDef, MRT_GlobalFilterTextField, MRT_TableBodyCellValue, MRT_TablePagination, MRT_ToolbarAlertBanner, flexRender, useMaterialReactTable } from 'material-react-table';
+import {
+    MRT_ColumnDef,
+    MRT_GlobalFilterTextField,
+    MRT_TableBodyCellValue,
+    MRT_TablePagination,
+    MRT_ToolbarAlertBanner,
+    flexRender,
+    useMaterialReactTable,
+} from 'material-react-table';
 import { useEffect, useState } from 'react';
-import { Box, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Button } from '@mui/material';
+import {
+    Box,
+    Stack,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Typography,
+    Button,
+} from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../../services/store/store';
-import { getAllCategories } from '../../../services/features/categorySlice';
+import {
+    deleteCategoryById,
+    getAllCategories,
+    updateStatusCategoryById,
+} from '../../../services/features/categorySlice';
 import PopupCreateCategory from '../CreateCategory/PopupCreateCategory';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { ICategory } from '../../../models/Categoty';
 import PopupCategoryDetail from '../../Popup/PopupCategoryDetail';
+import PopupCheck from '../../Popup/PopupCheck';
 
 const columns: MRT_ColumnDef<ICategory>[] = [
     {
@@ -19,15 +43,21 @@ const columns: MRT_ColumnDef<ICategory>[] = [
         header: 'Trạng thái',
         Cell: ({ cell }) => {
             const status = cell.row.original.status;
-            return status === 1 ? <CheckCircleOutlineIcon className='text-green-500' /> : <HighlightOffIcon />;
-        }
+            return status === 1 ? (
+                <CheckCircleOutlineIcon className="text-green-500" />
+            ) : (
+                <HighlightOffIcon />
+            );
+        },
     },
     {
         accessorKey: 'created',
         header: 'Ngày tạo',
         Cell: ({ cell }) => {
             const created = cell.row.original.created;
-            return typeof created === 'string' ? created.split('T')[0] : new Date(created).toISOString().split('T')[0];
+            return typeof created === 'string'
+                ? created.split('T')[0]
+                : new Date(created).toISOString().split('T')[0];
         },
     },
     {
@@ -35,18 +65,26 @@ const columns: MRT_ColumnDef<ICategory>[] = [
         header: 'Ngày chỉnh sửa cuối',
         Cell: ({ cell }) => {
             const lastModified = cell.row.original.lastModified;
-            return typeof lastModified === 'string' ? lastModified.split('T')[0] : new Date(lastModified).toISOString().split('T')[0];
+            return typeof lastModified === 'string'
+                ? lastModified.split('T')[0]
+                : new Date(lastModified).toISOString().split('T')[0];
         },
     },
 ];
 
 const CategoryListComponent = () => {
     const dispatch = useAppDispatch();
-    const { categories } = useAppSelector(state => state.categories);
+    const { categories } = useAppSelector((state) => state.categories);
     const [isPopupOpen, setIsPopupOpen] = useState(false);
 
     const [cateData, setCateData] = useState<ICategory | null>(null);
-    const [onPopupCategoryDetail, setOnPopupCategoryDetail] = useState<boolean>(false);
+    const [onPopupCategoryDetail, setOnPopupCategoryDetail] =
+        useState<boolean>(false);
+    const [onPopupCheckChangeStatus, setOnPopupCheckChangeStatus] =
+        useState<boolean>(false);
+    const [onPopupCheckDelete, setOnPopupCheckDelete] =
+        useState<boolean>(false);
+    const [selectedCateId, setSelectedCateId] = useState<number | null>(null);
 
     useEffect(() => {
         dispatch(getAllCategories());
@@ -86,6 +124,41 @@ const CategoryListComponent = () => {
         setOnPopupCategoryDetail(true);
     };
 
+    const handleOpenPopupUpdateCategory = (id: number) => {
+        setSelectedCateId(id);
+        setOnPopupCheckChangeStatus(true);
+    };
+
+    const handleOpenPopupDeleteCategory = (id: number) => {
+        setSelectedCateId(id);
+        setOnPopupCheckDelete(true);
+    };
+
+    const handleUpdateStatusCategory = () => {
+        if (selectedCateId !== null) {
+            dispatch(updateStatusCategoryById({ id: selectedCateId }))
+                .unwrap()
+                .then(() => {
+                    setOnPopupCategoryDetail(false);
+                    setOnPopupCheckChangeStatus(false);
+                    dispatch(getAllCategories());
+                })
+                .catch((error) => console.log(error));
+        }
+    };
+
+    const handleDeleteCategory = () => {
+        if (selectedCateId !== null) {
+            dispatch(deleteCategoryById({ id: selectedCateId }))
+                .unwrap()
+                .then(() => {
+                    setOnPopupCategoryDetail(false);
+                    setOnPopupCheckDelete(false);
+                    dispatch(getAllCategories());
+                })
+                .catch((error) => console.log(error));
+        }
+    };
 
     return (
         <Stack sx={{ m: '2rem 0' }}>
@@ -99,26 +172,51 @@ const CategoryListComponent = () => {
             >
                 <MRT_GlobalFilterTextField table={table} />
                 <MRT_TablePagination table={table} />
-                <Button variant="contained" onClick={handlePopupOpen} sx={{
-                    color: 'black',
-                    backgroundColor: 'orange',
-                }}>
+                <Button
+                    variant="contained"
+                    onClick={handlePopupOpen}
+                    sx={{
+                        color: 'black',
+                        backgroundColor: 'orange',
+                    }}
+                >
                     Thêm thể loại
                 </Button>
             </Box>
-            <Typography variant="subtitle2" sx={{ textAlign: 'left', marginLeft: '16px', fontSize: '14px', color: 'red' }}>
+            <Typography
+                variant="subtitle2"
+                sx={{
+                    textAlign: 'left',
+                    marginLeft: '16px',
+                    fontSize: '14px',
+                    color: 'red',
+                }}
+            >
                 * Vui lòng nhấn đúp vào 1 hàng để xem thông tin chi tiết
             </Typography>
-            <TableContainer className='p-4'>
+            <TableContainer className="p-4">
                 <Table>
-                    <TableHead className='bg-orange-500'>
+                    <TableHead className="bg-orange-500">
                         {table.getHeaderGroups().map((headerGroup) => (
                             <TableRow key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => (
-                                    <TableCell align="left" variant="head" key={header.id}>
+                                    <TableCell
+                                        align="left"
+                                        variant="head"
+                                        key={header.id}
+                                    >
                                         {header.isPlaceholder ? null : (
-                                            <Typography fontWeight={700} color={'black'}>
-                                                {flexRender(header.column.columnDef.Header ?? header.column.columnDef.header, header.getContext())}
+                                            <Typography
+                                                fontWeight={700}
+                                                color={'black'}
+                                            >
+                                                {flexRender(
+                                                    header.column.columnDef
+                                                        .Header ??
+                                                        header.column.columnDef
+                                                            .header,
+                                                    header.getContext(),
+                                                )}
                                             </Typography>
                                         )}
                                     </TableCell>
@@ -131,12 +229,28 @@ const CategoryListComponent = () => {
                             <TableRow
                                 key={row.id}
                                 selected={row.getIsSelected()}
-                                onDoubleClick={() => handleShowCategoryDetail(row.original)}
-                                style={{ backgroundColor: rowIndex % 2 === 0 ? 'white' : '#d9d9d9', cursor: 'pointer' }}
+                                onDoubleClick={() =>
+                                    handleShowCategoryDetail(row.original)
+                                }
+                                style={{
+                                    backgroundColor:
+                                        rowIndex % 2 === 0
+                                            ? 'white'
+                                            : '#d9d9d9',
+                                    cursor: 'pointer',
+                                }}
                             >
                                 {row.getVisibleCells().map((cell) => (
-                                    <TableCell align="left" variant="body" key={cell.id}>
-                                        <MRT_TableBodyCellValue cell={cell} table={table} staticRowIndex={rowIndex} />
+                                    <TableCell
+                                        align="left"
+                                        variant="body"
+                                        key={cell.id}
+                                    >
+                                        <MRT_TableBodyCellValue
+                                            cell={cell}
+                                            table={table}
+                                            staticRowIndex={rowIndex}
+                                        />
                                     </TableCell>
                                 ))}
                             </TableRow>
@@ -145,14 +259,43 @@ const CategoryListComponent = () => {
                 </Table>
             </TableContainer>
             <MRT_ToolbarAlertBanner stackAlertBanner table={table} />
-            <PopupCreateCategory isPopupOpen={isPopupOpen} closePopup={handlePopupClose} />
-            <PopupCategoryDetail
-                cate={cateData}
-                onPopupDetail={onPopupCategoryDetail}
-                setOnPopupDetail={setOnPopupCategoryDetail}
+            <PopupCreateCategory
+                isPopupOpen={isPopupOpen}
+                closePopup={handlePopupClose}
+            />
+            {cateData && (
+                <PopupCategoryDetail
+                    cate={cateData}
+                    onPopupDetail={onPopupCategoryDetail}
+                    setOnPopupDetail={setOnPopupCategoryDetail}
+                    onChangeStatus={() =>
+                        handleOpenPopupUpdateCategory(cateData.id)
+                    }
+                    onDelete={() => handleOpenPopupDeleteCategory(cateData.id)}
+                />
+            )}
+
+            {/* Update Status */}
+            <PopupCheck
+                open={onPopupCheckChangeStatus}
+                content="Bạn có chắc chắn muốn thay đổi trạng thái thể loại này không ?"
+                titleAccept="Có"
+                titleCancel="Không"
+                onAccept={handleUpdateStatusCategory}
+                onCancel={() => setOnPopupCheckChangeStatus(false)}
+            />
+
+            {/* Delete */}
+            <PopupCheck
+                open={onPopupCheckDelete}
+                content="Bạn có chắc chắn muốn xoá thể loại này không ?"
+                titleAccept="Có"
+                titleCancel="Không"
+                onAccept={handleDeleteCategory}
+                onCancel={() => setOnPopupCheckDelete(false)}
             />
         </Stack>
     );
-}
+};
 
 export default CategoryListComponent;
