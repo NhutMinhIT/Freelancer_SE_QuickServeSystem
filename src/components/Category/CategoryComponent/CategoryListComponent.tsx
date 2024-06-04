@@ -47,7 +47,7 @@ const columns: MRT_ColumnDef<ICategory>[] = [
             return status === 1 ? (
                 <CheckCircleOutlineIcon className="text-green-500" />
             ) : (
-                <HighlightOffIcon />
+                <HighlightOffIcon className='text-red-500' />
             );
         },
     },

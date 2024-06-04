@@ -19,7 +19,7 @@ const PopupCreateCategory: React.FC<PopupCreateCategoryProps> = ({ isPopupOpen, 
     const dispatch = useAppDispatch();
     const [isLoading, setIsLoading] = useState(false);
 
-    const { register, handleSubmit, formState: { errors } } = useForm<FormCreateCategoryValues>({
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<FormCreateCategoryValues>({
         resolver: yupResolver(schemaCategory)
     });
 
@@ -28,6 +28,7 @@ const PopupCreateCategory: React.FC<PopupCreateCategoryProps> = ({ isPopupOpen, 
         dispatch(createCategory(data))
             .unwrap()
             .then(() => {
+                reset();
                 closePopup();
             })
             .catch((error) => console.log(error))
