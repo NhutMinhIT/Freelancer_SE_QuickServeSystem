@@ -270,16 +270,26 @@ const CategoryListComponent = () => {
                 closePopup={handlePopupClose}
             />
             {cateData && (
-                <PopupCategoryDetail
-                    cate={cateData}
-                    onPopupDetail={onPopupCategoryDetail}
-                    setOnPopupDetail={setOnPopupCategoryDetail}
-                    onChangeStatus={() =>
-                        handleOpenPopupUpdateCategory(cateData.id)
-                    }
-                    onDelete={() => handleOpenPopupDeleteCategory(cateData.id)}
-                    onRename={() => handleOpenPopupRenameCategory(cateData.id)}
-                />
+                <>
+                    <PopupCategoryDetail
+                        cate={cateData}
+                        onPopupDetail={onPopupCategoryDetail}
+                        setOnPopupDetail={setOnPopupCategoryDetail}
+                        onChangeStatus={() =>
+                            handleOpenPopupUpdateCategory(cateData.id)
+                        }
+                        onDelete={() => handleOpenPopupDeleteCategory(cateData.id)}
+                        onRename={() => handleOpenPopupRenameCategory(cateData.id)}
+                    />
+                    <PopupRenameCategory
+                        onClosePopupDetail={() => setOnPopupCategoryDetail(false)}
+                        open={openPopupRename}
+                        closePopup={() => setOpenPopupRename(false)}
+                        name={cateData?.name ?? ''}
+                        cateId={cateData.id}
+                    />
+                </>
+
             )}
 
             {/* Update Status */}
@@ -301,12 +311,7 @@ const CategoryListComponent = () => {
                 onAccept={handleDeleteCategory}
                 onCancel={() => setOnPopupCheckDelete(false)}
             />
-            <PopupRenameCategory
-                open={openPopupRename}
-                closePopup={() => setOpenPopupRename(false)}
-                name={cateData?.name ?? ''}
-                cateId={selectedCateId ?? null}
-            />
+
         </Stack>
     );
 };

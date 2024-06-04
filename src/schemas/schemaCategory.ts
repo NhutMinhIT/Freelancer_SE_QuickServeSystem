@@ -7,7 +7,7 @@ export const schemaCategory = yup.object().shape({
         .min(3, 'Tên thể loại phải có ít nhất 3 ký tự')
         .max(50, 'Tên thể loại không được vượt quá 50 ký tự')
         .matches(
-            /^[a-zA-Z0-9\s\u00C0-\u017F]*$/,
+            /^[a-zA-Z0-9\s\u00C0-\u024F\u1E00-\u1EFF]*$/,
             'Tên thể loại không được chứa ký tự đặc biệt',
         ),
 });

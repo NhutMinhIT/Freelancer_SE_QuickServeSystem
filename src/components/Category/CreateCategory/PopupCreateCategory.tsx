@@ -28,11 +28,12 @@ const PopupCreateCategory: React.FC<PopupCreateCategoryProps> = ({ isPopupOpen, 
         dispatch(createCategory(data))
             .unwrap()
             .then(() => {
-                reset();
                 closePopup();
             })
             .catch((error) => console.log(error))
             .finally(() => setIsLoading(false));
+        reset();
+
     }
 
     return (

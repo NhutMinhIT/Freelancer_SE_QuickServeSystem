@@ -85,7 +85,11 @@ export const updateStatusCategoryById = createAsyncThunk<
                 },
             },
         );
-        toast.success('Cập nhật trạng thái thể loại thành công !');
+        if (response.data.success === 'true') {
+            toast.success('Cập nhật thể loại thành công !');
+        } else {
+            toast.error('Cập nhật thể loại không thành công !');
+        }
         return response.data;
     } catch (error: any) {
         toast.error('Cập nhật trạng thái thể loại không thành công!');
@@ -105,7 +109,11 @@ export const deleteCategoryById = createAsyncThunk<void, { id: number }>(
                     },
                 },
             );
-            toast.success('Xoá thể loại thành công !');
+            if (response.data.success === 'true') {
+                toast.success('Xoá thể loại thành công !');
+            } else {
+                toast.error('Xoá thể loại không thành công !');
+            }
             return response.data;
         } catch (error: any) {
             toast.error('Xoá thể loại không thành công !');
@@ -113,14 +121,14 @@ export const deleteCategoryById = createAsyncThunk<void, { id: number }>(
         }
     },
 );
-export const renameCategory = createAsyncThunk<ICategoryRename, Object>(
+export const renameCategory = createAsyncThunk<ICategory, ICategoryRename>(
     'categories/renameCategory',
-    async (category, thunkAPI) => {
+    async ({ id, name }, thunkAPI) => {
         try {
             const token = sessionStorage.getItem('quickServeToken');
             const response = await axios.put(
                 `${renameCategoryEndpoint}`,
-                category,
+                { id, name },
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,

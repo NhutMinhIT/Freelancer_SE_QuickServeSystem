@@ -2,14 +2,15 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/
 import { useAppDispatch } from "../../services/store/store";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import { renameCategory } from "../../services/features/categorySlice";
+import { getAllCategories, renameCategory } from "../../services/features/categorySlice";
 import { XMarkIcon } from "@heroicons/react/16/solid";
 
 type PopupRenameCategoryProps = {
     open: boolean;
     closePopup: () => void;
+    onClosePopupDetail: () => void
     name: string;
-    cateId: number | null;
+    cateId: number | undefined;
 }
 
 type FormRenameCategoryValues = {
@@ -17,21 +18,25 @@ type FormRenameCategoryValues = {
     name: string;
 }
 
-const PopupRenameCategory: React.FC<PopupRenameCategoryProps> = ({ open, closePopup, name }) => {
+const PopupRenameCategory: React.FC<PopupRenameCategoryProps> = ({ open, closePopup, onClosePopupDetail, name, cateId }) => {
+    console.log(cateId)
     const dispatch = useAppDispatch();
     const [isLoading, setIsLoading] = useState(false);
 
-    const { register, handleSubmit, reset, formState: { errors } } = useForm<FormRenameCategoryValues>({ defaultValues: { name } });
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<FormRenameCategoryValues>({ defaultValues: { id: cateId, name } });
     const onSubmit = (data: FormRenameCategoryValues) => {
         setIsLoading(true);
         dispatch(renameCategory(data))
             .unwrap()
             .then(() => {
+                dispatch(getAllCategories());
                 closePopup();
-                reset();
+                onClosePopupDetail();
+                reset({ id: undefined, name: '' }); // Reset the form here
             })
             .catch((error) => console.log(error))
             .finally(() => setIsLoading(false));
+
     }
 
     return (
@@ -59,6 +64,7 @@ const PopupRenameCategory: React.FC<PopupRenameCategoryProps> = ({ open, closePo
                 <div>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="mb-4">
+                            <input {...register('id')} type="hidden" />
                             <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
                             <input
                                 {...register('name')}
