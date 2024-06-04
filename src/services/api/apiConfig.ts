@@ -13,3 +13,4 @@ export const getAllCategoriesEndpoint = `${BASE_URL}/Category/GetPagedListCatego
 export const createCategoryEndpoint = `${BASE_URL}/Category/CreateCategory`;
 export const updateStatusCategoryEndpoint = `${BASE_URL}/Category/UpdateStatusCategory`;
 export const deleteCategoryEndpoint = `${BASE_URL}/Category/DeleteCategory`;
+export const renameCategoryEndpoint = `${BASE_URL}/Category/UpdateCategory`;

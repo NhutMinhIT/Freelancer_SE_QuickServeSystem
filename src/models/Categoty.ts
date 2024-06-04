@@ -10,3 +10,7 @@ export interface ICategory {
 export interface ICategoryCreate {
     name: string;
 }
+export interface ICategoryRename {
+    id: number;
+    name: string;
+}

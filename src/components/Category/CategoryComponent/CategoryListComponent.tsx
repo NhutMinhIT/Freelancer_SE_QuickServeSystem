@@ -32,6 +32,7 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { ICategory } from '../../../models/Categoty';
 import PopupCategoryDetail from '../../Popup/PopupCategoryDetail';
 import PopupCheck from '../../Popup/PopupCheck';
+import PopupRenameCategory from '../../Popup/PopupRenameCategory';
 
 const columns: MRT_ColumnDef<ICategory>[] = [
     {
@@ -84,6 +85,7 @@ const CategoryListComponent = () => {
         useState<boolean>(false);
     const [onPopupCheckDelete, setOnPopupCheckDelete] =
         useState<boolean>(false);
+    const [openPopupRename, setOpenPopupRename] = useState<boolean>(false);
     const [selectedCateId, setSelectedCateId] = useState<number | null>(null);
 
     useEffect(() => {
@@ -133,6 +135,10 @@ const CategoryListComponent = () => {
         setSelectedCateId(id);
         setOnPopupCheckDelete(true);
     };
+    const handleOpenPopupRenameCategory = (id: number) => {
+        setSelectedCateId(id);
+        setOpenPopupRename(true);
+    }
 
     const handleUpdateStatusCategory = () => {
         if (selectedCateId !== null) {
@@ -213,8 +219,8 @@ const CategoryListComponent = () => {
                                                 {flexRender(
                                                     header.column.columnDef
                                                         .Header ??
-                                                        header.column.columnDef
-                                                            .header,
+                                                    header.column.columnDef
+                                                        .header,
                                                     header.getContext(),
                                                 )}
                                             </Typography>
@@ -272,6 +278,7 @@ const CategoryListComponent = () => {
                         handleOpenPopupUpdateCategory(cateData.id)
                     }
                     onDelete={() => handleOpenPopupDeleteCategory(cateData.id)}
+                    onRename={() => handleOpenPopupRenameCategory(cateData.id)}
                 />
             )}
 
@@ -293,6 +300,12 @@ const CategoryListComponent = () => {
                 titleCancel="Không"
                 onAccept={handleDeleteCategory}
                 onCancel={() => setOnPopupCheckDelete(false)}
+            />
+            <PopupRenameCategory
+                open={openPopupRename}
+                closePopup={() => setOpenPopupRename(false)}
+                name={cateData?.name ?? ''}
+                cateId={selectedCateId ?? null}
             />
         </Stack>
     );

@@ -7,6 +7,7 @@ interface PopupCategoryDetailProps {
     setOnPopupDetail: React.Dispatch<React.SetStateAction<boolean>>;
     onChangeStatus: () => void;
     onDelete: () => void;
+    onRename: () => void;
 }
 const PopupCategoryDetail: React.FC<PopupCategoryDetailProps> = ({
     cate,
@@ -14,12 +15,12 @@ const PopupCategoryDetail: React.FC<PopupCategoryDetailProps> = ({
     setOnPopupDetail,
     onChangeStatus,
     onDelete,
+    onRename,
 }) => {
     return (
         <div
-            className={`fixed z-10 inset-0 overflow-y-auto ${
-                onPopupDetail ? '' : 'hidden'
-            }`}
+            className={`fixed z-10 inset-0 overflow-y-auto ${onPopupDetail ? '' : 'hidden'
+                }`}
             aria-labelledby="modal-title"
             role="dialog"
             aria-modal="true"
@@ -101,11 +102,11 @@ const PopupCategoryDetail: React.FC<PopupCategoryDetailProps> = ({
                                         <span>
                                             {typeof cate?.created === 'string'
                                                 ? new Date(
-                                                      cate.created,
-                                                  ).toLocaleDateString('vi-VN')
+                                                    cate.created,
+                                                ).toLocaleDateString('vi-VN')
                                                 : cate?.created.toLocaleDateString(
-                                                      'vi-VN',
-                                                  )}
+                                                    'vi-VN',
+                                                )}
                                         </span>
                                     </div>
                                     <div>
@@ -127,17 +128,17 @@ const PopupCategoryDetail: React.FC<PopupCategoryDetailProps> = ({
                                     <div>
                                         <span>
                                             {cate?.lastModified &&
-                                            cate.lastModified !== ''
+                                                cate.lastModified !== ''
                                                 ? typeof cate.lastModified ===
-                                                  'string'
+                                                    'string'
                                                     ? new Date(
-                                                          cate.lastModified,
-                                                      ).toLocaleDateString(
-                                                          'vi-VN',
-                                                      )
+                                                        cate.lastModified,
+                                                    ).toLocaleDateString(
+                                                        'vi-VN',
+                                                    )
                                                     : cate?.lastModified.toLocaleDateString(
-                                                          'vi-VN',
-                                                      )
+                                                        'vi-VN',
+                                                    )
                                                 : 'Chưa có thay đổi'}
                                         </span>
                                     </div>
@@ -167,6 +168,12 @@ const PopupCategoryDetail: React.FC<PopupCategoryDetailProps> = ({
                                             className="text-xs w-24 border border-red-500 p-1 bg-red-500 text-white-900 font-bold rounded-lg"
                                         >
                                             Xoá
+                                        </button>
+                                        <button
+                                            onClick={onRename}
+                                            className="text-xs w-24 border border-blue-500p-1 bg-blue-500 text-white-900 font-bold rounded-lg"
+                                        >
+                                            Sửa tên
                                         </button>
                                     </div>
                                 </div>
