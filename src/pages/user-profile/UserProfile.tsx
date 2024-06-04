@@ -2,20 +2,17 @@ import { FaKey, FaLock } from "react-icons/fa"
 import SidebarComponent from "../../components/ManagementComponent/SidebarComponent "
 import UserInformation from "../../components/UserProfileComponent/UserInformation"
 import { Link } from "react-router-dom"
-import { useAppDispatch, useAppSelector } from "../../services/store/store"
-import { useEffect } from "react"
-import { getUserById } from "../../services/features/userSlice"
+import { useAppSelector } from "../../services/store/store"
+// import { useEffect } from "react"
+// import { getUserById } from "../../services/features/userSlice"
 
 const UserProfile = () => {
-    const dispatch = useAppDispatch()
+    // const dispatch = useAppDispatch()
     const { account } = useAppSelector((state: any) => state.account)
-    const { user } = useAppSelector((state: any) => state.users)
-    console.log(user)
 
-    useEffect(() => {
-        dispatch(getUserById({ id: account.id }))
-    }, [])
-
+    // useEffect(() => {
+    //     dispatch(getUserById({ id: account.id }))
+    // }, [account.id, dispatch])
 
     return (
 
@@ -43,14 +40,14 @@ const UserProfile = () => {
                     <div>
                         <UserInformation
                             // userId={user?.id}
-                            username={user?.userName}
-                            email={user?.email}
-                            role={user?.roles[0]}
-                            phoneNumber={user?.phoneNumber}
-                            name={user?.name}
-                            address={user?.address}
-                            avatar={user?.avatar}
-                            created={user?.created}
+                            username={account.userName}
+                            email={account?.email}
+                            role={account?.roles[0]}
+                            phoneNumber={account?.phoneNumber}
+                            name={account?.name}
+                            address={account?.address}
+                            avatar={account?.avatar}
+                            created={account?.created}
                         />
                     </div>
                 </div>
