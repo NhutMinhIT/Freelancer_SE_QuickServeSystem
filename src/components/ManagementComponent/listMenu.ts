@@ -53,6 +53,20 @@ const listMenu = {
             icon: feedbackIcon,
         },
         {
+            title: 'QL. Nguyên Liệu',
+            url: '',
+            submenu: [
+                {
+                    title: 'DS. Nguyên Liệu',
+                    url: '/ingredients/list-ingredients',
+                },
+                {
+                    title: 'Loại Nguyên Liệu',
+                    url: '/ingredients/list-ingredients-type',
+                },
+            ],
+        },
+        {
             title: 'QL. Mẫu Sản Phẩm',
             url: '/brand-menu-template',
             icon: feedbackIcon,
