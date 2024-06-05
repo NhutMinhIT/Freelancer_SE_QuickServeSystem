@@ -3,11 +3,9 @@ import { Link, useLocation } from 'react-router-dom';
 import menu from './listMenu';
 import NavbarComponent from './NavbarComponent';
 import { useAppSelector } from '../../services/store/store';
-import { useState } from 'react';
 
 const SidebarComponent = () => {
   const location = useLocation();
-  const [expandedMenu, setExpandedMenu] = useState<string | null>(null);
   const activeMenuItem = menu.adminMenu.find(item => item.url === location.pathname);
   const { account } = useAppSelector((state) => state.account);
 

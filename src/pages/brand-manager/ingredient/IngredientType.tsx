@@ -1,4 +1,3 @@
-import React from 'react'
 import SidebarComponent from '../../../components/ManagementComponent/SidebarComponent '
 import { FaDatabase } from 'react-icons/fa'
 import IngredientTypeListComponent from '../../../components/Ingredients/IngredientType/IngredientTypeListComponent'
