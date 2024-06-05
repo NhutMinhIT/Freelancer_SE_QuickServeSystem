@@ -7,10 +7,10 @@ import AccountManagement from '../pages/admin/account-management/AccountManageme
 import Dashboard from '../pages/brand-manager/dashboard/Dashboard';
 import { useAppSelector } from '../services/store/store';
 import PageNotFoundPrevious from '../pages/page-not-found/PageNotFoundPrevious';
-import PageNotFoundLogin from '../pages/page-not-found/PageNotFoundLogin';
 import EmployeeManagement from '../pages/store-manager/employee-management/EmployeeManagement';
 import CategoryManagement from '../pages/brand-manager/category-management/CategoryManagement';
 import IngredientType from '../pages/brand-manager/ingredient/IngredientType';
+import IngredientList from '../pages/brand-manager/ingredient/IngredientList';
 
 const AppRouter = () => {
     const token = sessionStorage.getItem('quickServeToken');
@@ -29,7 +29,10 @@ const AppRouter = () => {
                         element={<Navigate to="/login" replace />}
                     />
                     <Route path="/login" element={<Login />} />
-                    <Route path="*" element={<PageNotFoundLogin />} />
+                    <Route
+                        path="*"
+                        element={<Navigate to="/login" replace />}
+                    />
                 </>
             ) : (
                 <>
@@ -64,8 +67,18 @@ const AppRouter = () => {
                     {isBrandManager && (
                         <>
                             <Route path="/dashboard" element={<Dashboard />} />
-                            <Route path="/brand-category" element={<CategoryManagement />} />
-                            <Route path="/ingredients/list-ingredients-type" element={<IngredientType />} />
+                            <Route
+                                path="/brand-category"
+                                element={<CategoryManagement />}
+                            />
+                            <Route
+                                path="/ingredients/list-ingredients"
+                                element={<IngredientList />}
+                            />
+                            <Route
+                                path="/ingredients/list-ingredients-type"
+                                element={<IngredientType />}
+                            />
                         </>
                     )}
                     {/* Page Not Found */}

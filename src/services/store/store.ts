@@ -7,17 +7,25 @@ import accountSlice from '../features/authSlice';
 import userSlice from '../features/userSlice';
 import categorySlice from '../features/categorySlice';
 import ingredientTypeSlice from '../features/ingredientTypeSlice';
+import ingredientSlice from '../features/ingredientSlice';
 // Định nghĩa cấu hình persist
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ['account', 'users', 'categories', 'ingredientTypes'],
+    whitelist: [
+        'account',
+        'users',
+        'categories',
+        'ingredients',
+        'ingredientTypes',
+    ],
 };
 
 const rootReducer = combineReducers({
     account: accountSlice,
     users: userSlice,
     categories: categorySlice,
+    ingredients: ingredientSlice,
     ingredientTypes: ingredientTypeSlice,
 });
 

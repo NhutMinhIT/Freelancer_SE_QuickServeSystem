@@ -1,70 +1,42 @@
+import {
+    MRT_ColumnDef,
+    MRT_GlobalFilterTextField,
+    MRT_TableBodyCellValue,
+    MRT_TablePagination,
+    MRT_ToolbarAlertBanner,
+    flexRender,
+    useMaterialReactTable,
+} from 'material-react-table';
+import {
+    Box,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Typography,
+} from '@mui/material';
 
-import { MRT_ColumnDef, MRT_GlobalFilterTextField, MRT_TableBodyCellValue, MRT_TablePagination, MRT_ToolbarAlertBanner, flexRender, useMaterialReactTable } from "material-react-table";
-import { IIngredientType } from "../../../models/Ingredient";
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-import { useAppDispatch, useAppSelector } from "../../../services/store/store";
-import { Box, Button, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
-import { useEffect } from "react";
-import { getAllIngredientTypes } from "../../../services/features/ingredientTypeSlice";
+interface CommonTableProps<T> {
+    columns: MRT_ColumnDef<T>[];
+    data: T[];
+    onRowDoubleClick?: (row: T) => void;
+    enableRowSelection?: boolean;
+    toolbarButtons?: React.ReactNode;
+}
 
-const columns: MRT_ColumnDef<IIngredientType>[] = [
-    {
-        accessorKey: 'name',
-        header: 'Tên loại nguyên liệu',
-    },
-    {
-        accessorKey: 'status',
-        header: 'Trạng thái',
-        Cell: ({ cell }) => {
-            const status = cell.row.original.status;
-            return status === 1 ? (
-                <CheckCircleOutlineIcon className="text-green-500" />
-            ) : (
-                <HighlightOffIcon className='text-red-500' />
-            );
-        },
-    },
-    {
-        accessorKey: 'created',
-        header: 'Ngày tạo',
-        Cell: ({ cell }) => {
-            const created = cell.row.original.created;
-            return typeof created === 'string'
-                ? created.split('T')[0]
-                : new Date(created).toISOString().split('T')[0];
-        },
-    },
-    {
-        accessorKey: 'lastModified',
-        header: 'Ngày chỉnh sửa cuối',
-        Cell: ({ cell }) => {
-            const lastModified = cell.row.original.lastModified;
-            if (!lastModified) {
-                return 'Chưa có thay đổi';
-            }
-            return typeof lastModified === 'string'
-                ? lastModified.split('T')[0]
-                : new Date(lastModified).toISOString().split('T')[0];
-        },
-    },
-];
-const IngredientTypeListComponent = () => {
-    //Khai báo các hàm để sử dụng
-    const dispatch = useAppDispatch();
-    const { ingredientTypes } = useAppSelector((state) => state.ingredientTypes)
-
-    //Phần khai báo các state/các tham số cần thiết
-
-    //Sử lý hàm
-    useEffect(() => {
-        dispatch(getAllIngredientTypes());
-    }, [dispatch]);
-
+const CommonTable = <T,>({
+    columns,
+    data,
+    onRowDoubleClick,
+    enableRowSelection = false,
+    toolbarButtons,
+}: CommonTableProps<T>) => {
     const table = useMaterialReactTable({
         columns,
-        data: ingredientTypes || [],
-        enableRowSelection: false,
+        data,
+        enableRowSelection,
         initialState: {
             pagination: { pageSize: 5, pageIndex: 0 },
             showGlobalFilter: true,
@@ -75,8 +47,9 @@ const IngredientTypeListComponent = () => {
         },
         paginationDisplayMode: 'pages',
     });
+
     return (
-        <Stack sx={{ m: '2rem 0' }}>
+        <>
             <Box
                 sx={{
                     display: 'flex',
@@ -87,16 +60,7 @@ const IngredientTypeListComponent = () => {
             >
                 <MRT_GlobalFilterTextField table={table} />
                 <MRT_TablePagination table={table} />
-                <Button
-                    variant="contained"
-                    // onClick={handlePopupOpen}
-                    sx={{
-                        color: 'black',
-                        backgroundColor: 'orange',
-                    }}
-                >
-                    Thêm Loại Nguyên Liệu
-                </Button>
+                {toolbarButtons}
             </Box>
             <Typography
                 variant="subtitle2"
@@ -128,8 +92,8 @@ const IngredientTypeListComponent = () => {
                                                 {flexRender(
                                                     header.column.columnDef
                                                         .Header ??
-                                                    header.column.columnDef
-                                                        .header,
+                                                        header.column.columnDef
+                                                            .header,
                                                     header.getContext(),
                                                 )}
                                             </Typography>
@@ -144,15 +108,18 @@ const IngredientTypeListComponent = () => {
                             <TableRow
                                 key={row.id}
                                 selected={row.getIsSelected()}
-                                // onDoubleClick={() =>
-                                //     handleShowCategoryDetail(row.original)
-                                // }
+                                onDoubleClick={() =>
+                                    onRowDoubleClick &&
+                                    onRowDoubleClick(row.original)
+                                }
                                 style={{
                                     backgroundColor:
                                         rowIndex % 2 === 0
                                             ? 'white'
                                             : '#d9d9d9',
-                                    cursor: 'pointer',
+                                    cursor: onRowDoubleClick
+                                        ? 'pointer'
+                                        : 'default',
                                 }}
                             >
                                 {row.getVisibleCells().map((cell) => (
@@ -174,8 +141,8 @@ const IngredientTypeListComponent = () => {
                 </Table>
             </TableContainer>
             <MRT_ToolbarAlertBanner stackAlertBanner table={table} />
-        </Stack>
-    )
-}
+        </>
+    );
+};
 
-export default IngredientTypeListComponent
+export default CommonTable;

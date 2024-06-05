@@ -85,7 +85,7 @@ export const updateStatusCategoryById = createAsyncThunk<
                 },
             },
         );
-        if (response.data.success === 'true') {
+        if (response.data.success) {
             toast.success('Cập nhật thể loại thành công !');
         } else {
             toast.error('Cập nhật thể loại không thành công !');
@@ -109,7 +109,7 @@ export const deleteCategoryById = createAsyncThunk<void, { id: number }>(
                     },
                 },
             );
-            if (response.data.success === 'true') {
+            if (response.data.success) {
                 toast.success('Xoá thể loại thành công !');
             } else {
                 toast.error('Xoá thể loại không thành công !');
@@ -135,7 +135,11 @@ export const renameCategory = createAsyncThunk<ICategory, ICategoryRename>(
                     },
                 },
             );
-            toast.success('Đổi tên thể loại thành công !');
+            if (response.data.success) {
+                toast.success('Đổi tên thể loại thành công !');
+            } else {
+                toast.error('Đổi tên thể loại không thành công !');
+            }
             return response.data;
         } catch (error: any) {
             toast.error('Đổi tên thể loại không thành công !');

@@ -15,6 +15,9 @@ export const updateStatusCategoryEndpoint = `${BASE_URL}/Category/UpdateStatusCa
 export const deleteCategoryEndpoint = `${BASE_URL}/Category/DeleteCategory`;
 export const renameCategoryEndpoint = `${BASE_URL}/Category/UpdateCategory`;
 
+//INGREDIENT endpoints
+export const getAllIngredientEndpoint = `${BASE_URL}/Ingredient/GetPagedListIngredient`;
+
 //INGREDIENT TYPE ENDPOINTS
 export const getAllIngredientTypesEndpoint = `${BASE_URL}/IngredientType/GetPagedListIngredientType`;
 export const createIngredientTypeEndpoint = `${BASE_URL}/IngredientType/CreateIngredientType`;
