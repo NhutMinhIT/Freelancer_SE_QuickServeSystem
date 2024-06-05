@@ -14,3 +14,7 @@ export const createCategoryEndpoint = `${BASE_URL}/Category/CreateCategory`;
 export const updateStatusCategoryEndpoint = `${BASE_URL}/Category/UpdateStatusCategory`;
 export const deleteCategoryEndpoint = `${BASE_URL}/Category/DeleteCategory`;
 export const renameCategoryEndpoint = `${BASE_URL}/Category/UpdateCategory`;
+
+//INGREDIENT TYPE ENDPOINTS
+export const getAllIngredientTypesEndpoint = `${BASE_URL}/IngredientType/GetPagedListIngredientType`;
+export const createIngredientTypeEndpoint = `${BASE_URL}/IngredientType/CreateIngredientType`;

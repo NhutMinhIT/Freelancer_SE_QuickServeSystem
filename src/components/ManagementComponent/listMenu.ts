@@ -54,7 +54,7 @@ const listMenu = {
         },
         {
             title: 'QL. Nguyên Liệu',
-            url: '',
+            url: '/ingredients/list-ingredients',
             submenu: [
                 {
                     title: 'DS. Nguyên Liệu',

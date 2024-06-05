@@ -10,6 +10,7 @@ import PageNotFoundPrevious from '../pages/page-not-found/PageNotFoundPrevious';
 import PageNotFoundLogin from '../pages/page-not-found/PageNotFoundLogin';
 import EmployeeManagement from '../pages/store-manager/employee-management/EmployeeManagement';
 import CategoryManagement from '../pages/brand-manager/category-management/CategoryManagement';
+import IngredientType from '../pages/brand-manager/ingredient/IngredientType';
 
 const AppRouter = () => {
     const token = sessionStorage.getItem('quickServeToken');
@@ -64,6 +65,7 @@ const AppRouter = () => {
                         <>
                             <Route path="/dashboard" element={<Dashboard />} />
                             <Route path="/brand-category" element={<CategoryManagement />} />
+                            <Route path="/ingredients/list-ingredients-type" element={<IngredientType />} />
                         </>
                     )}
                     {/* Page Not Found */}

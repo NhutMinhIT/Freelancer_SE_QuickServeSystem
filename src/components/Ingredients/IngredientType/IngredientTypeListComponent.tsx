@@ -1,43 +1,17 @@
-import {
-    MRT_ColumnDef,
-    MRT_GlobalFilterTextField,
-    MRT_TableBodyCellValue,
-    MRT_TablePagination,
-    MRT_ToolbarAlertBanner,
-    flexRender,
-    useMaterialReactTable,
-} from 'material-react-table';
-import { useEffect, useState } from 'react';
-import {
-    Box,
-    Stack,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Typography,
-    Button,
-} from '@mui/material';
-import { useAppDispatch, useAppSelector } from '../../../services/store/store';
-import {
-    deleteCategoryById,
-    getAllCategories,
-    updateStatusCategoryById,
-} from '../../../services/features/categorySlice';
-import PopupCreateCategory from '../CreateCategory/PopupCreateCategory';
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import { ICategory } from '../../../models/Categoty';
-import PopupCategoryDetail from '../../Popup/PopupCategoryDetail';
-import PopupCheck from '../../Popup/PopupCheck';
-import PopupRenameCategory from '../../Popup/PopupRenameCategory';
 
-const columns: MRT_ColumnDef<ICategory>[] = [
+import { MRT_ColumnDef, MRT_GlobalFilterTextField, MRT_TableBodyCellValue, MRT_TablePagination, MRT_ToolbarAlertBanner, flexRender, useMaterialReactTable } from "material-react-table";
+import { IIngredientType } from "../../../models/Ingredient";
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import { useAppDispatch, useAppSelector } from "../../../services/store/store";
+import { Box, Button, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { useEffect } from "react";
+import { getAllIngredientTypes } from "../../../services/features/ingredientTypeSlice";
+
+const columns: MRT_ColumnDef<IIngredientType>[] = [
     {
         accessorKey: 'name',
-        header: 'Tên thể loại',
+        header: 'Tên loại nguyên liệu',
     },
     {
         accessorKey: 'status',
@@ -75,35 +49,21 @@ const columns: MRT_ColumnDef<ICategory>[] = [
         },
     },
 ];
-
-const CategoryListComponent = () => {
+const IngredientTypeListComponent = () => {
+    //Khai báo các hàm để sử dụng
     const dispatch = useAppDispatch();
-    const { categories } = useAppSelector((state) => state.categories);
-    const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const { ingredientTypes } = useAppSelector((state) => state.ingredientTypes)
 
-    const [cateData, setCateData] = useState<ICategory | null>(null);
-    const [onPopupCategoryDetail, setOnPopupCategoryDetail] =
-        useState<boolean>(false);
-    const [onPopupCheckChangeStatus, setOnPopupCheckChangeStatus] =
-        useState<boolean>(false);
-    const [onPopupCheckDelete, setOnPopupCheckDelete] =
-        useState<boolean>(false);
-    const [openPopupRename, setOpenPopupRename] = useState<boolean>(false);
-    const [selectedCateId, setSelectedCateId] = useState<number | null>(null);
+    //Phần khai báo các state/các tham số cần thiết
 
+    //Sử lý hàm
     useEffect(() => {
-        dispatch(getAllCategories());
+        dispatch(getAllIngredientTypes());
     }, [dispatch]);
-
-    useEffect(() => {
-        if (!isPopupOpen) {
-            dispatch(getAllCategories());
-        }
-    }, [isPopupOpen, dispatch]);
 
     const table = useMaterialReactTable({
         columns,
-        data: categories || [],
+        data: ingredientTypes || [],
         enableRowSelection: false,
         initialState: {
             pagination: { pageSize: 5, pageIndex: 0 },
@@ -115,60 +75,6 @@ const CategoryListComponent = () => {
         },
         paginationDisplayMode: 'pages',
     });
-
-    const handlePopupOpen = () => {
-        setIsPopupOpen(true);
-    };
-
-    const handlePopupClose = () => {
-        setIsPopupOpen(false);
-    };
-
-    const handleShowCategoryDetail = (cate: ICategory) => {
-        setCateData(cate);
-        setOnPopupCategoryDetail(true);
-    };
-
-    const handleOpenPopupUpdateCategory = (id: number) => {
-        setSelectedCateId(id);
-        setOnPopupCheckChangeStatus(true);
-    };
-
-    const handleOpenPopupDeleteCategory = (id: number) => {
-        setSelectedCateId(id);
-        setOnPopupCheckDelete(true);
-    };
-    const handleOpenPopupRenameCategory = (id: number) => {
-        setSelectedCateId(id);
-        setOpenPopupRename(true);
-    }
-
-    const handleUpdateStatusCategory = () => {
-        if (selectedCateId !== null) {
-            dispatch(updateStatusCategoryById({ id: selectedCateId }))
-                .unwrap()
-                .then(() => {
-                    setOnPopupCategoryDetail(false);
-                    setOnPopupCheckChangeStatus(false);
-                    dispatch(getAllCategories());
-                })
-                .catch((error) => console.log(error));
-        }
-    };
-
-    const handleDeleteCategory = () => {
-        if (selectedCateId !== null) {
-            dispatch(deleteCategoryById({ id: selectedCateId }))
-                .unwrap()
-                .then(() => {
-                    setOnPopupCategoryDetail(false);
-                    setOnPopupCheckDelete(false);
-                    dispatch(getAllCategories());
-                })
-                .catch((error) => console.log(error));
-        }
-    };
-
     return (
         <Stack sx={{ m: '2rem 0' }}>
             <Box
@@ -183,13 +89,13 @@ const CategoryListComponent = () => {
                 <MRT_TablePagination table={table} />
                 <Button
                     variant="contained"
-                    onClick={handlePopupOpen}
+                    // onClick={handlePopupOpen}
                     sx={{
                         color: 'black',
                         backgroundColor: 'orange',
                     }}
                 >
-                    Thêm thể loại
+                    Thêm Nguyên Liệu
                 </Button>
             </Box>
             <Typography
@@ -238,9 +144,9 @@ const CategoryListComponent = () => {
                             <TableRow
                                 key={row.id}
                                 selected={row.getIsSelected()}
-                                onDoubleClick={() =>
-                                    handleShowCategoryDetail(row.original)
-                                }
+                                // onDoubleClick={() =>
+                                //     handleShowCategoryDetail(row.original)
+                                // }
                                 style={{
                                     backgroundColor:
                                         rowIndex % 2 === 0
@@ -268,55 +174,8 @@ const CategoryListComponent = () => {
                 </Table>
             </TableContainer>
             <MRT_ToolbarAlertBanner stackAlertBanner table={table} />
-            <PopupCreateCategory
-                isPopupOpen={isPopupOpen}
-                closePopup={handlePopupClose}
-            />
-            {cateData && (
-                <>
-                    <PopupCategoryDetail
-                        cate={cateData}
-                        onPopupDetail={onPopupCategoryDetail}
-                        setOnPopupDetail={setOnPopupCategoryDetail}
-                        onChangeStatus={() =>
-                            handleOpenPopupUpdateCategory(cateData.id)
-                        }
-                        onDelete={() => handleOpenPopupDeleteCategory(cateData.id)}
-                        onRename={() => handleOpenPopupRenameCategory(cateData.id)}
-                    />
-                    <PopupRenameCategory
-                        onClosePopupDetail={() => setOnPopupCategoryDetail(false)}
-                        open={openPopupRename}
-                        closePopup={() => setOpenPopupRename(false)}
-                        name={cateData?.name ?? ''}
-                        cateId={cateData.id}
-                    />
-                </>
-
-            )}
-
-            {/* Update Status */}
-            <PopupCheck
-                open={onPopupCheckChangeStatus}
-                content="Bạn có chắc chắn muốn thay đổi trạng thái thể loại này không ?"
-                titleAccept="Có"
-                titleCancel="Không"
-                onAccept={handleUpdateStatusCategory}
-                onCancel={() => setOnPopupCheckChangeStatus(false)}
-            />
-
-            {/* Delete */}
-            <PopupCheck
-                open={onPopupCheckDelete}
-                content="Bạn có chắc chắn muốn xoá thể loại này không ?"
-                titleAccept="Có"
-                titleCancel="Không"
-                onAccept={handleDeleteCategory}
-                onCancel={() => setOnPopupCheckDelete(false)}
-            />
-
         </Stack>
-    );
-};
+    )
+}
 
-export default CategoryListComponent;
+export default IngredientTypeListComponent
