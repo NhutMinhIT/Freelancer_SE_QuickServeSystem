@@ -23,3 +23,11 @@ export interface IIngredient {
     lastModifiedBy: string;
     lastModified: Date | string;
 }
+
+export interface IIngredientTypeCreate {
+    name: string;
+}
+export interface IIngredientTypesRename {
+    id: number;
+    name: string;
+}

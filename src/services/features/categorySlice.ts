@@ -61,7 +61,13 @@ export const createCategory = createAsyncThunk<ICategoryCreate, Object>(
                     },
                 },
             );
-            toast.success('Tạo thể loại thành công ! Có thể sử dụng ngay.');
+            if (response.data.success) {
+                toast.success(
+                    'Tạo tên thể loại thành công ! Có thẻ sử dụng ngay !',
+                );
+            } else {
+                toast.error('Tạo tên thể loại không thành công !');
+            }
             return response.data.data;
         } catch (error: any) {
             toast.error('Tạo thể loại thất bại !');

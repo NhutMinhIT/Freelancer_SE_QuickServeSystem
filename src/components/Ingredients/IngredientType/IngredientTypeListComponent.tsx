@@ -5,8 +5,9 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { useAppDispatch, useAppSelector } from "../../../services/store/store";
 import { Box, Button, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getAllIngredientTypes } from "../../../services/features/ingredientTypeSlice";
+import PopupCreateIngredientType from "../PopupCreate/PopupCreateIngredientType";
 
 const columns: MRT_ColumnDef<IIngredientType>[] = [
     {
@@ -55,11 +56,19 @@ const IngredientTypeListComponent = () => {
     const { ingredientTypes } = useAppSelector((state) => state.ingredientTypes)
 
     //Phần khai báo các state/các tham số cần thiết
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
 
-    //Sử lý hàm
+    //Sử lý hàm get all ingredientTypes
     useEffect(() => {
         dispatch(getAllIngredientTypes());
     }, [dispatch]);
+
+    //Reload list ingredientType after create new IngredientType
+       useEffect(() => {
+        if (!isPopupOpen) {
+            dispatch(getAllIngredientTypes());
+        }
+    }, [isPopupOpen, dispatch]);
 
     const table = useMaterialReactTable({
         columns,
@@ -75,6 +84,16 @@ const IngredientTypeListComponent = () => {
         },
         paginationDisplayMode: 'pages',
     });
+
+    //handle open popup create
+    const handleOpenPopupCreateIngredientType = () => {
+        setIsPopupOpen(true);
+    };
+    //hanle close popup create
+  const handleClosePopupCreateIngredientType = () => {
+        setIsPopupOpen(false);
+    };
+    
     return (
         <Stack sx={{ m: '2rem 0' }}>
             <Box
@@ -89,14 +108,18 @@ const IngredientTypeListComponent = () => {
                 <MRT_TablePagination table={table} />
                 <Button
                     variant="contained"
-                    // onClick={handlePopupOpen}
-                    sx={{
+                    onClick={handleOpenPopupCreateIngredientType}   
+                                     sx={{
                         color: 'black',
                         backgroundColor: 'orange',
                     }}
                 >
                     Thêm Loại Nguyên Liệu
                 </Button>
+                   <PopupCreateIngredientType
+                isPopupOpen={isPopupOpen}
+                closePopup={handleClosePopupCreateIngredientType}
+            />
             </Box>
             <Typography
                 variant="subtitle2"
