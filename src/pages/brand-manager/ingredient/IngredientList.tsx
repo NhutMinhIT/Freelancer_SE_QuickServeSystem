@@ -13,7 +13,7 @@ const IngredientList = () => {
                 <div className="md:col-span-10 mt-20">
                     <div className="flex">
                         <FaDatabase className="text-3xl text-orange-500" />
-                        <h3 className="text-3xl font-bold ml-6">Quản lí loại nguyên liệu</h3>
+                        <h3 className="text-3xl font-bold ml-6">Quản lí nguyên liệu</h3>
                     </div>
                     <IngredientListComponent />
                 </div>

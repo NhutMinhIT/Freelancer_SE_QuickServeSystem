@@ -1,6 +1,7 @@
 import {
     MRT_ColumnDef,
     MRT_GlobalFilterTextField,
+    MRT_RowData,
     MRT_TableBodyCellValue,
     MRT_TablePagination,
     MRT_ToolbarAlertBanner,
@@ -18,7 +19,7 @@ import {
     Typography,
 } from '@mui/material';
 
-interface CommonTableProps<T> {
+interface CommonTableProps<T extends MRT_RowData> {
     columns: MRT_ColumnDef<T>[];
     data: T[];
     onRowDoubleClick?: (row: T) => void;
@@ -26,7 +27,7 @@ interface CommonTableProps<T> {
     toolbarButtons?: React.ReactNode;
 }
 
-const CommonTable = <T,>({
+const CommonTable = <T extends MRT_RowData>({
     columns,
     data,
     onRowDoubleClick,
