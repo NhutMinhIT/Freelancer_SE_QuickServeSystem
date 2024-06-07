@@ -41,9 +41,8 @@ export const getAllCategories = createAsyncThunk<ICategory[], void>(
             });
             return response.data.data;
         } catch (error: any) {
-            return thunkAPI.rejectWithValue(
-                error.response?.data?.errorMessages || 'Unknown error',
-            );
+            toast.error('Lỗi hệ thống thử lại sau !');
+            return thunkAPI.rejectWithValue(error.response.data);
         }
     },
 );
@@ -66,11 +65,11 @@ export const createCategory = createAsyncThunk<ICategoryCreate, Object>(
                     'Tạo tên thể loại thành công ! Có thẻ sử dụng ngay !',
                 );
             } else {
-                toast.error('Tạo tên thể loại không thành công !');
+                toast.error(`${response.data.errors[0].description}`);
             }
             return response.data.data;
         } catch (error: any) {
-            toast.error('Tạo thể loại thất bại !');
+            toast.error('Lỗi hệ thống thử lại sau !');
             return thunkAPI.rejectWithValue(error.response.data);
         }
     },
@@ -94,11 +93,11 @@ export const updateStatusCategoryById = createAsyncThunk<
         if (response.data.success) {
             toast.success('Cập nhật thể loại thành công !');
         } else {
-            toast.error('Cập nhật thể loại không thành công !');
+            toast.error(`${response.data.errors[0].description}`);
         }
         return response.data;
     } catch (error: any) {
-        toast.error('Cập nhật trạng thái thể loại không thành công!');
+        toast.error('Lỗi hệ thống thử lại sau !');
         return thunkAPI.rejectWithValue(error.response.data);
     }
 });
@@ -108,7 +107,7 @@ export const deleteCategoryById = createAsyncThunk<void, { id: number }>(
         try {
             const token = sessionStorage.getItem('quickServeToken');
             const response = await axios.delete(
-                `${deleteCategoryEndpoint}?Id=${id}`,
+                `${deleteCategoryEndpoint}/${id}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -118,11 +117,11 @@ export const deleteCategoryById = createAsyncThunk<void, { id: number }>(
             if (response.data.success) {
                 toast.success('Xoá thể loại thành công !');
             } else {
-                toast.error('Xoá thể loại không thành công !');
+                toast.error(`${response.data.errors[0].description}`);
             }
             return response.data;
         } catch (error: any) {
-            toast.error('Xoá thể loại không thành công !');
+        toast.error('Lỗi hệ thống thử lại sau !');
             return thunkAPI.rejectWithValue(error.response.data);
         }
     },
@@ -144,11 +143,11 @@ export const renameCategory = createAsyncThunk<ICategory, ICategoryRename>(
             if (response.data.success) {
                 toast.success('Đổi tên thể loại thành công !');
             } else {
-                toast.error('Đổi tên thể loại không thành công !');
+                toast.error(`${response.data.errors[0].description}`);
             }
             return response.data;
         } catch (error: any) {
-            toast.error('Đổi tên thể loại không thành công !');
+        toast.error('Lỗi hệ thống thử lại sau !');
             return thunkAPI.rejectWithValue(error.response.data);
         }
     },

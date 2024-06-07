@@ -33,6 +33,10 @@ const columns: MRT_ColumnDef<ICategory>[] = [
             );
         },
     },
+     {
+        accessorKey:'createdBy',
+        header: 'Người tạo'
+    },
     {
         accessorKey: 'created',
         header: 'Ngày tạo',
@@ -42,6 +46,10 @@ const columns: MRT_ColumnDef<ICategory>[] = [
                 ? created.split('T')[0]
                 : new Date(created).toISOString().split('T')[0];
         },
+    },
+    {
+        accessorKey:'lastModifiedBy',
+        header: 'Người chỉnh sửa cuối'
     },
     {
         accessorKey: 'lastModified',

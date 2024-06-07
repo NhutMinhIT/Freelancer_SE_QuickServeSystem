@@ -42,7 +42,7 @@ export const getUserById = createAsyncThunk<IUserInfo, { id: string }>(
         try {
             const token = sessionStorage.getItem('quickServeToken');
             const response = await axios.get(
-                `${getUserByIdEndpoint}?id=${id}`,
+                `${getUserByIdEndpoint}/id=${id}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
