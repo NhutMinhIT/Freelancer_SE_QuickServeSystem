@@ -1,10 +1,10 @@
 
-import { MRT_ColumnDef, MRT_GlobalFilterTextField, MRT_TableBodyCellValue, MRT_TablePagination, MRT_ToolbarAlertBanner, flexRender, useMaterialReactTable } from "material-react-table";
+import { MRT_ColumnDef } from "material-react-table";
 import { IIngredientType } from "../../../models/Ingredient";
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { useAppDispatch, useAppSelector } from "../../../services/store/store";
-import { Box, Button, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import {Button, Stack } from "@mui/material";
 import { useEffect, useState } from "react";
 import { getAllIngredientTypes } from "../../../services/features/ingredientTypeSlice";
 import PopupCreateIngredientType from "../PopupCreate/PopupCreateIngredientType";
