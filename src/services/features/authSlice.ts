@@ -37,9 +37,12 @@ export const registerAccountByAdmin = createAsyncThunk<IRegister, Object>(
                     },
                 },
             );
-            toast.success(
-                'Đăng ký tài khoản nhân viên thành công! Có thể sử dụng !',
-            );
+           if(response.data.success === false){
+                toast.error(response.data.errors[0].description);
+            }
+            if(response.data.success === true){
+                toast.success('Đăng ký tài khoản thành công !');
+            }
             return response.data;
         } catch (error: any) {
             toast.error('Đăng ký tài khoản thất bại !');
@@ -55,7 +58,12 @@ export const loginUser = createAsyncThunk<ILoginResponse, ILogin>(
             const response = await axios.post(loginEndpoint, data);
             const token = response.data.data.accessToken;
             sessionStorage.setItem('quickServeToken', token);
-            toast.success('Đăng nhập thành công!');
+            if(response.data.success === false){
+                toast.error(response.data.errors[0].description);
+            } 
+            if(response.data.success === true){
+                toast.success('Đăng nhập thành công!');
+            };
             return response.data;
         } catch (error: any) {
             toast.error('Đăng nhập thất bại!');
