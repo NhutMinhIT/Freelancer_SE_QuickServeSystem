@@ -5,7 +5,7 @@ type PopupIngredientTypeDetailProps = {
     ingredientType: IIngredientType | null;
     onPopupDetail: boolean;
     setOnPopupDetail: React.Dispatch<React.SetStateAction<boolean>>;
-    // onChangeStatus: () => void;
+    onChangeStatus: () => void;
     onDelete: () => void;
     // onRename: () => void;
 }
@@ -13,7 +13,7 @@ const PopupDetailIngredientType: React.FC<PopupIngredientTypeDetailProps> = ({
     ingredientType,
     onPopupDetail,
     setOnPopupDetail,
-    // onChangeStatus,
+    onChangeStatus,
     onDelete,
     // onRename,
 }) => {
@@ -150,14 +150,14 @@ const PopupDetailIngredientType: React.FC<PopupIngredientTypeDetailProps> = ({
                                     <div className="w-auto flex gap-4">
                                         {ingredientType?.status === 1 ? (
                                             <button
-                                                // onClick={onChangeStatus}
+                                                onClick={onChangeStatus}
                                                 className="text-xs w-auto border border-red-500 px-2 py-1 bg-orange-500 text-white-900 font-bold rounded-lg"
                                             >
                                                 Ngưng hoạt động
                                             </button>
                                         ) : (
                                             <button
-                                                // onClick={onChangeStatus}
+                                                onClick={onChangeStatus}
                                                 className="border border-green-500 p-1 bg-green-500 text-white-900 font-bold rounded-lg"
                                             >
                                                 Hoạt động
