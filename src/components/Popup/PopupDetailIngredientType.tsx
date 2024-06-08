@@ -1,21 +1,21 @@
-import { XMarkIcon } from '@heroicons/react/16/solid';
-import { ICategory } from '../../models/Categoty';
+import { XMarkIcon } from "@heroicons/react/16/solid";
+import { IIngredientType } from "../../models/Ingredient";
 
-type PopupCategoryDetailProps = {
-    cate: ICategory | null;
+type PopupIngredientTypeDetailProps = {
+    ingredientType: IIngredientType | null;
     onPopupDetail: boolean;
     setOnPopupDetail: React.Dispatch<React.SetStateAction<boolean>>;
-    onChangeStatus: () => void;
-    onDelete: () => void;
-    onRename: () => void;
+    // onChangeStatus: () => void;
+    // onDelete: () => void;
+    // onRename: () => void;
 }
-const PopupCategoryDetail: React.FC<PopupCategoryDetailProps> = ({
-    cate,
+const PopupDetailIngredientType: React.FC<PopupIngredientTypeDetailProps> = ({
+    ingredientType,
     onPopupDetail,
     setOnPopupDetail,
-    onChangeStatus,
-    onDelete,
-    onRename,
+    // onChangeStatus,
+    // onDelete,
+    // onRename,
 }) => {
     return (
         <div
@@ -62,7 +62,7 @@ const PopupCategoryDetail: React.FC<PopupCategoryDetailProps> = ({
                                         </span>
                                     </div>
                                     <div>
-                                        <span>{cate?.name}</span>
+                                        <span>{ingredientType?.name}</span>
                                     </div>
                                     <div>
                                         <span className="text-sm text-back-500 font-bold divide-y divide-blue-500">
@@ -73,13 +73,13 @@ const PopupCategoryDetail: React.FC<PopupCategoryDetailProps> = ({
                                         <span
                                             style={{
                                                 color:
-                                                    cate?.status === 1
+                                                    ingredientType?.status === 1
                                                         ? 'green'
                                                         : 'red',
                                                 fontWeight: 'bold',
                                             }}
                                         >
-                                            {cate?.status === 1
+                                            {ingredientType?.status === 1
                                                 ? 'Active'
                                                 : 'Inactive'}
                                         </span>
@@ -91,7 +91,7 @@ const PopupCategoryDetail: React.FC<PopupCategoryDetailProps> = ({
                                         </span>
                                     </div>
                                     <div>
-                                        <span>{cate?.createdBy}</span>
+                                        <span>{ingredientType?.createdBy}</span>
                                     </div>
                                     <div>
                                         <span className="text-sm text-back-500 font-bold">
@@ -100,11 +100,11 @@ const PopupCategoryDetail: React.FC<PopupCategoryDetailProps> = ({
                                     </div>
                                     <div>
                                         <span>
-                                            {typeof cate?.created === 'string'
+                                            {typeof ingredientType?.created === 'string'
                                                 ? new Date(
-                                                    cate.created,
+                                                    ingredientType.created,
                                                 ).toLocaleDateString('vi-VN')
-                                                : cate?.created.toLocaleDateString(
+                                                : ingredientType?.created.toLocaleDateString(
                                                     'vi-VN',
                                                 )}
                                         </span>
@@ -116,7 +116,7 @@ const PopupCategoryDetail: React.FC<PopupCategoryDetailProps> = ({
                                     </div>
                                     <div>
                                         <span>
-                                            {cate?.lastModifiedBy ??
+                                            {ingredientType?.lastModifiedBy ??
                                                 'Chưa có thay đổi'}
                                         </span>
                                     </div>
@@ -127,16 +127,16 @@ const PopupCategoryDetail: React.FC<PopupCategoryDetailProps> = ({
                                     </div>
                                     <div>
                                         <span>
-                                            {cate?.lastModified &&
-                                                cate.lastModified !== ''
-                                                ? typeof cate.lastModified ===
+                                            {ingredientType?.lastModified &&
+                                                ingredientType.lastModified !== ''
+                                                ? typeof ingredientType.lastModified ===
                                                     'string'
                                                     ? new Date(
-                                                        cate.lastModified,
+                                                        ingredientType.lastModified,
                                                     ).toLocaleDateString(
                                                         'vi-VN',
                                                     )
-                                                    : cate?.lastModified.toLocaleDateString(
+                                                    : ingredientType?.lastModified.toLocaleDateString(
                                                         'vi-VN',
                                                     )
                                                 : 'Chưa có thay đổi'}
@@ -148,29 +148,29 @@ const PopupCategoryDetail: React.FC<PopupCategoryDetailProps> = ({
                                         </span>
                                     </div>
                                     <div className="w-auto flex gap-4">
-                                        {cate?.status === 1 ? (
+                                        {ingredientType?.status === 1 ? (
                                             <button
-                                                onClick={onChangeStatus}
+                                                // onClick={onChangeStatus}
                                                 className="text-xs w-auto border border-red-500 px-2 py-1 bg-orange-500 text-white-900 font-bold rounded-lg"
                                             >
                                                 Ngưng hoạt động
                                             </button>
                                         ) : (
                                             <button
-                                                onClick={onChangeStatus}
+                                                // onClick={onChangeStatus}
                                                 className="border border-green-500 p-1 bg-green-500 text-white-900 font-bold rounded-lg"
                                             >
                                                 Hoạt động
                                             </button>
                                         )}
                                         <button
-                                            onClick={onDelete}
+                                            // onClick={onDelete}
                                             className="text-xs w-24 border border-red-500 p-1 bg-red-500 text-white-900 font-bold rounded-lg"
                                         >
                                             Xoá
                                         </button>
                                         <button
-                                            onClick={onRename}
+                                            // onClick={onRename}
                                             className="text-xs w-24 border border-blue-500p-1 bg-blue-500 text-white-900 font-bold rounded-lg"
                                         >
                                             Sửa tên
@@ -183,7 +183,7 @@ const PopupCategoryDetail: React.FC<PopupCategoryDetailProps> = ({
                 </div>
             </div>
         </div>
-    );
-};
+    )
+}
 
-export default PopupCategoryDetail;
+export default PopupDetailIngredientType

@@ -63,11 +63,11 @@ export const createIngredientType = createAsyncThunk<
                 'Tạo tên loại nguyên liệu thành công ! Có thẻ sử dụng ngay !',
             );
         } else {
-            toast.error('Tạo tên loại nguyên liệu không thành công !');
+                toast.error(`${response.data.errors[0].description}`);
         }
         return response.data.data;
     } catch (error: any) {
-        toast.error('Tạo tên loại nguyên liệu thất bại !');
+        toast.error('Lỗi hệ thống thử lại sau !');
         return thunkAPI.rejectWithValue(error.response.data);
     }
 });

@@ -93,8 +93,8 @@ const CommonTable = <T extends MRT_RowData>({
                                                 {flexRender(
                                                     header.column.columnDef
                                                         .Header ??
-                                                        header.column.columnDef
-                                                            .header,
+                                                    header.column.columnDef
+                                                        .header,
                                                     header.getContext(),
                                                 )}
                                             </Typography>

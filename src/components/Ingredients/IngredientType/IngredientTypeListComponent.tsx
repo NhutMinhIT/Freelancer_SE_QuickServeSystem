@@ -4,11 +4,12 @@ import { IIngredientType } from "../../../models/Ingredient";
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { useAppDispatch, useAppSelector } from "../../../services/store/store";
-import {Button, Stack } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import { useEffect, useState } from "react";
 import { getAllIngredientTypes } from "../../../services/features/ingredientTypeSlice";
 import PopupCreateIngredientType from "../PopupCreate/PopupCreateIngredientType";
 import CommonTable from "../../CommonTable/CommonTable";
+import PopupDetailIngredientType from "../../Popup/PopupDetailIngredientType";
 
 const columns: MRT_ColumnDef<IIngredientType>[] = [
     {
@@ -57,37 +58,45 @@ const IngredientTypeListComponent = () => {
     const { ingredientTypes } = useAppSelector((state) => state.ingredientTypes)
 
     //Phần khai báo các state/các tham số cần thiết
+    const [ingredientTypeData, setIngredientTypeData] = useState<IIngredientType | null>(null);
+
     const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [onPopupIngredientTypeDetail, setOnPopupIngredientTypeDetail] =
+        useState<boolean>(false);
 
     //Sử lý hàm get all ingredientTypes
-    useEffect(() => {
-        dispatch(getAllIngredientTypes());
-    }, [dispatch]);
+    // useEffect(() => {
+    //     dispatch(getAllIngredientTypes());
+    // }, [dispatch]);
 
-    //Reload list ingredientType after create new IngredientType
-       useEffect(() => {
+    //Reload list ingredientType after create new IngredientType/Handle Action
+    useEffect(() => {
         if (!isPopupOpen) {
             dispatch(getAllIngredientTypes());
         }
-    }, [isPopupOpen, dispatch]);   
+    }, [isPopupOpen, dispatch]);
 
     //handle open popup create
     const handleOpenPopupCreateIngredientType = () => {
         setIsPopupOpen(true);
     };
     //hanle close popup create
-  const handleClosePopupCreateIngredientType = () => {
+    const handleClosePopupCreateIngredientType = () => {
         setIsPopupOpen(false);
     };
-    
+
+    //Handele show popup detail of ingredientType
+    const handleOpenPopupDetailIngredientType = (ingredientType: IIngredientType) => {
+        setIngredientTypeData(ingredientType);
+        setOnPopupIngredientTypeDetail(true)
+    }
     return (
-         <Stack sx={{ m: '2rem 0' }}>
+        <Stack sx={{ m: '2rem 0' }}>
             <CommonTable
                 columns={columns}
                 data={ingredientTypes || []}
-                // onRowDoubleClick={handleShowCategoryDetail}
+                onRowDoubleClick={handleOpenPopupDetailIngredientType}
                 toolbarButtons={
-                  <>
                     <Button
                         variant="contained"
                         onClick={handleOpenPopupCreateIngredientType}
@@ -98,13 +107,19 @@ const IngredientTypeListComponent = () => {
                     >
                         Thêm loại nguyên liệu
                     </Button>
-                    <PopupCreateIngredientType
-                    isPopupOpen={isPopupOpen}
-                    closePopup={handleClosePopupCreateIngredientType}
-                    />
-                  </>
                 }
             />
+            <PopupCreateIngredientType
+                isPopupOpen={isPopupOpen}
+                closePopup={handleClosePopupCreateIngredientType}
+            />
+            {ingredientTypeData && (
+                <PopupDetailIngredientType
+                    ingredientType={ingredientTypeData}
+                    onPopupDetail={onPopupIngredientTypeDetail}
+                    setOnPopupDetail={setOnPopupIngredientTypeDetail}
+                />
+            )}
         </Stack>
     )
 }

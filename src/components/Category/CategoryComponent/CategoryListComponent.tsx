@@ -33,8 +33,8 @@ const columns: MRT_ColumnDef<ICategory>[] = [
             );
         },
     },
-     {
-        accessorKey:'createdBy',
+    {
+        accessorKey: 'createdBy',
         header: 'Người tạo'
     },
     {
@@ -48,7 +48,7 @@ const columns: MRT_ColumnDef<ICategory>[] = [
         },
     },
     {
-        accessorKey:'lastModifiedBy',
+        accessorKey: 'lastModifiedBy',
         header: 'Người chỉnh sửa cuối'
     },
     {
@@ -81,9 +81,9 @@ const CategoryListComponent = () => {
     const [openPopupRename, setOpenPopupRename] = useState<boolean>(false);
     const [selectedCateId, setSelectedCateId] = useState<number | null>(null);
 
-    useEffect(() => {
-        dispatch(getAllCategories());
-    }, [dispatch]);
+    // useEffect(() => {
+    //     dispatch(getAllCategories());
+    // }, [dispatch]);
 
     useEffect(() => {
         if (!isPopupOpen) {
