@@ -6,10 +6,11 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { useAppDispatch, useAppSelector } from "../../../services/store/store";
 import { Button, Stack } from "@mui/material";
 import { useEffect, useState } from "react";
-import { getAllIngredientTypes } from "../../../services/features/ingredientTypeSlice";
+import { deleteIngredientTypeById, getAllIngredientTypes } from "../../../services/features/ingredientTypeSlice";
 import PopupCreateIngredientType from "../PopupCreate/PopupCreateIngredientType";
 import CommonTable from "../../CommonTable/CommonTable";
 import PopupDetailIngredientType from "../../Popup/PopupDetailIngredientType";
+import PopupCheck from "../../Popup/PopupCheck";
 
 const columns: MRT_ColumnDef<IIngredientType>[] = [
     {
@@ -63,6 +64,9 @@ const IngredientTypeListComponent = () => {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [onPopupIngredientTypeDetail, setOnPopupIngredientTypeDetail] =
         useState<boolean>(false);
+    const [selectedIngredientTypeId, setSelectedIngredientId] = useState<number | null>(null);
+    const [onPopupCheckDelete, setOnPopupCheckDelete] =
+        useState<boolean>(false);
 
     //Sử lý hàm get all ingredientTypes
     // useEffect(() => {
@@ -90,6 +94,25 @@ const IngredientTypeListComponent = () => {
         setIngredientTypeData(ingredientType);
         setOnPopupIngredientTypeDetail(true)
     }
+    //handle OpenPopup Delete IngredientType
+    const handleOpenPopupDeleteIngredientType = (id: number) => {
+        setSelectedIngredientId(id);
+        setOnPopupCheckDelete(true);
+    };
+    //handle Delete IngredientType
+    const handleDeleteIngredientType = () => {
+        if (selectedIngredientTypeId !== null) {
+            dispatch(deleteIngredientTypeById({ id: selectedIngredientTypeId }))
+                .unwrap()
+                .then(() => {
+                    setOnPopupIngredientTypeDetail(false);
+                    setOnPopupCheckDelete(false);
+                    dispatch(getAllIngredientTypes());
+                })
+                .catch((error) => console.log(error));
+        }
+    }
+
     return (
         <Stack sx={{ m: '2rem 0' }}>
             <CommonTable
@@ -118,8 +141,29 @@ const IngredientTypeListComponent = () => {
                     ingredientType={ingredientTypeData}
                     onPopupDetail={onPopupIngredientTypeDetail}
                     setOnPopupDetail={setOnPopupIngredientTypeDetail}
+                    onDelete={() =>
+                        handleOpenPopupDeleteIngredientType(ingredientTypeData.id)
+                    }
                 />
             )}
+            {/* <PopupCheck
+                open={onPopupCheckChangeStatus}
+                content="Bạn có chắc chắn muốn thay đổi trạng thái thể loại này không ?"
+                titleAccept="Có"
+                titleCancel="Không"
+                onAccept={handleUpdateStatusCategory}
+                onCancel={() => setOnPopupCheckChangeStatus(false)}
+            /> */}
+
+            {/* Delete */}
+            <PopupCheck
+                open={onPopupCheckDelete}
+                content="Bạn có chắc chắn muốn xoá loại thành phần này không ?"
+                titleAccept="Có"
+                titleCancel="Không"
+                onAccept={handleDeleteIngredientType}
+                onCancel={() => setOnPopupCheckDelete(false)}
+            />
         </Stack>
     )
 }

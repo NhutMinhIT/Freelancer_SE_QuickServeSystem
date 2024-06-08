@@ -6,7 +6,7 @@ type PopupIngredientTypeDetailProps = {
     onPopupDetail: boolean;
     setOnPopupDetail: React.Dispatch<React.SetStateAction<boolean>>;
     // onChangeStatus: () => void;
-    // onDelete: () => void;
+    onDelete: () => void;
     // onRename: () => void;
 }
 const PopupDetailIngredientType: React.FC<PopupIngredientTypeDetailProps> = ({
@@ -14,7 +14,7 @@ const PopupDetailIngredientType: React.FC<PopupIngredientTypeDetailProps> = ({
     onPopupDetail,
     setOnPopupDetail,
     // onChangeStatus,
-    // onDelete,
+    onDelete,
     // onRename,
 }) => {
     return (
@@ -164,7 +164,7 @@ const PopupDetailIngredientType: React.FC<PopupIngredientTypeDetailProps> = ({
                                             </button>
                                         )}
                                         <button
-                                            // onClick={onDelete}
+                                            onClick={onDelete}
                                             className="text-xs w-24 border border-red-500 p-1 bg-red-500 text-white-900 font-bold rounded-lg"
                                         >
                                             Xoá
