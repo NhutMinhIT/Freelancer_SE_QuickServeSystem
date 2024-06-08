@@ -41,7 +41,6 @@ export const getAllCategories = createAsyncThunk<ICategory[], void>(
             });
             return response.data.data;
         } catch (error: any) {
-            toast.error('Lỗi hệ thống thử lại sau !');
             return thunkAPI.rejectWithValue(error.response.data);
         }
     },
@@ -69,7 +68,7 @@ export const createCategory = createAsyncThunk<ICategoryCreate, Object>(
             }
             return response.data.data;
         } catch (error: any) {
-            toast.error('Lỗi hệ thống thử lại sau !');
+            toast.error(`${error.response.data.errors[0].description}`);
             return thunkAPI.rejectWithValue(error.response.data);
         }
     },
@@ -97,7 +96,7 @@ export const updateStatusCategoryById = createAsyncThunk<
         }
         return response.data;
     } catch (error: any) {
-        toast.error('Lỗi hệ thống thử lại sau !');
+        toast.error(`${error.response.data.errors[0].description}`);
         return thunkAPI.rejectWithValue(error.response.data);
     }
 });
@@ -121,7 +120,7 @@ export const deleteCategoryById = createAsyncThunk<void, { id: number }>(
             }
             return response.data;
         } catch (error: any) {
-        toast.error('Lỗi hệ thống thử lại sau !');
+            toast.error(`${error.response.data.errors[0].description}`);
             return thunkAPI.rejectWithValue(error.response.data);
         }
     },
@@ -147,7 +146,7 @@ export const renameCategory = createAsyncThunk<ICategory, ICategoryRename>(
             }
             return response.data;
         } catch (error: any) {
-        toast.error('Lỗi hệ thống thử lại sau !');
+            toast.error(`${error.response.data.errors[0].description}`);
             return thunkAPI.rejectWithValue(error.response.data);
         }
     },

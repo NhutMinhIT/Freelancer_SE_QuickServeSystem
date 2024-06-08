@@ -6,7 +6,11 @@ import {
 import axios from 'axios';
 import {
     createIngredientTypeEndpoint,
+    deleteIngredientTypeEndpoint,
     getAllIngredientTypesEndpoint,
+    getIngredientTypeByIdEndpoint,
+    renameIngredientTypeEndpoint,
+    updateStatusIngredientType,
 } from '../api/apiConfig';
 import { toast } from 'react-toastify';
 
@@ -43,6 +47,25 @@ export const getAllIngredientTypes = createAsyncThunk<IIngredientType[], void>(
         }
     },
 );
+export const getIngredientTypeById = createAsyncThunk<IIngredientType, { id: number }>(
+    'ingredientTypes/getIngredientTypeById',
+    async ({ id }, thunkAPI) => {
+        try {
+            const token = sessionStorage.getItem('quickServeToken');
+            const response = await axios.get(`${getIngredientTypeByIdEndpoint}/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            return response.data.data;
+        } catch (error: any) {
+            return thunkAPI.rejectWithValue(
+                error.response?.data?.errorMessages || 'Unknown error',
+            );
+        }
+    }
+);
+
 export const createIngredientType = createAsyncThunk<
     IIngredientTypeCreate,
     Object
@@ -63,14 +86,89 @@ export const createIngredientType = createAsyncThunk<
                 'Tạo tên loại nguyên liệu thành công ! Có thẻ sử dụng ngay !',
             );
         } else {
-                toast.error(`${response.data.errors[0].description}`);
+            toast.error(`${response.data.errors[0].description}`);
         }
         return response.data.data;
     } catch (error: any) {
-        toast.error('Lỗi hệ thống thử lại sau !');
+        toast.error(`${error.response.data.errors[0].description}`)
         return thunkAPI.rejectWithValue(error.response.data);
     }
 });
+export const updateStatusIngredientTypeById = createAsyncThunk<IIngredientType, { id: number }>(
+    'ingredientTypes/updateStatusIngredientTypeById',
+    async ({ id }, thunkAPI) => {
+        try {
+            const token = sessionStorage.getItem('quickServeToken');
+            const response = await axios.put(
+                `${updateStatusIngredientType}/${id}`,
+                {},
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                },
+            );
+            if (response.data.success) {
+                toast.success('Cập nhật trạng thái loại thành phần thành công !');
+            } else {
+                toast.error(`${response.data.errors[0].description}`);
+            }
+            return response.data.data;
+        } catch (error: any) {
+            return thunkAPI.rejectWithValue(
+                toast.error(`${error.response.data.errors[0].description}`)
+            );
+        }
+    }
+);
+
+export const deleteIngredientTypeById = createAsyncThunk<void, { id: number }>(
+    'ingredientTypes/deleteIngredientTypeById',
+    async ({ id }, thunkAPI) => {
+        try {
+            const token = sessionStorage.getItem('quickServeToken');
+            const response = await axios.delete(`${deleteIngredientTypeEndpoint}/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            if (response.data.success) {
+                toast.success('Xóa loại thành phần thành công !');
+            }
+        } catch (error: any) {
+            return thunkAPI.rejectWithValue(
+                toast.error(`${error.response.data.errors[0].description}`)
+            );
+        }
+    }
+);
+export const renameIngredientType = createAsyncThunk<IIngredientType, { id: number, name: string }>(
+    'ingredientTypes/renameIngredientType',
+    async ({ id, name }, thunkAPI) => {
+        try {
+            const token = sessionStorage.getItem('quickServeToken');
+            const response = await axios.put(
+                `${renameIngredientTypeEndpoint}`,
+                { id, name },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                },
+            );
+            if (response.data.success) {
+                toast.success('Đổi tên loại thành phần thành công !');
+            } else {
+                toast.error(`${response.data.errors[0].description}`);
+            }
+            return response.data.data;
+        } catch (error: any) {
+            return thunkAPI.rejectWithValue(
+                toast.error(`${error.response.data.errors[0].description}`)
+            );
+        }
+    }
+);
 
 const ingredientTypeSlice = createSlice({
     name: 'ingredientTypes',
@@ -81,6 +179,7 @@ const ingredientTypeSlice = createSlice({
         },
     },
     extraReducers: (builder) => {
+        //handled get all ingredient types
         builder.addCase(getAllIngredientTypes.pending, (state) => {
             state.loading = true;
         });
@@ -92,6 +191,8 @@ const ingredientTypeSlice = createSlice({
             state.loading = false;
             state.error = action.payload as string[];
         });
+
+        //handled create ingredient type
         builder.addCase(createIngredientType.pending, (state) => {
             state.loading = true;
         });
@@ -104,6 +205,52 @@ const ingredientTypeSlice = createSlice({
             state.loading = false;
             state.error = action.payload as string[];
         });
+
+        //hanlded update status ingredient type by id
+        builder.addCase(updateStatusIngredientTypeById.pending, (state) => {
+            state.loading = true;
+        });
+        builder.addCase(updateStatusIngredientTypeById.fulfilled, (state) => {
+            state.loading = false;
+            state.success = true;
+        });
+        builder.addCase(updateStatusIngredientTypeById.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload as string[];
+        });
+
+        //hanlded delete ingredient type by id
+        builder.addCase(deleteIngredientTypeById.pending, (state) => {
+            state.loading = true;
+        });
+        builder.addCase(deleteIngredientTypeById.fulfilled, (state) => {
+            state.loading = false;
+            state.success = true;
+        });
+        builder.addCase(deleteIngredientTypeById.rejected, (
+            state,
+            action,
+        ) => {
+            state.loading = false;
+            state.error = action.payload as string[];
+        });
+
+        //hanlded rename ingredient type by id
+        builder.addCase(renameIngredientType.pending, (state) => {
+            state.loading = true;
+        });
+        builder.addCase(renameIngredientType.fulfilled, (state) => {
+            state.loading = false;
+            state.success = true;
+        });
+        builder.addCase(renameIngredientType.rejected, (
+            state,
+            action,
+        ) => {
+            state.loading = false;
+            state.error = action.payload as string[];
+        });
+
     },
 });
 
