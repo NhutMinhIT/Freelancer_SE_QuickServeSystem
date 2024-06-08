@@ -11,6 +11,7 @@ import PopupCreateIngredientType from "../PopupCreate/PopupCreateIngredientType"
 import CommonTable from "../../CommonTable/CommonTable";
 import PopupDetailIngredientType from "../../Popup/PopupDetailIngredientType";
 import PopupCheck from "../../Popup/PopupCheck";
+import PopupRenameIngredientType from "../../Popup/PopupRenameIngredientType";
 
 const columns: MRT_ColumnDef<IIngredientType>[] = [
     {
@@ -68,6 +69,7 @@ const IngredientTypeListComponent = () => {
     const [onPopupCheckChangeStatus, setOnPopupCheckChangeStatus] =
         useState<boolean>(false);
     const [onPopupCheckDelete, setOnPopupCheckDelete] = useState<boolean>(false);
+    const [openPopupRename, setOpenPopupRename] = useState<boolean>(false);
 
     //Sử lý hàm get all ingredientTypes
     // useEffect(() => {
@@ -133,6 +135,12 @@ const IngredientTypeListComponent = () => {
         }
     }
 
+    //handle Rename IngredientType
+    const handleOpenPopupRenameIngredientType = (id: number) => {
+        setSelectedIngredientId(id);
+        setOpenPopupRename(true);
+    };
+
     return (
         <Stack sx={{ m: '2rem 0' }}>
             <CommonTable
@@ -157,17 +165,31 @@ const IngredientTypeListComponent = () => {
                 closePopup={handleClosePopupCreateIngredientType}
             />
             {ingredientTypeData && (
-                <PopupDetailIngredientType
-                    ingredientType={ingredientTypeData}
-                    onPopupDetail={onPopupIngredientTypeDetail}
-                    setOnPopupDetail={setOnPopupIngredientTypeDetail}
-                    onDelete={() =>
-                        handleOpenPopupDeleteIngredientType(ingredientTypeData.id)
-                    }
-                    onChangeStatus={() =>
-                        handleOpenPopupChangeStatusIngredientType(ingredientTypeData.id)
-                    }
-                />
+                <>
+                    <PopupDetailIngredientType
+                        ingredientType={ingredientTypeData}
+                        onPopupDetail={onPopupIngredientTypeDetail}
+                        setOnPopupDetail={setOnPopupIngredientTypeDetail}
+                        onDelete={() =>
+                            handleOpenPopupDeleteIngredientType(ingredientTypeData.id)
+                        }
+                        onChangeStatus={() =>
+                            handleOpenPopupChangeStatusIngredientType(ingredientTypeData.id)
+                        }
+                        onRename={() =>
+                            handleOpenPopupRenameIngredientType(ingredientTypeData.id)
+                        }
+                    />
+                    <PopupRenameIngredientType
+                        onClosePopupDetail={() =>
+                            setOnPopupIngredientTypeDetail(false)
+                        }
+                        open={openPopupRename}
+                        closePopup={() => setOpenPopupRename(false)}
+                        ingredientTypeName={ingredientTypeData?.name ?? ''}
+                        ingedientTypeId={ingredientTypeData?.id}
+                    />
+                </>
             )}
             <PopupCheck
                 open={onPopupCheckChangeStatus}

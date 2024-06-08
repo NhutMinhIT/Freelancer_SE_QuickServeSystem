@@ -7,7 +7,7 @@ type PopupIngredientTypeDetailProps = {
     setOnPopupDetail: React.Dispatch<React.SetStateAction<boolean>>;
     onChangeStatus: () => void;
     onDelete: () => void;
-    // onRename: () => void;
+    onRename: () => void;
 }
 const PopupDetailIngredientType: React.FC<PopupIngredientTypeDetailProps> = ({
     ingredientType,
@@ -15,7 +15,7 @@ const PopupDetailIngredientType: React.FC<PopupIngredientTypeDetailProps> = ({
     setOnPopupDetail,
     onChangeStatus,
     onDelete,
-    // onRename,
+    onRename,
 }) => {
     return (
         <div
@@ -170,7 +170,7 @@ const PopupDetailIngredientType: React.FC<PopupIngredientTypeDetailProps> = ({
                                             Xoá
                                         </button>
                                         <button
-                                            // onClick={onRename}
+                                            onClick={onRename}
                                             className="text-xs w-24 border border-blue-500p-1 bg-blue-500 text-white-900 font-bold rounded-lg"
                                         >
                                             Sửa tên

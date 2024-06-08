@@ -131,7 +131,7 @@ export const renameCategory = createAsyncThunk<ICategory, ICategoryRename>(
         try {
             const token = sessionStorage.getItem('quickServeToken');
             const response = await axios.put(
-                `${renameCategoryEndpoint}`,
+                `${renameCategoryEndpoint}/${id}`,
                 { id, name },
                 {
                     headers: {

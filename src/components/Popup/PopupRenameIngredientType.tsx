@@ -1,34 +1,53 @@
+import { XMarkIcon } from "@heroicons/react/24/solid";
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
 import { useAppDispatch } from "../../services/store/store";
+import { useState, useEffect } from "react";
+import { getAllIngredientTypes, renameIngredientType } from "../../services/features/ingredientTypeSlice";
 import { useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
-import { getAllCategories, renameCategory } from "../../services/features/categorySlice";
-import { XMarkIcon } from "@heroicons/react/16/solid";
 
-type PopupRenameCategoryProps = {
+type PopupRenameIngredientTypeProps = {
     open: boolean;
     closePopup: () => void;
-    onClosePopupDetail: () => void
-    name: string;
-    cateId: number | undefined;
+    onClosePopupDetail: () => void;
+    ingredientTypeName: string;
+    ingedientTypeId: number | undefined;
 }
 
-type FormRenameCategoryValues = {
-    id: number;
+type FormRenameIngredientTypeValues = {
+    id: number | undefined;
     name: string;
 }
 
-const PopupRenameCategory: React.FC<PopupRenameCategoryProps> = ({ open, closePopup, onClosePopupDetail, name, cateId }) => {
+const PopupRenameIngredientType: React.FC<PopupRenameIngredientTypeProps> = ({
+    open,
+    closePopup,
+    onClosePopupDetail,
+    ingredientTypeName,
+    ingedientTypeId
+}) => {
     const dispatch = useAppDispatch();
     const [isLoading, setIsLoading] = useState(false);
 
-    const { register, handleSubmit, reset, formState: { errors } } = useForm<FormRenameCategoryValues>({ defaultValues: { id: cateId, name } });
-    const onSubmit = (data: FormRenameCategoryValues) => {
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<FormRenameIngredientTypeValues>({
+        defaultValues: { id: ingedientTypeId, name: ingredientTypeName }
+    });
+
+    useEffect(() => {
+        reset({ id: ingedientTypeId, name: ingredientTypeName });
+    }, [reset, ingedientTypeId, ingredientTypeName]);
+
+    // Handle rename ingredient type
+    const onSubmit = (data: FormRenameIngredientTypeValues) => {
+        if (data.id === undefined) {
+            console.error("ID is undefined");
+            return;
+        }
+
         setIsLoading(true);
-        dispatch(renameCategory(data))
+        dispatch(renameIngredientType({ id: data.id, name: data.name }))
             .unwrap()
             .then(() => {
-                dispatch(getAllCategories());
+                dispatch(getAllIngredientTypes());
                 closePopup();
                 onClosePopupDetail();
                 reset({ id: undefined, name: '' }); // Reset the form here
@@ -36,9 +55,6 @@ const PopupRenameCategory: React.FC<PopupRenameCategoryProps> = ({ open, closePo
             .catch((error) => console.log(error))
             .finally(() => setIsLoading(false));
     }
-    useEffect(() => {
-        reset({ id: cateId, name });
-    }, [reset, cateId, name]);
 
     return (
         <Dialog
@@ -50,8 +66,8 @@ const PopupRenameCategory: React.FC<PopupRenameCategoryProps> = ({ open, closePo
             <div className="w-auto flex justify-between items-center p-4">
                 <DialogTitle>
                     <div className="text-2xl font-bold flex">
-                        <span>Sửa tên thể loại: </span>
-                        <span className="ml-2">{name}</span>
+                        <span>Sửa tên loại thành phần: </span>
+                        <span className="ml-2">{ingredientTypeName}</span>
                     </div>
                 </DialogTitle>
                 <button
@@ -80,7 +96,7 @@ const PopupRenameCategory: React.FC<PopupRenameCategoryProps> = ({ open, closePo
                             <Button
                                 variant="contained"
                                 color="success"
-                                onClick={handleSubmit(onSubmit)}
+                                type="submit"
                                 disabled={isLoading}
                                 sx={{
                                     textTransform: 'none',
@@ -92,8 +108,8 @@ const PopupRenameCategory: React.FC<PopupRenameCategoryProps> = ({ open, closePo
                     </form>
                 </div>
             </DialogContent>
-        </Dialog >
-    )
+        </Dialog>
+    );
 }
 
-export default PopupRenameCategory;
+export default PopupRenameIngredientType;
