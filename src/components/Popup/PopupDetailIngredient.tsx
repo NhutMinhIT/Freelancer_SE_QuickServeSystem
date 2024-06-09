@@ -180,21 +180,13 @@ const PopupDetailIngredient: React.FC<PopupDetailIngredientProps> = ({
                                         </span>
                                     </div>
                                     <div className="w-auto flex gap-4">
-                                        {ingredient?.status === 1 ? (
-                                            <button
-                                                // onClick={onChangeStatus}
-                                                className="text-xs w-auto border border-red-500 px-2 py-1 bg-orange-500 text-white font-bold rounded-lg"
-                                            >
-                                                Ngưng hoạt động
-                                            </button>
-                                        ) : (
-                                            <button
-                                                // onClick={onChangeStatus}
-                                                className="border border-green-500 p-1 bg-green-500 text-white font-bold rounded-lg"
-                                            >
-                                                Hoạt động
-                                            </button>
-                                        )}
+                                        <button
+                                            // onClick={onChangeStatus}
+                                            className="text-xs w-auto border border-red-500 px-2 py-1 bg-orange-500 text-white font-bold rounded-lg"
+                                        >
+                                            Thay đổi ảnh mẫu
+                                        </button>
+
                                         <button
                                             onClick={onDelete}
                                             className="text-xs w-24 border border-red-500 p-1 bg-red-500 text-white font-bold rounded-lg"
@@ -205,7 +197,7 @@ const PopupDetailIngredient: React.FC<PopupDetailIngredientProps> = ({
                                             // onClick={onRename}
                                             className="text-xs w-24 border border-blue-500 p-1 bg-blue-500 text-white font-bold rounded-lg"
                                         >
-                                            Sửa tên
+                                            Sửa thông tin
                                         </button>
                                     </div>
                                 </div>

@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { IIngredient, IIngredientCreate } from '../../models/Ingredient';
-import { createIngredientEndpoint, deleteIngredientEndpoint, getAllIngredientEndpoint } from '../api/apiConfig';
+import { createIngredientEndpoint, deleteIngredientEndpoint, getAllIngredientEndpoint, getIngredientByIdEndpoint } from '../api/apiConfig';
 import { toast } from 'react-toastify';
 
 type IngredientState = {
@@ -26,6 +26,25 @@ export const getAllIngredients = createAsyncThunk<IIngredient[], void>(
         try {
             const token = sessionStorage.getItem('quickServeToken');
             const response = await axios.get(getAllIngredientEndpoint, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            return response.data.data;
+        } catch (error: any) {
+            return thunkAPI.rejectWithValue(
+                error.response?.data?.errorMessages || 'Unknown error',
+            );
+        }
+    },
+);
+export const getIngredientById = createAsyncThunk<IIngredient, { id: number }>(
+    'ingredients/getIngredientById',
+    async (data, thunkAPI) => {
+        const { id } = data;
+        try {
+            const token = sessionStorage.getItem('quickServeToken');
+            const response = await axios.get(`${getIngredientByIdEndpoint}/${id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
