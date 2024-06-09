@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { IIngredientType } from "../../models/Ingredient";
 import { getAllIngredientTypes } from "../../services/features/ingredientTypeSlice";
 import { schemaCreateIngredient } from "../../schemas/shcemaIngredient";
-import { createIngredient } from "../../services/features/ingredientSlice";
+import { createIngredient, getAllIngredients } from "../../services/features/ingredientSlice";
 
 type PopupCreateIngredientProps = {
     isPopupOpen: boolean;
@@ -36,18 +36,18 @@ const PopupCreateIngredient: React.FC<PopupCreateIngredientProps> = ({
         resolver: yupResolver(schemaCreateIngredient) as unknown as Resolver<FormCreateIngredientValues>,
     });
 
-
-    // handle get IngredientType
+    // Handle get IngredientType
     useEffect(() => {
         dispatch(getAllIngredientTypes());
     }, [dispatch]);
 
-    // cập nhật state khi ingredientTypes thay đổi
+    // Update state when ingredientTypes changes
     useEffect(() => {
         setIngredientTypeData(ingredientTypes);
     }, [ingredientTypes]);
 
     const onSubmit = (data: FormCreateIngredientValues) => {
+        setIsLoading(true);
         const formData = new FormData();
 
         formData.append('name', data.name);
@@ -59,10 +59,11 @@ const PopupCreateIngredient: React.FC<PopupCreateIngredientProps> = ({
         }
         formData.append('ingredientTypeId', data.ingredientTypeId.toString());
 
-        //dispatch createIngredient
+        // Dispatch createIngredient
         dispatch(createIngredient(formData))
             .unwrap()
             .then(() => {
+                dispatch(getAllIngredients());
                 closePopup();
                 reset();
             })
@@ -189,8 +190,7 @@ const PopupCreateIngredient: React.FC<PopupCreateIngredientProps> = ({
                 </div>
             </div>
         )
-    )
-
+    );
 }
 
 export default PopupCreateIngredient;

@@ -6,13 +6,15 @@ type PopupDetailIngredientProps = {
     onPopupIngredientDetail: boolean;
     setOnPopupIngredientDetail: React.Dispatch<React.SetStateAction<boolean>>
     onDelete: () => void;
+    onChangeImage: () => void;
 }
 
 const PopupDetailIngredient: React.FC<PopupDetailIngredientProps> = ({
     ingredient,
     onPopupIngredientDetail,
     setOnPopupIngredientDetail,
-    onDelete
+    onDelete,
+    onChangeImage
 }) => {
     return (
         <div
@@ -181,7 +183,7 @@ const PopupDetailIngredient: React.FC<PopupDetailIngredientProps> = ({
                                     </div>
                                     <div className="w-auto flex gap-4">
                                         <button
-                                            // onClick={onChangeStatus}
+                                            onClick={onChangeImage}
                                             className="text-xs w-auto border border-red-500 px-2 py-1 bg-orange-500 text-white font-bold rounded-lg"
                                         >
                                             Thay đổi ảnh mẫu

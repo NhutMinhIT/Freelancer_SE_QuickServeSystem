@@ -1,7 +1,14 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { IIngredient, IIngredientCreate } from '../../models/Ingredient';
-import { createIngredientEndpoint, deleteIngredientEndpoint, getAllIngredientEndpoint, getIngredientByIdEndpoint } from '../api/apiConfig';
+import {
+    changeImageIngredientEndpoint,
+    createIngredientEndpoint,
+    deleteIngredientEndpoint,
+    getAllIngredientEndpoint,
+    getIngredientByIdEndpoint
+} from '../api/apiConfig';
+
 import { toast } from 'react-toastify';
 
 type IngredientState = {
@@ -103,6 +110,25 @@ export const deleteIngredient = createAsyncThunk<void, { id: number }>(
         }
     },
 );
+export const changeImageIngredient = createAsyncThunk<void, { id: number, formData: FormData }>
+    ('ingredients/changeImageIngredient', async (data, thunkAPI) => {
+        try {
+            const token = sessionStorage.getItem('quickServeToken');
+            const response = await axios.put(`${changeImageIngredientEndpoint}/${data.id}/image`, data.formData, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            if (response.data.success) {
+                toast.success('Thay đổi hình ảnh thành công !');
+            }
+        } catch (error: any) {
+            return thunkAPI.rejectWithValue(
+                toast.error(`${error.response.data.errors[0].description}`)
+            );
+        }
+    });
 
 const ingredientSlice = createSlice({
     name: 'ingredients',

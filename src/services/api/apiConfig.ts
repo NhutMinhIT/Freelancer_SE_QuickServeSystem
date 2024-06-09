@@ -22,6 +22,7 @@ export const getIngredientByIdEndpoint = `${BASE_URL}/Ingredients`;
 export const createIngredientEndpoint = `${BASE_URL}/Ingredients`;
 export const updateIngredientEndpoint = `${BASE_URL}/Ingredients`;
 export const deleteIngredientEndpoint = `${BASE_URL}/Ingredients`;
+export const changeImageIngredientEndpoint = `${BASE_URL}/Ingredients`;
 
 //INGREDIENT TYPE ENDPOINTS
 export const getAllIngredientTypesEndpoint = `${BASE_URL}/IngredientTypes/paged`;

@@ -9,6 +9,7 @@ import CommonTable from '../../CommonTable/CommonTable';
 import PopupCreateIngredient from '../../Popup/PopupCreateIngredient';
 import PopupDetailIngredient from '../../Popup/PopupDetailIngredient';
 import PopupCheck from '../../Popup/PopupCheck';
+import PopupChangeImageIngredient from '../../Popup/PopupChangeImageIngredient';
 
 const columns: MRT_ColumnDef<IIngredient>[] = [
     {
@@ -78,12 +79,13 @@ const IngredientListComponent = () => {
     const [selectedIngredientId, setSelectedIngredientId] = useState<number | null>(null);
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [onPopupCheckDelete, setOnPopupCheckDelete] = useState<boolean>(false);
+    const [openPopupChangeImage, setOpenPopupChangeImage] = useState<boolean>(false);
     const [ingredientData, setIngredientData] = useState<IIngredient | null>(null);
     const [onPopupIngredientDetail, setOnPopupIngredientDetail] = useState<boolean>(false);
 
-    // useEffect(() => {
-    //     dispatch(getAllIngredients());
-    // }, [dispatch]);
+    useEffect(() => {
+        dispatch(getAllIngredients());
+    }, [dispatch]);
 
     // Handle open popup create ingredient
     const handleOpenPopupCreateIngredient = () => {
@@ -116,6 +118,12 @@ const IngredientListComponent = () => {
                 });
         }
     };
+    // Handle change image ingredient
+    const handleOpenPopupChangeImage = (ingredientId: number) => {
+        setSelectedIngredientId(ingredientId)
+        setOpenPopupChangeImage(true)
+    };
+
     return (
         <Stack sx={{ m: '2rem 0' }}>
             <CommonTable
@@ -148,6 +156,19 @@ const IngredientListComponent = () => {
                         onDelete={() =>
                             handleOpenPopupDeleteIngredient(ingredientData.id)
                         }
+                        onChangeImage={() =>
+                            handleOpenPopupChangeImage(ingredientData.id)
+                        }
+                    />
+                    <PopupChangeImageIngredient
+                        onClosePopupDetail={() =>
+                            setOnPopupIngredientDetail(false)
+                        }
+                        open={openPopupChangeImage}
+                        closePopup={() => setOpenPopupChangeImage(false)}
+                        imageUrl={ingredientData?.imageUrl ?? ''}
+                        ingredientId={ingredientData?.id}
+                        name={ingredientData?.name ?? ''}
                     />
                 </>
             )}
