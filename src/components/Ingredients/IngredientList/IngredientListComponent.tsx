@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { getAllIngredients } from '../../../services/features/ingredientSlice';
 import CommonTable from '../../CommonTable/CommonTable';
 import PopupCreateIngredient from '../../Popup/PopupCreateIngredient';
+import PopupDetailIngredient from '../../Popup/PopupDetailIngredient';
 
 const columns: MRT_ColumnDef<IIngredient>[] = [
     {
@@ -73,7 +74,10 @@ const columns: MRT_ColumnDef<IIngredient>[] = [
 const IngredientListComponent = () => {
     const dispatch = useAppDispatch();
     const { ingredients } = useAppSelector((state) => state.ingredients);
+    const [slectedIngredientId, setSelectedIngredientId] = useState<number | null>(null);
     const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [ingredientData, setIngredientData] = useState<IIngredient | null>(null);
+    const [onPopupIngredientDetail, setOnPopupIngredientDetail] = useState<boolean>(false);
 
     useEffect(() => {
         dispatch(getAllIngredients());
@@ -86,13 +90,18 @@ const IngredientListComponent = () => {
     const handleClosePopupCreateIngredient = () => {
         setIsPopupOpen(false);
     }
+    //handle show ingredient detail
+    const handleShowPopupIngredientDetail = (ingredient: IIngredient) => {
+        setIngredientData(ingredient)
+        setOnPopupIngredientDetail(true)
+    }
 
     return (
         <Stack sx={{ m: '2rem 0' }}>
             <CommonTable
                 columns={columns}
                 data={ingredients || []}
-                // onRowDoubleClick={handleShowCategoryDetail}
+                onRowDoubleClick={handleShowPopupIngredientDetail}
                 toolbarButtons={
                     <Button
                         variant="contained"
@@ -110,6 +119,15 @@ const IngredientListComponent = () => {
                 isPopupOpen={isPopupOpen}
                 closePopup={handleClosePopupCreateIngredient}
             />
+            {ingredientData && (
+                <>
+                    <PopupDetailIngredient
+                        ingredient={ingredientData}
+                        onPopupIngredientDetail={onPopupIngredientDetail}
+                        setOnPopupIngredientDetail={setOnPopupIngredientDetail}
+                    />
+                </>
+            )}
         </Stack>
     );
 };
