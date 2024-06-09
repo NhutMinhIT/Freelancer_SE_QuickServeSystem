@@ -31,3 +31,12 @@ export interface IIngredientTypesRename {
     id: number;
     name: string;
 }
+
+export interface IIngredientCreate {
+    name: string;
+    price: number;
+    calo: number;
+    description: string;
+    image: File;
+    ingredientTypeId: number;
+}
