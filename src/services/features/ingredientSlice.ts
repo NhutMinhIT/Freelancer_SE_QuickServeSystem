@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { IIngredient, IIngredientCreate } from '../../models/Ingredient';
-import { createIngredientEndpoint, getAllIngredientEndpoint } from '../api/apiConfig';
+import { createIngredientEndpoint, deleteIngredientEndpoint, getAllIngredientEndpoint } from '../api/apiConfig';
 import { toast } from 'react-toastify';
 
 type IngredientState = {
@@ -64,6 +64,26 @@ export const createIngredient = createAsyncThunk<IIngredientCreate, FormData>(
         }
     },
 );
+export const deleteIngredient = createAsyncThunk<void, { id: number }>(
+    'ingredients/deleteIngredient',
+    async ({ id }, thunkAPI) => {
+        try {
+            const token = sessionStorage.getItem('quickServeToken');
+            const response = await axios.delete(`${deleteIngredientEndpoint}/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            if (response.data.success) {
+                toast.success('Xóa loại thành phần thành công !');
+            }
+        } catch (error: any) {
+            return thunkAPI.rejectWithValue(
+                toast.error(`${error.response.data.errors[0].description}`)
+            );
+        }
+    },
+);
 
 const ingredientSlice = createSlice({
     name: 'ingredients',
@@ -74,6 +94,7 @@ const ingredientSlice = createSlice({
         },
     },
     extraReducers: (builder) => {
+        //action get all ingredient
         builder.addCase(getAllIngredients.pending, (state) => {
             state.loading = true;
         });
@@ -85,6 +106,7 @@ const ingredientSlice = createSlice({
             state.loading = false;
             state.error = action.payload as string[];
         });
+        //action create ingredient
         builder.addCase(createIngredient.pending, (state) => {
             state.loading = true;
         });
@@ -93,6 +115,18 @@ const ingredientSlice = createSlice({
             state.createIngredient = action.payload;
         });
         builder.addCase(createIngredient.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload as string[];
+        });
+        //action delete ingredient
+        builder.addCase(deleteIngredient.pending, (state) => {
+            state.loading = true;
+        });
+        builder.addCase(deleteIngredient.fulfilled, (state) => {
+            state.loading = false;
+            state.success = true;
+        });
+        builder.addCase(deleteIngredient.rejected, (state, action) => {
             state.loading = false;
             state.error = action.payload as string[];
         });

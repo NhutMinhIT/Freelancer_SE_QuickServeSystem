@@ -4,10 +4,11 @@ import { CheckCircleOutline, HighlightOff } from '@mui/icons-material';
 import { Button, Stack } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../../services/store/store';
 import { useEffect, useState } from 'react';
-import { getAllIngredients } from '../../../services/features/ingredientSlice';
+import { deleteIngredient, getAllIngredients } from '../../../services/features/ingredientSlice';
 import CommonTable from '../../CommonTable/CommonTable';
 import PopupCreateIngredient from '../../Popup/PopupCreateIngredient';
 import PopupDetailIngredient from '../../Popup/PopupDetailIngredient';
+import PopupCheck from '../../Popup/PopupCheck';
 
 const columns: MRT_ColumnDef<IIngredient>[] = [
     {
@@ -74,28 +75,47 @@ const columns: MRT_ColumnDef<IIngredient>[] = [
 const IngredientListComponent = () => {
     const dispatch = useAppDispatch();
     const { ingredients } = useAppSelector((state) => state.ingredients);
-    const [slectedIngredientId, setSelectedIngredientId] = useState<number | null>(null);
+    const [selectedIngredientId, setSelectedIngredientId] = useState<number | null>(null);
     const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [onPopupCheckDelete, setOnPopupCheckDelete] = useState<boolean>(false);
     const [ingredientData, setIngredientData] = useState<IIngredient | null>(null);
     const [onPopupIngredientDetail, setOnPopupIngredientDetail] = useState<boolean>(false);
 
-    useEffect(() => {
-        dispatch(getAllIngredients());
-    }, [dispatch]);
+    // useEffect(() => {
+    //     dispatch(getAllIngredients());
+    // }, [dispatch]);
 
-    //Hanlde open popup create ingredient
+    // Handle open popup create ingredient
     const handleOpenPopupCreateIngredient = () => {
         setIsPopupOpen(true);
     }
     const handleClosePopupCreateIngredient = () => {
         setIsPopupOpen(false);
     }
-    //handle show ingredient detail
+
+    // Handle show ingredient detail
     const handleShowPopupIngredientDetail = (ingredient: IIngredient) => {
-        setIngredientData(ingredient)
-        setOnPopupIngredientDetail(true)
+        setIngredientData(ingredient);
+        setOnPopupIngredientDetail(true);
     }
 
+    // Handle open popup delete ingredient
+    const handleOpenPopupDeleteIngredient = (ingredientId: number) => {
+        setSelectedIngredientId(ingredientId);
+        setOnPopupCheckDelete(true);
+    };
+
+    const handleDeleteIngredient = () => {
+        if (selectedIngredientId !== null) {
+            dispatch(deleteIngredient({ id: selectedIngredientId }))
+                .unwrap()
+                .then(() => {
+                    setOnPopupIngredientDetail(false);
+                    setOnPopupCheckDelete(false);
+                    dispatch(getAllIngredients());
+                });
+        }
+    };
     return (
         <Stack sx={{ m: '2rem 0' }}>
             <CommonTable
@@ -125,9 +145,20 @@ const IngredientListComponent = () => {
                         ingredient={ingredientData}
                         onPopupIngredientDetail={onPopupIngredientDetail}
                         setOnPopupIngredientDetail={setOnPopupIngredientDetail}
+                        onDelete={() =>
+                            handleOpenPopupDeleteIngredient(ingredientData.id)
+                        }
                     />
                 </>
             )}
+            <PopupCheck
+                open={onPopupCheckDelete}
+                content="Bạn có chắc chắn muốn xoá nguyên liệu này không?"
+                titleAccept="Có"
+                titleCancel="Không"
+                onAccept={handleDeleteIngredient}
+                onCancel={() => setOnPopupCheckDelete(false)}
+            />
         </Stack>
     );
 };
