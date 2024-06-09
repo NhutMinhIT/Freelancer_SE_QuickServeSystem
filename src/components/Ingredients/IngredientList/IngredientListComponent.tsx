@@ -3,9 +3,10 @@ import { IIngredient } from '../../../models/Ingredient';
 import { CheckCircleOutline, HighlightOff } from '@mui/icons-material';
 import { Button, Stack } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../../services/store/store';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getAllIngredients } from '../../../services/features/ingredientSlice';
 import CommonTable from '../../CommonTable/CommonTable';
+import PopupCreateIngredient from '../../Popup/PopupCreateIngredient';
 
 const columns: MRT_ColumnDef<IIngredient>[] = [
     {
@@ -72,10 +73,19 @@ const columns: MRT_ColumnDef<IIngredient>[] = [
 const IngredientListComponent = () => {
     const dispatch = useAppDispatch();
     const { ingredients } = useAppSelector((state) => state.ingredients);
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
 
     useEffect(() => {
         dispatch(getAllIngredients());
     }, [dispatch]);
+
+    //Hanlde open popup create ingredient
+    const handleOpenPopupCreateIngredient = () => {
+        setIsPopupOpen(true);
+    }
+    const handleClosePopupCreateIngredient = () => {
+        setIsPopupOpen(false);
+    }
 
     return (
         <Stack sx={{ m: '2rem 0' }}>
@@ -86,7 +96,7 @@ const IngredientListComponent = () => {
                 toolbarButtons={
                     <Button
                         variant="contained"
-                        // onClick={handlePopupOpen}
+                        onClick={handleOpenPopupCreateIngredient}
                         sx={{
                             color: 'black',
                             backgroundColor: 'orange',
@@ -95,6 +105,10 @@ const IngredientListComponent = () => {
                         Thêm nguyên liệu
                     </Button>
                 }
+            />
+            <PopupCreateIngredient
+                isPopupOpen={isPopupOpen}
+                closePopup={handleClosePopupCreateIngredient}
             />
         </Stack>
     );

@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from "../../../services/store/store";
 import { Button, Stack } from "@mui/material";
 import { useEffect, useState } from "react";
 import { deleteIngredientTypeById, getAllIngredientTypes, updateStatusIngredientTypeById } from "../../../services/features/ingredientTypeSlice";
-import PopupCreateIngredientType from "../PopupCreate/PopupCreateIngredientType";
+import PopupCreateIngredientType from "../../Popup/PopupCreateIngredientType";
 import CommonTable from "../../CommonTable/CommonTable";
 import PopupDetailIngredientType from "../../Popup/PopupDetailIngredientType";
 import PopupCheck from "../../Popup/PopupCheck";

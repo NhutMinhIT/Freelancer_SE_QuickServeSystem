@@ -1,10 +1,10 @@
 import { XMarkIcon } from '@heroicons/react/16/solid';
 import React, { useState } from 'react';
-import { useAppDispatch } from '../../../services/store/store';
+import { useAppDispatch } from '../../services/store/store';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { schemaCategory } from '../../../schemas/schemaCategory';
-import { createCategory } from '../../../services/features/categorySlice';
+import { schemaCategory } from '../../schemas/schemaCategory';
+import { createCategory } from '../../services/features/categorySlice';
 
 type PopupCreateCategoryProps = {
     isPopupOpen: boolean;
@@ -30,7 +30,7 @@ const PopupCreateCategory: React.FC<PopupCreateCategoryProps> = ({ isPopupOpen, 
             .then(() => {
                 closePopup();
             })
-            .catch((error) => console.log(error))
+            .catch((error: any) => console.log(error))
             .finally(() => setIsLoading(false));
         reset();
 

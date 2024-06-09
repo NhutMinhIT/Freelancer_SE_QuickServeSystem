@@ -1,5 +1,5 @@
 import { FaAcquisitionsIncorporated } from "react-icons/fa";
-import CategoryListComponent from "../../../components/Category/CategoryComponent/CategoryListComponent";
+import CategoryListComponent from "../../../components/CategoryComponent/CategoryListComponent";
 import SidebarComponent from "../../../components/ManagementComponent/SidebarComponent ";
 
 const CategoryManagement = () => {

@@ -1,20 +1,20 @@
 import { MRT_ColumnDef } from 'material-react-table';
 import { useEffect, useState } from 'react';
 import { Stack, Button } from '@mui/material';
-import { useAppDispatch, useAppSelector } from '../../../services/store/store';
+import { useAppDispatch, useAppSelector } from '../../services/store/store';
 import {
     deleteCategoryById,
     getAllCategories,
     updateStatusCategoryById,
-} from '../../../services/features/categorySlice';
-import PopupCreateCategory from '../CreateCategory/PopupCreateCategory';
+} from '../../services/features/categorySlice';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import { ICategory } from '../../../models/Categoty';
-import PopupCategoryDetail from '../../Popup/PopupCategoryDetail';
-import PopupCheck from '../../Popup/PopupCheck';
-import PopupRenameCategory from '../../Popup/PopupRenameCategory';
-import CommonTable from '../../CommonTable/CommonTable';
+import { ICategory } from '../../models/Categoty';
+import PopupCategoryDetail from '../Popup/PopupCategoryDetail';
+import PopupCheck from '../Popup/PopupCheck';
+import PopupRenameCategory from '../Popup/PopupRenameCategory';
+import CommonTable from '../CommonTable/CommonTable';
+import PopupCreateCategory from '../Popup/PopupCreateCategory';
 
 const columns: MRT_ColumnDef<ICategory>[] = [
     {

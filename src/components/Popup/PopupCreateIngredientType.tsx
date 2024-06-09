@@ -1,10 +1,10 @@
 import { XMarkIcon } from "@heroicons/react/16/solid";
-import { useAppDispatch } from "../../../services/store/store";
+import { useAppDispatch } from "../../services/store/store";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { schemaCreateIngredientTypes } from "../../../schemas/schemaIngredientType";
-import { createIngredientType } from "../../../services/features/ingredientTypeSlice";
+import { schemaCreateIngredientTypes } from "../../schemas/schemaIngredientType";
+import { createIngredientType } from "../../services/features/ingredientTypeSlice";
 
 type PopupCreateIngredientTypeProps = {
   isPopupOpen: boolean;
@@ -26,17 +26,17 @@ const PopupCreateIngredientType: React.FC<PopupCreateIngredientTypeProps> = ({
     resolver: yupResolver(schemaCreateIngredientTypes)
   });
 
- const onSubmit = (data: FormCreateIngredientTypeValues) => {
-  setIsLoading(true);
-  dispatch(createIngredientType(data))
-    .unwrap()
-    .then(() => {
-      closePopup();
-      reset();
-    })
-    .catch((error) => console.log(error))
-    .finally(() => setIsLoading(false));
-}
+  const onSubmit = (data: FormCreateIngredientTypeValues) => {
+    setIsLoading(true);
+    dispatch(createIngredientType(data))
+      .unwrap()
+      .then(() => {
+        closePopup();
+        reset();
+      })
+      .catch((error) => console.log(error))
+      .finally(() => setIsLoading(false));
+  }
 
   return (
     isPopupOpen && (
