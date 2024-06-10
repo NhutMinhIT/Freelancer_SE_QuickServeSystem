@@ -4,12 +4,13 @@ import { CheckCircleOutline, HighlightOff } from '@mui/icons-material';
 import { Button, Stack } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../../services/store/store';
 import { useEffect, useState } from 'react';
-import { deleteIngredient, getAllIngredients } from '../../../services/features/ingredientSlice';
+import { deleteIngredient, getAllIngredients, getIngredientById } from '../../../services/features/ingredientSlice';
 import CommonTable from '../../CommonTable/CommonTable';
 import PopupCreateIngredient from '../../Popup/PopupCreateIngredient';
 import PopupDetailIngredient from '../../Popup/PopupDetailIngredient';
 import PopupCheck from '../../Popup/PopupCheck';
 import PopupChangeImageIngredient from '../../Popup/PopupChangeImageIngredient';
+import PopupUpdateIngredient from '../../Popup/PopupUpdateIngredient';
 
 const columns: MRT_ColumnDef<IIngredient>[] = [
     {
@@ -76,12 +77,17 @@ const columns: MRT_ColumnDef<IIngredient>[] = [
 const IngredientListComponent = () => {
     const dispatch = useAppDispatch();
     const { ingredients } = useAppSelector((state) => state.ingredients);
+    const  ingredientData  = useAppSelector((state) => state.ingredients.ingredient);    
+
     const [selectedIngredientId, setSelectedIngredientId] = useState<number | null>(null);
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [onPopupCheckDelete, setOnPopupCheckDelete] = useState<boolean>(false);
     const [openPopupChangeImage, setOpenPopupChangeImage] = useState<boolean>(false);
-    const [ingredientData, setIngredientData] = useState<IIngredient | null>(null);
+    const [openPopupUpdateIngredient, setOpenPopupUpdateIngredient] = useState<boolean>(false);
+
+    // const [ingredientData, setIngredientData] = useState<IIngredient | null>(null);
     const [onPopupIngredientDetail, setOnPopupIngredientDetail] = useState<boolean>(false);
+
 
     useEffect(() => {
         dispatch(getAllIngredients());
@@ -97,7 +103,7 @@ const IngredientListComponent = () => {
 
     // Handle show ingredient detail
     const handleShowPopupIngredientDetail = (ingredient: IIngredient) => {
-        setIngredientData(ingredient);
+        dispatch(getIngredientById({id: ingredient.id}))
         setOnPopupIngredientDetail(true);
     }
 
@@ -122,6 +128,10 @@ const IngredientListComponent = () => {
     const handleOpenPopupChangeImage = (ingredientId: number) => {
         setSelectedIngredientId(ingredientId)
         setOpenPopupChangeImage(true)
+    };
+
+    const handleOpenPopupUpdateIngredient = () => {
+        setOpenPopupUpdateIngredient(true)
     };
 
     return (
@@ -159,6 +169,9 @@ const IngredientListComponent = () => {
                         onChangeImage={() =>
                             handleOpenPopupChangeImage(ingredientData.id)
                         }
+                        onUpdate={() => {
+                            handleOpenPopupUpdateIngredient()
+                        }}
                     />
                     <PopupChangeImageIngredient
                         onClosePopupDetail={() =>
@@ -170,6 +183,14 @@ const IngredientListComponent = () => {
                         ingredientId={ingredientData?.id}
                         name={ingredientData?.name ?? ''}
                     />
+                    <PopupUpdateIngredient
+                        onClosePopupDetail={() =>
+                            setOnPopupIngredientDetail(false)
+                        }
+                        open={openPopupUpdateIngredient}
+                        closePopup={() => setOpenPopupUpdateIngredient(false)}
+                    />
+
                 </>
             )}
             <PopupCheck

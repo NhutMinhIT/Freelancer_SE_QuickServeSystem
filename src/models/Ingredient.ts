@@ -40,3 +40,11 @@ export interface IIngredientCreate {
     image: File;
     ingredientTypeId: number;
 }
+
+export interface IIngredientUpdate {
+    name: string;
+    price: number;
+    calo: number;
+    description: string;
+    ingredientTypeId: number;
+}

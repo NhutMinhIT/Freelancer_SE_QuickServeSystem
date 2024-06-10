@@ -7,6 +7,7 @@ type PopupDetailIngredientProps = {
     setOnPopupIngredientDetail: React.Dispatch<React.SetStateAction<boolean>>
     onDelete: () => void;
     onChangeImage: () => void;
+    onUpdate: () => void;
 }
 
 const PopupDetailIngredient: React.FC<PopupDetailIngredientProps> = ({
@@ -14,8 +15,9 @@ const PopupDetailIngredient: React.FC<PopupDetailIngredientProps> = ({
     onPopupIngredientDetail,
     setOnPopupIngredientDetail,
     onDelete,
-    onChangeImage
-}) => {
+    onChangeImage,
+    onUpdate
+}) => {    
     return (
         <div
             className={`fixed z-10 inset-0 overflow-y-auto  ${onPopupIngredientDetail ? '' : 'hidden'
@@ -196,7 +198,7 @@ const PopupDetailIngredient: React.FC<PopupDetailIngredientProps> = ({
                                             Xoá
                                         </button>
                                         <button
-                                            // onClick={onRename}
+                                            onClick={onUpdate}
                                             className="text-xs w-24 border border-blue-500 p-1 bg-blue-500 text-white font-bold rounded-lg"
                                         >
                                             Sửa thông tin
