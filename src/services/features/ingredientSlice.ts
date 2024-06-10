@@ -1,12 +1,13 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { IIngredient, IIngredientCreate } from '../../models/Ingredient';
+import { IIngredient, IIngredientCreate, IIngredientUpdate } from '../../models/Ingredient';
 import {
     changeImageIngredientEndpoint,
     createIngredientEndpoint,
     deleteIngredientEndpoint,
     getAllIngredientEndpoint,
-    getIngredientByIdEndpoint
+    getIngredientByIdEndpoint,
+    updateIngredientEndpoint
 } from '../api/apiConfig';
 
 import { toast } from 'react-toastify';
@@ -14,6 +15,7 @@ import { toast } from 'react-toastify';
 type IngredientState = {
     loading: boolean;
     ingredients: IIngredient[] | null;
+    ingredient: IIngredient | null;
     createIngredient: IIngredientCreate | null;
     error: string[] | unknown;
     success: boolean;
@@ -23,6 +25,7 @@ const initialState: IngredientState = {
     loading: false,
     ingredients: null,
     createIngredient: null,
+    ingredient: null,
     error: null,
     success: false,
 };
@@ -130,6 +133,32 @@ export const changeImageIngredient = createAsyncThunk<void, { id: number, formDa
         }
     });
 
+export const updateIngredientById = createAsyncThunk<IIngredientUpdate, {id: number, data: Object}>(
+    'ingredients/updateIngredientById',
+    async ({id, data}, thunkAPI) => {
+        try {
+            const token = sessionStorage.getItem('quickServeToken');
+            const response = await axios.put(`${updateIngredientEndpoint}/${id}`, data, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+            if (response.data.success) {
+                toast.success(
+                    'Cập nhật nguyên liệu thành công!'
+                );
+            } else {
+                toast.error(`${response.data.errors[0].description}`);
+            }
+            return response.data.data;
+        } catch (error: any) {
+            toast.error(`${error.response.data.errors[0].description}`)
+            return thunkAPI.rejectWithValue(error.response.data);
+        }
+    },
+);
+
 const ingredientSlice = createSlice({
     name: 'ingredients',
     initialState,
@@ -163,6 +192,18 @@ const ingredientSlice = createSlice({
             state.loading = false;
             state.error = action.payload as string[];
         });
+        //action get ingredient
+        builder.addCase(getIngredientById.pending, (state) => {
+            state.loading = true;
+        });
+        builder.addCase(getIngredientById.fulfilled, (state, action) => {
+            state.loading = false;
+            state.ingredient = action.payload;
+        });
+        builder.addCase(getIngredientById.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload as string[];
+        });
         //action delete ingredient
         builder.addCase(deleteIngredient.pending, (state) => {
             state.loading = true;
@@ -172,6 +213,18 @@ const ingredientSlice = createSlice({
             state.success = true;
         });
         builder.addCase(deleteIngredient.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload as string[];
+        });
+        //action update ingredient
+        builder.addCase(updateIngredientById.pending, (state) => {
+            state.loading = true;
+        });
+        builder.addCase(updateIngredientById.fulfilled, (state) => {
+            state.loading = false;
+            state.success = true;
+        });
+        builder.addCase(updateIngredientById.rejected, (state, action) => {
             state.loading = false;
             state.error = action.payload as string[];
         });
