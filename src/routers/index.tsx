@@ -11,6 +11,7 @@ import EmployeeManagement from '../pages/store-manager/employee-management/Emplo
 import CategoryManagement from '../pages/brand-manager/category-management/CategoryManagement';
 import IngredientType from '../pages/brand-manager/ingredient/IngredientType';
 import IngredientList from '../pages/brand-manager/ingredient/IngredientList';
+import ProductTemplate from '../pages/brand-manager/product-template/ProductTemplate';
 
 const AppRouter = () => {
     const token = sessionStorage.getItem('quickServeToken');
@@ -78,6 +79,13 @@ const AppRouter = () => {
                             <Route
                                 path="/ingredients/list-ingredients-type"
                                 element={<IngredientType />}
+                            />  <Route
+                                path="/ingredients/list-ingredients-type"
+                                element={<IngredientType />}
+                            />
+                              <Route
+                                path="/product-template"
+                                element={<ProductTemplate />}
                             />
                         </>
                     )}
