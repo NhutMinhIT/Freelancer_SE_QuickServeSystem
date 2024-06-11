@@ -19,3 +19,18 @@ export interface IProductTemplate {
     lastModified: string;
     category: ICategory;
 }
+export interface IProductTemplateCreate {
+    categoryId: number;
+    name: string;
+    size: string;
+    image: File;
+    price: number;
+    description: string;
+}
+export interface IProductTemplateUpdate {
+    name: string;
+    categoryId: number
+    size: string
+    price: number
+    description: string
+}

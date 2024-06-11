@@ -126,6 +126,7 @@ export const changeImageIngredient = createAsyncThunk<void, { id: number, formDa
             if (response.data.success) {
                 toast.success('Thay đổi hình ảnh thành công !');
             }
+            return response.data.data;
         } catch (error: any) {
             return thunkAPI.rejectWithValue(
                 toast.error(`${error.response.data.errors[0].description}`)
@@ -133,9 +134,9 @@ export const changeImageIngredient = createAsyncThunk<void, { id: number, formDa
         }
     });
 
-export const updateIngredientById = createAsyncThunk<IIngredientUpdate, {id: number, data: Object}>(
+export const updateIngredientById = createAsyncThunk<IIngredientUpdate, { id: number, data: Object }>(
     'ingredients/updateIngredientById',
-    async ({id, data}, thunkAPI) => {
+    async ({ id, data }, thunkAPI) => {
         try {
             const token = sessionStorage.getItem('quickServeToken');
             const response = await axios.put(`${updateIngredientEndpoint}/${id}`, data, {
