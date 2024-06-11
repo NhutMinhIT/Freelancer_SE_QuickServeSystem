@@ -68,7 +68,7 @@ const listMenu = {
         },
         {
             title: 'QL. Mẫu Sản Phẩm',
-            url: '/brand-menu-template',
+            url: '/product-template',
             icon: feedbackIcon,
         },
     ],
