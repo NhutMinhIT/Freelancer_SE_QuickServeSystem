@@ -29,9 +29,9 @@ const PopupUpdateIngredient: React.FC<PopupUpdateIngredientProps> = ({
 }) => {
     const dispatch = useAppDispatch();
     const [isLoading, setIsLoading] = useState(false);
-    
+
     const { ingredientTypes } = useAppSelector((state) => state.ingredientTypes);
-    const  ingredientData  = useAppSelector((state) => state.ingredients.ingredient);
+    const ingredientData = useAppSelector((state) => state.ingredients.ingredient);
     const [ingredientTypeData, setIngredientTypeData] = useState<IIngredientType[] | null>(null);
 
     const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm<FormUpdateIngredientValues>({
@@ -47,7 +47,7 @@ const PopupUpdateIngredient: React.FC<PopupUpdateIngredientProps> = ({
     }, [ingredientTypes]);
 
     useEffect(() => {
-        if(ingredientData){
+        if (ingredientData) {
             setValue('name', ingredientData?.name);
             setValue('price', ingredientData?.price);
             setValue('calo', ingredientData?.calo);
@@ -57,9 +57,9 @@ const PopupUpdateIngredient: React.FC<PopupUpdateIngredientProps> = ({
     }, [ingredientData, setValue])
 
     const onSubmit = (data: FormUpdateIngredientValues) => {
-        setIsLoading(true);              
+        setIsLoading(true);
 
-        dispatch(updateIngredientById({id: ingredientData?.id, data}))
+        dispatch(updateIngredientById({ id: ingredientData?.id as number, data }))
             .unwrap()
             .then(() => {
                 dispatch(getAllIngredients());
