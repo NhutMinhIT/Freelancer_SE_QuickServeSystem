@@ -1,4 +1,4 @@
-import { createAsyncThunk } from "@reduxjs/toolkit"
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { ITemplateStep, ITemplateStepCreate, ITemplateStepRename } from "../../models/TemplateStep"
 import { createTemplateStepEndpoint, deleteTemplateStepEndpoint, getAllTemplateStepsEndpoint, getTemplateStepByIdEndpoint, renameTemplateStepEndpoint } from "../api/apiConfig"
 import axios from "axios"
@@ -7,6 +7,7 @@ import { toast } from "react-toastify"
 type TemplateStep = {
     loading: boolean
     templateSteps: ITemplateStep[] | null
+    templateStep: ITemplateStep | null
     createTemplateStep: ITemplateStepCreate | null
     error: string[] | unknown
     success: boolean
@@ -14,6 +15,7 @@ type TemplateStep = {
 const initialState: TemplateStep = {
     loading: false,
     templateSteps: null,
+    templateStep: null,
     createTemplateStep: null,
     error: null,
     success: false
@@ -133,3 +135,83 @@ export const renameTemplateStep = createAsyncThunk<ITemplateStep, ITemplateStepR
         }
     },
 );
+
+const templateStepSlice = createSlice({
+    name: 'templateSteps',
+    initialState,
+    reducers: {
+        setError: (state, action) => {
+            state.error = action.payload
+        }
+    },
+    extraReducers: (builder) => {
+        //handle get all template steps
+        builder.addCase(getAllTemplateSteps.pending, (state) => {
+            state.loading = true
+        });
+        builder.addCase(getAllTemplateSteps.fulfilled, (state, action) => {
+            state.loading = false
+            state.templateSteps = action.payload
+        });
+        builder.addCase(getAllTemplateSteps.rejected, (state, action) => { // Corrected here
+            state.error = action.payload
+        });
+        //handle get template step by id
+        builder.addCase(getTemplateStep.pending, (state) => {
+            state.loading = true
+        });
+        builder.addCase(getTemplateStep.fulfilled, (state, action) => {
+            state.loading = false
+            state.templateStep = action.payload
+        });
+        builder.addCase(getTemplateStep.rejected, (state, action) => {
+            state.error = action.payload
+        });
+        //handle create template step
+        builder.addCase(createTemplateStep.pending, (state) => {
+            state.loading = true
+        });
+        builder.addCase(createTemplateStep.fulfilled, (state, action) => {
+            state.loading = false
+            state.createTemplateStep = action.payload
+            state.success = true
+        });
+        builder.addCase(createTemplateStep.rejected, (state, action) => {
+            state.loading = false
+            state.error = action.payload
+        });
+        //handle delete template step
+        builder.addCase(deleteTemplateStep.pending, (state) => {
+            state.loading = true
+        });
+        builder.addCase(deleteTemplateStep.fulfilled, (state) => {
+            state.loading = false
+            state.success = true
+        });
+        builder.addCase(deleteTemplateStep.rejected, (state, action) => {
+            state.loading = false
+            state.error = action.payload
+        });
+        //handle rename template step
+        builder.addCase(renameTemplateStep.pending, (state) => {
+            state.loading = true
+        });
+        builder.addCase(renameTemplateStep.fulfilled, (state) => {
+            state.loading = false
+            state.success = true
+        });
+        builder.addCase(renameTemplateStep.rejected, (state, action) => {
+            state.loading = false
+            state.error = action.payload
+        });
+    }
+});
+
+export const { setError } = templateStepSlice.actions
+export default templateStepSlice.reducer
+
+
+
+
+
+

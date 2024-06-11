@@ -1,6 +1,6 @@
 import { XMarkIcon } from "@heroicons/react/16/solid";
 import { useAppSelector } from "../../services/store/store";
-import {formatAnyDate} from "../../utils/index.jsx";
+import { formatAnyDate } from "../../utils/index";
 
 type PopupDetailProductTemplateProps = {
     onPopupProductTemplateDetail: boolean;
@@ -11,7 +11,7 @@ const PopupDetailProductTemplate: React.FC<PopupDetailProductTemplateProps> = ({
     onPopupProductTemplateDetail,
     setOnPopupProductTemplateDetail,
 }) => {
-    const productTemplate = useAppSelector(state=>state.productTemplates.productTemplate);    
+    const productTemplate = useAppSelector(state => state.productTemplates.productTemplate);
     return (
         <div
             className={`fixed z-10 inset-0 overflow-y-auto  ${onPopupProductTemplateDetail ? '' : 'hidden'
@@ -130,7 +130,7 @@ const PopupDetailProductTemplate: React.FC<PopupDetailProductTemplateProps> = ({
                                     </div>
                                     <div>
                                         <span>
-                                            {formatAnyDate(productTemplate?.created)}
+                                            {formatAnyDate(productTemplate?.created ? new Date(productTemplate.created) : undefined)}
                                         </span>
                                     </div>
                                     <div>
@@ -151,8 +151,7 @@ const PopupDetailProductTemplate: React.FC<PopupDetailProductTemplateProps> = ({
                                     </div>
                                     <div>
                                         <span>
-                                           {formatAnyDate(productTemplate?.lastModified)}
-                                        </span>
+                                            {formatAnyDate(productTemplate?.lastModified ? new Date(productTemplate.lastModified) : undefined)}                                        </span>
                                     </div>
                                     <div>
                                         <span className="text-sm text-black-500 font-bold">
@@ -161,7 +160,7 @@ const PopupDetailProductTemplate: React.FC<PopupDetailProductTemplateProps> = ({
                                     </div>
                                     <div className="w-auto flex gap-4">
                                         <button
-                                            onClick={()=>{}}
+                                            onClick={() => { }}
                                             className="text-xs w-auto border border-red-500 px-2 py-1 bg-orange-500 text-white font-bold rounded-lg"
                                         >
                                             Xem các ảnh
