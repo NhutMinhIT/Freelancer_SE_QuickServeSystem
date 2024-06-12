@@ -87,6 +87,10 @@ const AppRouter = () => {
                                 path="/product-template"
                                 element={<ProductTemplate />}
                             />
+                               <Route
+                                path="/product-template-step/:id"
+                                element={<h1>Hello</h1>}
+                            />
                         </>
                     )}
                     {/* Page Not Found */}

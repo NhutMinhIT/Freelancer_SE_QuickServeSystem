@@ -1,5 +1,6 @@
 import { XMarkIcon } from "@heroicons/react/16/solid";
 import { IIngredient } from "../../models/Ingredient";
+import { formatAnyDate } from "../../utils";
 
 type PopupDetailIngredientProps = {
     ingredient: IIngredient | null;
@@ -136,13 +137,7 @@ const PopupDetailIngredient: React.FC<PopupDetailIngredientProps> = ({
                                     </div>
                                     <div>
                                         <span>
-                                            {typeof ingredient?.created === 'string'
-                                                ? new Date(
-                                                    ingredient.created,
-                                                ).toLocaleDateString('vi-VN')
-                                                : ingredient?.created.toLocaleDateString(
-                                                    'vi-VN',
-                                                )}
+                                        {formatAnyDate(ingredient?.created ? new Date(ingredient.created) : undefined)}
                                         </span>
                                     </div>
                                     <div>
@@ -163,19 +158,12 @@ const PopupDetailIngredient: React.FC<PopupDetailIngredientProps> = ({
                                     </div>
                                     <div>
                                         <span>
-                                            {ingredient?.lastModified &&
-                                                ingredient.lastModified !== ''
-                                                ? typeof ingredient.lastModified ===
-                                                    'string'
-                                                    ? new Date(
-                                                        ingredient.lastModified,
-                                                    ).toLocaleDateString(
-                                                        'vi-VN',
-                                                    )
-                                                    : ingredient?.lastModified.toLocaleDateString(
-                                                        'vi-VN',
-                                                    )
-                                                : 'Chưa có thay đổi'}
+                                        <span>
+                                            {ingredient?.lastModified !== null 
+                                            ? (formatAnyDate(ingredient?.lastModified ? new Date(ingredient.lastModified) : undefined))
+                                            : 'Chưa có thay đổi'
+                                            }
+                                        </span>
                                         </span>
                                     </div>
                                     <div>

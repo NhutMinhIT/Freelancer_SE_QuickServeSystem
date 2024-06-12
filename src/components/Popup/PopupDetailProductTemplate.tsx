@@ -5,13 +5,21 @@ import { formatAnyDate } from "../../utils/index";
 type PopupDetailProductTemplateProps = {
     onPopupProductTemplateDetail: boolean;
     setOnPopupProductTemplateDetail: React.Dispatch<React.SetStateAction<boolean>>
+    onProductTemplateStep: (id: number) => void;
 }
 
 const PopupDetailProductTemplate: React.FC<PopupDetailProductTemplateProps> = ({
     onPopupProductTemplateDetail,
     setOnPopupProductTemplateDetail,
+    onProductTemplateStep
 }) => {
     const productTemplate = useAppSelector(state => state.productTemplates.productTemplate);
+
+    const handleProductTemplateStep = () => {
+        if (productTemplate?.id !== undefined) {
+            onProductTemplateStep(productTemplate.id);
+        }
+    };
     return (
         <div
             className={`fixed z-10 inset-0 overflow-y-auto  ${onPopupProductTemplateDetail ? '' : 'hidden'
@@ -151,7 +159,11 @@ const PopupDetailProductTemplate: React.FC<PopupDetailProductTemplateProps> = ({
                                     </div>
                                     <div>
                                         <span>
-                                            {formatAnyDate(productTemplate?.lastModified ? new Date(productTemplate.lastModified) : undefined)}                                        </span>
+                                            {productTemplate?.lastModified !== null 
+                                            ? (formatAnyDate(productTemplate?.lastModified ? new Date(productTemplate.lastModified) : undefined))
+                                            : 'Chưa có thay đổi'
+                                            }
+                                        </span>
                                     </div>
                                     <div>
                                         <span className="text-sm text-black-500 font-bold">
@@ -160,10 +172,10 @@ const PopupDetailProductTemplate: React.FC<PopupDetailProductTemplateProps> = ({
                                     </div>
                                     <div className="w-auto flex gap-4">
                                         <button
-                                            onClick={() => { }}
+                                            onClick={handleProductTemplateStep}
                                             className="text-xs w-auto border border-red-500 px-2 py-1 bg-orange-500 text-white font-bold rounded-lg"
                                         >
-                                            Xem các ảnh
+                                            Xem các bước
                                         </button>
                                     </div>
                                 </div>
