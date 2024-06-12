@@ -11,6 +11,7 @@ import PopupDetailIngredient from '../../Popup/PopupDetailIngredient';
 import PopupCheck from '../../Popup/PopupCheck';
 import PopupChangeImageIngredient from '../../Popup/PopupChangeImageIngredient';
 import PopupUpdateIngredient from '../../Popup/PopupUpdateIngredient';
+import { formatAnyDate } from '../../../utils';
 
 const columns: MRT_ColumnDef<IIngredient>[] = [
     {
@@ -53,10 +54,8 @@ const columns: MRT_ColumnDef<IIngredient>[] = [
         accessorKey: 'created',
         header: 'Ngày tạo',
         Cell: ({ cell }) => {
-            const created = cell.row.original.created;
-            return typeof created === 'string'
-                ? created.split('T')[0]
-                : new Date(created).toISOString().split('T')[0];
+            return formatAnyDate(new Date(cell.row.original.created));
+           
         },
     },
     {
@@ -67,9 +66,7 @@ const columns: MRT_ColumnDef<IIngredient>[] = [
             if (!lastModified) {
                 return 'Chưa có thay đổi';
             }
-            return typeof lastModified === 'string'
-                ? lastModified.split('T')[0]
-                : new Date(lastModified).toISOString().split('T')[0];
+            return formatAnyDate(new Date(cell.row.original.lastModified))
         },
     },
 ];

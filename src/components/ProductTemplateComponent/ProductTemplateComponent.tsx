@@ -9,6 +9,8 @@ import { IProductTemplate } from '../../models/ProductTemplate';
 import CommonTable from '../CommonTable/CommonTable';
 import { getAllProductTemplates, getProductTemplateById } from '../../services/features/productTemplateSlice';
 import PopupDetailProductTemplate from '../Popup/PopupDetailProductTemplate';
+import { formatAnyDate } from '../../utils';
+import { useNavigate } from 'react-router-dom';
 
 const columns: MRT_ColumnDef<IProductTemplate>[] = [
     {
@@ -55,17 +57,14 @@ const columns: MRT_ColumnDef<IProductTemplate>[] = [
             accessorKey: 'created',
             header: 'Ngày tạo',
             Cell: ({ cell }) => {
-                const created = cell.row.original.created;
-                return typeof created === 'string'
-                    ? created.split('T')[0]
-                    : new Date(created).toISOString().split('T')[0];
+                return formatAnyDate(new Date(cell.row.original.created));
             },
         },
-
 ];
 
 const ProductTemplateComponent = () => {
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
     const { productTemplates } = useAppSelector((state) => state.productTemplates);
 
     const [onPopupProductTemplateDetail, setOnPopupProductTemplateDetail] = useState<boolean>(false);
@@ -77,6 +76,10 @@ const ProductTemplateComponent = () => {
     const handleShowPopupProductTemplateDetail = (productTemplate: IProductTemplate) => {
         dispatch(getProductTemplateById({id: productTemplate.id}))
         setOnPopupProductTemplateDetail(true);
+    }
+
+    const handleProductTemplateStep = (id: number) => {
+        navigate(`/product-template-step/${id}`);
     }
 
 
@@ -102,6 +105,7 @@ const ProductTemplateComponent = () => {
             <PopupDetailProductTemplate
                 onPopupProductTemplateDetail={onPopupProductTemplateDetail}
                 setOnPopupProductTemplateDetail={setOnPopupProductTemplateDetail}
+                onProductTemplateStep={handleProductTemplateStep}
             />
         </Stack>
     );
