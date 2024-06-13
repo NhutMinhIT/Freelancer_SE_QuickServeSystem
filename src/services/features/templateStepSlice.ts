@@ -21,9 +21,9 @@ const initialState: TemplateStep = {
     success: false
 }
 
-export const getAllTemplateSteps = createAsyncThunk<ITemplateStep[], {id: number}>(
+export const getAllTemplateSteps = createAsyncThunk<ITemplateStep[], { id: number }>(
     'templateSteps/getAllTemplateSteps',
-    async ({id}, thunkAPI) => {
+    async ({ id }, thunkAPI) => {
         try {
             const token = sessionStorage.getItem('quickServeToken')
             const response = await axios.get(`${getAllTemplateStepsEndpoint}?ProductTemplateId=${id}`, {

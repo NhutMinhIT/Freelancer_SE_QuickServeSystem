@@ -15,7 +15,7 @@ type FormRenameTemplateStepValues = {
     name: string;
 }
 
-const PopupRenameTemplateStep: React.FC<FormRenameTemplateStepProps> = ({ open, onClose}) => {
+const PopupRenameTemplateStep: React.FC<FormRenameTemplateStepProps> = ({ open, onClose }) => {
     const dispatch = useAppDispatch();
     const [isLoading, setIsLoading] = useState(false);
 
@@ -23,14 +23,14 @@ const PopupRenameTemplateStep: React.FC<FormRenameTemplateStepProps> = ({ open, 
 
     const { register, handleSubmit, reset, formState: { errors } } = useForm<FormRenameTemplateStepValues>({ defaultValues: { id: undefined, name: undefined } });
     const onSubmit = (data: FormRenameTemplateStepValues) => {
-        setIsLoading(true);        
+        setIsLoading(true);
 
-        const dataSend = {id: templateStep?.id as number, name: data?.name};
+        const dataSend = { id: templateStep?.id as number, name: data?.name };
         dispatch(renameTemplateStep(dataSend))
             .unwrap()
             .then(() => {
                 onClose();
-                dispatch(getAllTemplateSteps({ id: templateStep?.productTemplateId as number}));
+                dispatch(getAllTemplateSteps({ id: templateStep?.productTemplateId as number }));
                 reset({ id: undefined, name: '' });
             })
             .catch((error) => console.log(error))
