@@ -12,6 +12,7 @@ import CategoryManagement from '../pages/brand-manager/category-management/Categ
 import IngredientType from '../pages/brand-manager/ingredient/IngredientType';
 import IngredientList from '../pages/brand-manager/ingredient/IngredientList';
 import ProductTemplate from '../pages/brand-manager/product-template/ProductTemplate';
+import TemplateStep from '../pages/brand-manager/tempate-steps/TemplateStep';
 
 const AppRouter = () => {
     const token = sessionStorage.getItem('quickServeToken');
@@ -83,13 +84,13 @@ const AppRouter = () => {
                                 path="/ingredients/list-ingredients-type"
                                 element={<IngredientType />}
                             />
-                              <Route
+                            <Route
                                 path="/product-template"
                                 element={<ProductTemplate />}
                             />
-                               <Route
+                            <Route
                                 path="/product-template-step/:id"
-                                element={<h1>Hello</h1>}
+                                element={<TemplateStep />}
                             />
                         </>
                     )}

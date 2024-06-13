@@ -159,9 +159,9 @@ const PopupDetailProductTemplate: React.FC<PopupDetailProductTemplateProps> = ({
                                     </div>
                                     <div>
                                         <span>
-                                            {productTemplate?.lastModified !== null 
-                                            ? (formatAnyDate(productTemplate?.lastModified ? new Date(productTemplate.lastModified) : undefined))
-                                            : 'Chưa có thay đổi'
+                                            {productTemplate?.lastModified !== null
+                                                ? (formatAnyDate(productTemplate?.lastModified ? new Date(productTemplate.lastModified) : undefined))
+                                                : 'Chưa có thay đổi'
                                             }
                                         </span>
                                     </div>
