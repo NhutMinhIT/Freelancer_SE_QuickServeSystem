@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../services/store/store";
-import { IProductTemplate } from "../../models/ProductTemplate";
 import { Resolver, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schemaCreateProductTemplate } from "../../schemas/schemaProductTemplate";
