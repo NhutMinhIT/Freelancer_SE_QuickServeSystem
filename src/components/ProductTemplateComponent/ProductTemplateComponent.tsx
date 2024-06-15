@@ -13,6 +13,7 @@ import { formatAnyDate } from '../../utils';
 import { useNavigate } from 'react-router-dom';
 import PopupCerateProductTemplate from '../Popup/PopupCerateProductTemplate';
 import PopupCheck from '../Popup/PopupCheck';
+import PopupChangeImageProductTemplate from '../Popup/PopupChangeImageProductTemplate';
 
 const columns: MRT_ColumnDef<IProductTemplate>[] = [
     {
@@ -161,6 +162,16 @@ const ProductTemplateComponent = () => {
                         onUpdate={() => {
                             handleOpenPopupUpdateProductTempalte()
                         }}
+                    />
+                    <PopupChangeImageProductTemplate
+                        onClosePopupDetail={() =>
+                            setOnPopupProductTemplateDetail(false)
+                        }
+                        open={openPopupChangeImage}
+                        closePopup={() => setOpenPopupChangeImage(false)}
+                        imageUrl={productTemplateData?.imageUrl ?? ''}
+                        productTemplateID={productTemplateData?.id}
+                        name={productTemplateData?.name ?? ''}
                     />
                 </>)}
             <PopupCheck

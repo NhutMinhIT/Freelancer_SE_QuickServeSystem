@@ -118,7 +118,7 @@ export const changeImageProductTempalte = createAsyncThunk<void, { id: number, f
                 },
             });
             if (response.data.success) {
-                toast.success('Xóa loại mẫu sản phẩm thành công !');
+                toast.success('Cập nhật hình ảnh mẫu sản phẩm thành công !');
             } else {
                 toast.error(`${response.data.errors[0].description}`);
             }
