@@ -3,10 +3,11 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../services/store/store";
 import { deleteTemplateStep, getAllTemplateSteps, getTemplateStep } from "../../services/features/templateStepSlice";
-import { CircularProgress, Paper, Typography } from "@mui/material";
+import { Button, CircularProgress, Paper, Typography } from "@mui/material";
 import { formatAnyDate } from "../../utils";
 import PopupRenameTemplateStep from "../Popup/PopupRenameTemplateStep";
 import PopupCheck from "../Popup/PopupCheck";
+import PopupCreateTemplateStep from "../Popup/PopupCreateTemplateStep";
 
 const TemplateStepList = () => {
     const params = useParams();
@@ -20,8 +21,9 @@ const TemplateStepList = () => {
 
     const [openPopupUpdateName, setOpenPopupUpdateName] = useState<boolean>(false);
     const [openPopupDeleteStep, setOpenPopupDeleteStep] = useState<boolean>(false);
+    const [isPopupCreateOpen, setIsPopupCreateOpen] = useState(false);
 
-    const productTemplateId = params.id && parseInt(params.id);
+    const productTemplateId = params.id && parseInt(params.id) as number;
 
     useEffect(() => {
         if (productTemplateId) {
@@ -29,6 +31,10 @@ const TemplateStepList = () => {
         }
     }, [dispatch, productTemplateId])
 
+
+    const handleOpenPopupCreate = () => {
+        setIsPopupCreateOpen(true);
+    };
     const handleUpdateName = (templateStepId: number) => {
         dispatch(getTemplateStep({ id: templateStepId }));
         setOpenPopupUpdateName(true);
@@ -56,15 +62,37 @@ const TemplateStepList = () => {
             });
     }
 
+
     return (
         <div className="mt-5">
             {loading && (
                 <div className="fixed inset-0 flex items-center justify-center bg-gray-50 bg-opacity-50 z-50">
                     <CircularProgress color="secondary" />
                 </div>)}
-            <div className="flex">
-                <MapIcon width={32} height={32} className="text-orange-500" />
-                <h3 className="text-3xl font-bold ml-6">Các Bước Mẫu  {productTemplate?.name}</h3>
+            <div className="flex justify-between">
+                <div className="flex">
+                    <MapIcon width={32} height={32} className="text-orange-500" />
+                    <h3 className="text-3xl font-bold ml-6">Các Bước Mẫu  {productTemplate?.name}</h3>
+                </div>
+                <div>
+                    <Button
+
+                        variant="contained"
+                        onClick={handleOpenPopupCreate}
+                        sx={{
+                            color: 'black',
+                            backgroundColor: 'orange',
+                            marginRight: '1rem'
+                        }}
+                    >
+                        Thêm mẫu sản phẩm
+                    </Button>
+                </div>
+                <PopupCreateTemplateStep
+                    productTemplateId={productTemplateId || 0}
+                    isPopupOpen={isPopupCreateOpen}
+                    closePopup={() => setIsPopupCreateOpen(false)}
+                />
             </div>
             {templateSteps && templateSteps.length > 0 ? (
                 <div className="grid grid-cols-3 gap-4 overflow-y-hidden">
