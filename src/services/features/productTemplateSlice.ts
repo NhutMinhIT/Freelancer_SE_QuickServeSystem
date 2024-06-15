@@ -95,7 +95,10 @@ export const deleteProductTemplate = createAsyncThunk<void, { id: number }>(
             });
             if (response.data.success) {
                 toast.success('Xóa loại mẫu sản phẩm thành công !');
+            } else {
+                toast.error(`${response.data.errors[0].description}`);
             }
+            return response.data.data;
         } catch (error: any) {
             return thunkAPI.rejectWithValue(
                 toast.error(`${error.response.data.errors[0].description}`)
@@ -115,7 +118,9 @@ export const changeImageProductTempalte = createAsyncThunk<void, { id: number, f
                 },
             });
             if (response.data.success) {
-                toast.success('Thay đổi hình ảnh mẫu sản phẩm thành công !');
+                toast.success('Xóa loại mẫu sản phẩm thành công !');
+            } else {
+                toast.error(`${response.data.errors[0].description}`);
             }
             return response.data.data;
         } catch (error: any) {

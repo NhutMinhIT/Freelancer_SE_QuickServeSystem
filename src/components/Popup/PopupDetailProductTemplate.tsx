@@ -6,12 +6,19 @@ type PopupDetailProductTemplateProps = {
     onPopupProductTemplateDetail: boolean;
     setOnPopupProductTemplateDetail: React.Dispatch<React.SetStateAction<boolean>>
     onProductTemplateStep: (id: number) => void;
+    onDelete: () => void;
+    onChangeImage: () => void;
+    onUpdate: () => void;
 }
+
 
 const PopupDetailProductTemplate: React.FC<PopupDetailProductTemplateProps> = ({
     onPopupProductTemplateDetail,
     setOnPopupProductTemplateDetail,
-    onProductTemplateStep
+    onProductTemplateStep,
+    onDelete,
+    onChangeImage,
+    onUpdate
 }) => {
     const productTemplate = useAppSelector(state => state.productTemplates.productTemplate);
 
@@ -173,9 +180,28 @@ const PopupDetailProductTemplate: React.FC<PopupDetailProductTemplateProps> = ({
                                     <div className="w-auto flex gap-4">
                                         <button
                                             onClick={handleProductTemplateStep}
-                                            className="text-xs w-auto border border-red-500 px-2 py-1 bg-orange-500 text-white font-bold rounded-lg"
+                                            className="text-xs w-auto border border-neutral-950 px-2 py-1 bg-neutral-700 text-white-500 font-bold rounded-lg"
                                         >
                                             Xem các bước
+                                        </button>
+                                        <button
+                                            onClick={onChangeImage}
+                                            className="text-xs w-auto border border-red-500 px-2 py-1 bg-orange-500 text-white-500 font-bold rounded-lg"
+                                        >
+                                            Thay đổi ảnh mẫu
+                                        </button>
+
+                                        <button
+                                            onClick={onDelete}
+                                            className="text-xs w-24 border border-red-500 p-1 bg-red-500 ttext-white-500 font-bold rounded-lg"
+                                        >
+                                            Xoá
+                                        </button>
+                                        <button
+                                            onClick={onUpdate}
+                                            className="text-xs w-24 border border-blue-500 p-1 bg-blue-500 text-white-500 font-bold rounded-lg"
+                                        >
+                                            Sửa thông tin
                                         </button>
                                     </div>
                                 </div>

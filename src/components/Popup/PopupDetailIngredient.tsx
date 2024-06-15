@@ -18,7 +18,7 @@ const PopupDetailIngredient: React.FC<PopupDetailIngredientProps> = ({
     onDelete,
     onChangeImage,
     onUpdate
-}) => {    
+}) => {
     return (
         <div
             className={`fixed z-10 inset-0 overflow-y-auto  ${onPopupIngredientDetail ? '' : 'hidden'
@@ -137,7 +137,7 @@ const PopupDetailIngredient: React.FC<PopupDetailIngredientProps> = ({
                                     </div>
                                     <div>
                                         <span>
-                                        {formatAnyDate(ingredient?.created ? new Date(ingredient.created) : undefined)}
+                                            {formatAnyDate(ingredient?.created ? new Date(ingredient.created) : undefined)}
                                         </span>
                                     </div>
                                     <div>
@@ -158,12 +158,12 @@ const PopupDetailIngredient: React.FC<PopupDetailIngredientProps> = ({
                                     </div>
                                     <div>
                                         <span>
-                                        <span>
-                                            {ingredient?.lastModified !== null 
-                                            ? (formatAnyDate(ingredient?.lastModified ? new Date(ingredient.lastModified) : undefined))
-                                            : 'Chưa có thay đổi'
-                                            }
-                                        </span>
+                                            <span>
+                                                {ingredient?.lastModified !== null
+                                                    ? (formatAnyDate(ingredient?.lastModified ? new Date(ingredient.lastModified) : undefined))
+                                                    : 'Chưa có thay đổi'
+                                                }
+                                            </span>
                                         </span>
                                     </div>
                                     <div>
@@ -174,20 +174,20 @@ const PopupDetailIngredient: React.FC<PopupDetailIngredientProps> = ({
                                     <div className="w-auto flex gap-4">
                                         <button
                                             onClick={onChangeImage}
-                                            className="text-xs w-auto border border-red-500 px-2 py-1 bg-orange-500 text-white font-bold rounded-lg"
+                                            className="text-xs w-auto border border-red-500 px-2 py-1 bg-orange-500 text-white-500 font-bold rounded-lg"
                                         >
                                             Thay đổi ảnh mẫu
                                         </button>
 
                                         <button
                                             onClick={onDelete}
-                                            className="text-xs w-24 border border-red-500 p-1 bg-red-500 text-white font-bold rounded-lg"
+                                            className="text-xs w-24 border border-red-500 p-1 bg-red-500 text-white-500 font-bold rounded-lg"
                                         >
                                             Xoá
                                         </button>
                                         <button
                                             onClick={onUpdate}
-                                            className="text-xs w-24 border border-blue-500 p-1 bg-blue-500 text-white font-bold rounded-lg"
+                                            className="text-xs w-24 border border-blue-500 p-1 bg-blue-500 text-white-500 font-bold rounded-lg"
                                         >
                                             Sửa thông tin
                                         </button>
