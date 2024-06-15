@@ -14,6 +14,7 @@ import { useNavigate } from 'react-router-dom';
 import PopupCerateProductTemplate from '../Popup/PopupCerateProductTemplate';
 import PopupCheck from '../Popup/PopupCheck';
 import PopupChangeImageProductTemplate from '../Popup/PopupChangeImageProductTemplate';
+import PopupUpdateProductTemplate from '../Popup/PopupUpdateProductTemplate';
 
 const columns: MRT_ColumnDef<IProductTemplate>[] = [
     {
@@ -29,12 +30,9 @@ const columns: MRT_ColumnDef<IProductTemplate>[] = [
         header: 'Tên sản phẩm',
     },
     {
-        accessorKey: 'quantity',
-        header: 'Số lượng',
-    },
-    {
         accessorKey: 'size',
         header: 'Kích thước',
+        Cell: ({ cell }) => cell.row.original.size === 'small' ? 'Nhỏ' : cell.row.original.size === 'medium' ? 'Vừa' : 'Lớn',
     },
     {
         accessorKey: 'status',
@@ -172,6 +170,13 @@ const ProductTemplateComponent = () => {
                         imageUrl={productTemplateData?.imageUrl ?? ''}
                         productTemplateID={productTemplateData?.id}
                         name={productTemplateData?.name ?? ''}
+                    />
+                    <PopupUpdateProductTemplate
+                        onClosePopupDetail={() =>
+                            setOnPopupProductTemplateDetail(false)
+                        }
+                        open={openPopupUpdateProductTemplate}
+                        closePopup={() => setOpenPopupUpdateProductTemplate(false)}
                     />
                 </>)}
             <PopupCheck

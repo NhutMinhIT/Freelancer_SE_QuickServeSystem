@@ -39,3 +39,11 @@ export const schemaCreateProductTemplate = yup.object().shape({
     price: priceSchema,
     description: descriptionSchema,
 });
+
+export const schemaUpdateProductTemplate = yup.object().shape({
+    categoryId: categoryIdSchema,
+    name: nameSchema,
+    size: sizeSchema,
+    price: priceSchema,
+    description: descriptionSchema,
+});
