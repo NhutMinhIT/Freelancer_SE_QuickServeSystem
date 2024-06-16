@@ -81,7 +81,7 @@ const PopupDetailIngredient: React.FC<PopupDetailIngredientProps> = ({
                                     </div>
                                     <div>
                                         <img
-                                            src={ingredient?.imageUrl}
+                                            src={`${ingredient?.imageUrl}?t=${new Date().getTime()}`}
                                             alt="Simple image"
                                             className="w-24 h-24 object-cover"
                                         />

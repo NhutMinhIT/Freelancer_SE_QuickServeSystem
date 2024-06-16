@@ -2,6 +2,7 @@ export const BASE_URL = 'https://quick-serve-server.azurewebsites.net/api/v1';
 
 //Athentication endpoints
 export const loginEndpoint = `${BASE_URL}/Accounts/authenticate`;
+export const refreshTokenEndpoint = `${BASE_URL}/Accounts/refresh`;
 export const registerAccountByAdminEndpoint = `${BASE_URL}/Accounts`;
 
 //User endpoints

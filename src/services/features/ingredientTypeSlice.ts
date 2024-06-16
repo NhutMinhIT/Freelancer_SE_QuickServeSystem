@@ -3,7 +3,6 @@ import {
     IIngredientType,
     IIngredientTypeCreate,
 } from '../../models/Ingredient';
-import axios from 'axios';
 import {
     createIngredientTypeEndpoint,
     deleteIngredientTypeEndpoint,
@@ -13,6 +12,7 @@ import {
     updateStatusIngredientType,
 } from '../api/apiConfig';
 import { toast } from 'react-toastify';
+import axiosInstance from '../api/axiosInstance';
 
 type IngredientTypeState = {
     loading: boolean;
@@ -34,7 +34,7 @@ export const getAllIngredientTypes = createAsyncThunk<IIngredientType[], void>(
     async (_, thunkAPI) => {
         try {
             const token = sessionStorage.getItem('quickServeToken');
-            const response = await axios.get(getAllIngredientTypesEndpoint, {
+            const response = await axiosInstance.get(getAllIngredientTypesEndpoint, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -52,7 +52,7 @@ export const getIngredientTypeById = createAsyncThunk<IIngredientType, { id: num
     async ({ id }, thunkAPI) => {
         try {
             const token = sessionStorage.getItem('quickServeToken');
-            const response = await axios.get(`${getIngredientTypeByIdEndpoint}/${id}`, {
+            const response = await axiosInstance.get(`${getIngredientTypeByIdEndpoint}/${id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -72,7 +72,7 @@ export const createIngredientType = createAsyncThunk<
 >('ingredientTypes/createIngredientType', async (ingredientType, thunkAPI) => {
     try {
         const token = sessionStorage.getItem('quickServeToken');
-        const response = await axios.post(
+        const response = await axiosInstance.post(
             createIngredientTypeEndpoint,
             ingredientType,
             {
@@ -99,7 +99,7 @@ export const updateStatusIngredientTypeById = createAsyncThunk<IIngredientType, 
     async ({ id }, thunkAPI) => {
         try {
             const token = sessionStorage.getItem('quickServeToken');
-            const response = await axios.put(
+            const response = await axiosInstance.put(
                 `${updateStatusIngredientType}/${id}/status`,
                 {},
                 {
@@ -127,7 +127,7 @@ export const deleteIngredientTypeById = createAsyncThunk<void, { id: number }>(
     async ({ id }, thunkAPI) => {
         try {
             const token = sessionStorage.getItem('quickServeToken');
-            const response = await axios.delete(`${deleteIngredientTypeEndpoint}/${id}`, {
+            const response = await axiosInstance.delete(`${deleteIngredientTypeEndpoint}/${id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -147,7 +147,7 @@ export const renameIngredientType = createAsyncThunk<IIngredientType, { id: numb
     async ({ id, name }, thunkAPI) => {
         try {
             const token = sessionStorage.getItem('quickServeToken');
-            const response = await axios.put(
+            const response = await axiosInstance.put(
                 `${renameIngredientTypeEndpoint}/${id}`,
                 { id, name },
                 {

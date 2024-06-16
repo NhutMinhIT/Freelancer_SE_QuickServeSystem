@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { IProductTemplate, IProductTemplateCreate, IProductTemplateUpdate } from "../../models/ProductTemplate";
-import axios from "axios";
 import { getAllProductTemplatesEndpoint, getProductTemplateByIdEndpoint, createProductTemplateEndpoint, deleteProductTemplateEndpoint, changeImageProductTemplateEndpoint, updateProductTemplateEndpoint } from "../api/apiConfig";
 import { toast } from "react-toastify";
+import axiosInstance from "../api/axiosInstance";
 
 type ProductTemplateSate = {
     loading: boolean;
@@ -25,7 +25,7 @@ export const getAllProductTemplates = createAsyncThunk<IProductTemplate[], void>
     async (_, thunkAPI) => {
         try {
             const token = sessionStorage.getItem('quickServeToken');
-            const response = await axios.get(getAllProductTemplatesEndpoint, {
+            const response = await axiosInstance.get(getAllProductTemplatesEndpoint, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -44,7 +44,7 @@ export const getProductTemplateById = createAsyncThunk<IProductTemplate, { id: n
         const { id } = data;
         try {
             const token = sessionStorage.getItem('quickServeToken');
-            const response = await axios.get(`${getProductTemplateByIdEndpoint}/${id}`, {
+            const response = await axiosInstance.get(`${getProductTemplateByIdEndpoint}/${id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -62,7 +62,7 @@ export const createProductTemplate = createAsyncThunk<IProductTemplateCreate, Fo
     async (data, thunkAPI) => {
         try {
             const token = sessionStorage.getItem('quickServeToken');
-            const response = await axios.post(createProductTemplateEndpoint, data, {
+            const response = await axiosInstance.post(createProductTemplateEndpoint, data, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -88,7 +88,7 @@ export const deleteProductTemplate = createAsyncThunk<void, { id: number }>(
         const { id } = data;
         try {
             const token = sessionStorage.getItem('quickServeToken');
-            const response = await axios.delete(`${deleteProductTemplateEndpoint}/${id}`, {
+            const response = await axiosInstance.delete(`${deleteProductTemplateEndpoint}/${id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -111,7 +111,7 @@ export const changeImageProductTempalte = createAsyncThunk<void, { id: number, f
     async (data, thunkAPI) => {
         try {
             const token = sessionStorage.getItem('quickServeToken');
-            const response = await axios.put(`${changeImageProductTemplateEndpoint}/${data.id}/image`, data.formData, {
+            const response = await axiosInstance.put(`${changeImageProductTemplateEndpoint}/${data.id}/image`, data.formData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'multipart/form-data',
@@ -136,7 +136,7 @@ export const updateProductTemplateById = createAsyncThunk<IProductTemplateUpdate
     async ({ id, data }, thunkAPI) => {
         try {
             const token = sessionStorage.getItem('quickServeToken');
-            const response = await axios.put(`${updateProductTemplateEndpoint}/${id}`, data, {
+            const response = await axiosInstance.put(`${updateProductTemplateEndpoint}/${id}`, data, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json',

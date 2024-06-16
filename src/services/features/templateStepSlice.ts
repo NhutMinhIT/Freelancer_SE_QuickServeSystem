@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { ITemplateStep, ITemplateStepCreate, ITemplateStepRename } from "../../models/TemplateStep"
 import { createTemplateStepEndpoint, deleteTemplateStepEndpoint, getAllTemplateStepsEndpoint, getTemplateStepByIdEndpoint, renameTemplateStepEndpoint } from "../api/apiConfig"
-import axios from "axios"
 import { toast } from "react-toastify"
+import axiosInstance from "../api/axiosInstance"
 
 type TemplateStep = {
     loading: boolean
@@ -26,7 +26,7 @@ export const getAllTemplateSteps = createAsyncThunk<ITemplateStep[], { id: numbe
     async ({ id }, thunkAPI) => {
         try {
             const token = sessionStorage.getItem('quickServeToken')
-            const response = await axios.get(`${getAllTemplateStepsEndpoint}?ProductTemplateId=${id}`, {
+            const response = await axiosInstance.get(`${getAllTemplateStepsEndpoint}?ProductTemplateId=${id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -44,7 +44,7 @@ export const getTemplateStep = createAsyncThunk<ITemplateStep, { id: number }>(
         const { id } = data;
         try {
             const token = sessionStorage.getItem('quickServeToken');
-            const response = await axios.get(`${getTemplateStepByIdEndpoint}/${id}`, {
+            const response = await axiosInstance.get(`${getTemplateStepByIdEndpoint}/${id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -63,7 +63,7 @@ export const createTemplateStep = createAsyncThunk<ITemplateStepCreate, Object>(
     async (templateStep, thunkAPI) => {
         try {
             const token = sessionStorage.getItem('quickServeToken');
-            const response = await axios.post(
+            const response = await axiosInstance.post(
                 createTemplateStepEndpoint,
                 templateStep,
                 {
@@ -91,7 +91,7 @@ export const deleteTemplateStep = createAsyncThunk<void, { id: number }>(
     async ({ id }, thunkAPI) => {
         try {
             const token = sessionStorage.getItem('quickServeToken');
-            const response = await axios.delete(`${deleteTemplateStepEndpoint}/${id}`, {
+            const response = await axiosInstance.delete(`${deleteTemplateStepEndpoint}/${id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -114,7 +114,7 @@ export const renameTemplateStep = createAsyncThunk<ITemplateStep, ITemplateStepR
     async ({ id, name }, thunkAPI) => {
         try {
             const token = sessionStorage.getItem('quickServeToken');
-            const response = await axios.put(
+            const response = await axiosInstance.put(
                 `${renameTemplateStepEndpoint}/${id}`,
                 { id, name },
                 {
