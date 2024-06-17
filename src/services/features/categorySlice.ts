@@ -4,7 +4,6 @@ import {
     ICategoryCreate,
     ICategoryRename,
 } from '../../models/Categoty';
-import axios from 'axios';
 import {
     createCategoryEndpoint,
     deleteCategoryEndpoint,
@@ -13,6 +12,7 @@ import {
     updateStatusCategoryEndpoint,
 } from '../api/apiConfig';
 import { toast } from 'react-toastify';
+import axiosInstance from '../api/axiosInstance';
 
 type CategoryState = {
     loading: boolean;
@@ -34,7 +34,7 @@ export const getAllCategories = createAsyncThunk<ICategory[], void>(
     async (_, thunkAPI) => {
         try {
             const token = sessionStorage.getItem('quickServeToken');
-            const response = await axios.get(getAllCategoriesEndpoint, {
+            const response = await axiosInstance.get(getAllCategoriesEndpoint, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -50,7 +50,7 @@ export const createCategory = createAsyncThunk<ICategoryCreate, Object>(
     async (category, thunkAPI) => {
         try {
             const token = sessionStorage.getItem('quickServeToken');
-            const response = await axios.post(
+            const response = await axiosInstance.post(
                 createCategoryEndpoint,
                 category,
                 {
@@ -80,7 +80,7 @@ export const updateStatusCategoryById = createAsyncThunk<
 >('categories/updateStatusCategoryById', async ({ id }, thunkAPI) => {
     try {
         const token = sessionStorage.getItem('quickServeToken');
-        const response = await axios.put(
+        const response = await axiosInstance.put(
             `${updateStatusCategoryEndpoint}/${id}/status`,
             {},
             {
@@ -105,7 +105,7 @@ export const deleteCategoryById = createAsyncThunk<void, { id: number }>(
     async ({ id }, thunkAPI) => {
         try {
             const token = sessionStorage.getItem('quickServeToken');
-            const response = await axios.delete(
+            const response = await axiosInstance.delete(
                 `${deleteCategoryEndpoint}/${id}`,
                 {
                     headers: {
@@ -130,7 +130,7 @@ export const renameCategory = createAsyncThunk<ICategory, ICategoryRename>(
     async ({ id, name }, thunkAPI) => {
         try {
             const token = sessionStorage.getItem('quickServeToken');
-            const response = await axios.put(
+            const response = await axiosInstance.put(
                 `${renameCategoryEndpoint}/${id}`,
                 { id, name },
                 {

@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { IUserInfo } from '../../models/UserInfor';
-import axios from 'axios';
 import { getAllUsersEndpoint, getUserByIdEndpoint } from '../api/apiConfig';
+import axiosInstance from '../api/axiosInstance';
 
 interface UserState {
     loading: boolean;
@@ -22,7 +22,7 @@ export const getAllUser = createAsyncThunk<IUserInfo[], void>(
     async (_, thunkAPI) => {
         try {
             const token = sessionStorage.getItem('quickServeToken');
-            const response = await axios.get(getAllUsersEndpoint, {
+            const response = await axiosInstance.get(getAllUsersEndpoint, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -41,7 +41,7 @@ export const getUserById = createAsyncThunk<IUserInfo, { id: string }>(
         const { id } = data;
         try {
             const token = sessionStorage.getItem('quickServeToken');
-            const response = await axios.get(
+            const response = await axiosInstance.get(
                 `${getUserByIdEndpoint}/id=${id}`,
                 {
                     headers: {
