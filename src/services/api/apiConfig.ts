@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://quick-serve-server.azurewebsites.net/api/v1';
+export const BASE_URL = 'https://quickserve-api.azurewebsites.net/api/v1';
 
 //Athentication endpoints
 export const loginEndpoint = `${BASE_URL}/Accounts/authenticate`;
@@ -47,3 +47,8 @@ export const getTemplateStepByIdEndpoint = `${BASE_URL}/TemplateSteps`;
 export const createTemplateStepEndpoint = `${BASE_URL}/TemplateSteps`;
 export const renameTemplateStepEndpoint = `${BASE_URL}/TemplateSteps`;
 export const deleteTemplateStepEndpoint = `${BASE_URL}/TemplateSteps`;
+
+//Store endpoints
+export const getAllStoreEndpoint = `${BASE_URL}/Stores/paged`;
+export const getStoreByIdEndpoint = `${BASE_URL}/Stores`;
+export const createStoreEndpoint = `${BASE_URL}/Stores`;
