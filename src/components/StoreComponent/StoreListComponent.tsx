@@ -1,28 +1,14 @@
-import {
-    MRT_GlobalFilterTextField,
-    MRT_TableBodyCellValue,
-    MRT_TablePagination,
-    MRT_ToolbarAlertBanner,
-    flexRender,
-    type MRT_ColumnDef,
-    useMaterialReactTable,
-} from 'material-react-table';
-import {
-    Box,
-    Stack,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Typography,
-} from '@mui/material';
-import { useAppDispatch, useAppSelector } from '../../services/store/store';
+import { MRT_ColumnDef } from 'material-react-table';
 import { useEffect, useState } from 'react';
+import { Stack, Button } from '@mui/material';
+import { useAppDispatch, useAppSelector } from '../../services/store/store';
 import { getAllStore } from '../../services/features/storeSlice';
 import { IStore } from '../../models/Store';
 
+import PopupCheck from '../Popup/PopupCheck';
+import CommonTable from '../CommonTable/CommonTable';
+import PopupStoreDetail from '../Popup/PopupStoreDetail';
+import PopupCreateStore from '../Popup/PopupCreateStore';
 
 
 const columns: MRT_ColumnDef<IStore>[] = [
@@ -33,6 +19,10 @@ const columns: MRT_ColumnDef<IStore>[] = [
     {
         accessorKey: 'address',
         header: 'Địa chỉ',
+    },
+    {
+        accessorKey: 'createdBy',
+        header: 'Người tạo'
     },
     {
         accessorKey: 'created',
@@ -47,84 +37,81 @@ const columns: MRT_ColumnDef<IStore>[] = [
 const StoreListComponent = () => {
     const dispatch = useAppDispatch();
     const { stores } = useAppSelector((state) => state.stores);
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [storeData, setStoreData] = useState<IStore | null>(null);
-    const [onPopupDetail, setOnPopupDetail] = useState<boolean>(false);
+    const [onPopupStoreDetail, setOnPopupStoreDetail] = useState<boolean>(false);
+    const [openPopupRename, setOpenPopupRename] = useState<boolean>(false);
+    const [selectedStoreId, setSelectedStoreId] = useState<number | null>(null);
 
-    const handleShowDetail = (store: IStore) => {
-        setStoreData(store);
-        setOnPopupDetail(true);
-    };
 
     useEffect(() => {
-        dispatch(getAllStore());
-    }, [dispatch]);
+        if (!isPopupOpen) {
+            dispatch(getAllStore());
+        }
+    }, [isPopupOpen, dispatch]);
 
-    const table = useMaterialReactTable({
-        columns,
-        data: stores || [],
-        enableRowSelection: false,
-        initialState: {
-            pagination: { pageSize: 5, pageIndex: 0 },
-            showGlobalFilter: true,
-        },
-        muiPaginationProps: {
-            rowsPerPageOptions: [5, 10, 15],
-            variant: 'outlined',
-        },
-        paginationDisplayMode: 'pages',
-    });
+    const handlePopupOpen = () => {
+        setIsPopupOpen(true);
+    };
+
+    const handlePopupClose = () => {
+        setIsPopupOpen(false);
+    };
+
+    const handleShowStoreDetail = (store: IStore) => {
+        setStoreData(store);
+        setOnPopupStoreDetail(true);
+    };
+
+    // const handleOpenPopupUpdateCategory = (id: number) => {
+    //     setSelectedCateId(id);
+    //     setOnPopupCheckChangeStatus(true);
+    // };
+
+    const handleOpenPopupRenameCategory = (id: number) => {
+        setSelectedStoreId(id);
+        setOpenPopupRename(true);
+    };
+
+
 
     return (
         <Stack sx={{ m: '2rem 0' }}>
-            <Box
-                sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    padding: '1rem',
-                }}
-            >
-                <MRT_GlobalFilterTextField table={table} />
-                <MRT_TablePagination table={table} />
-            </Box>
-            <Typography variant="subtitle2" sx={{ textAlign: 'left', marginLeft: '16px', fontSize: '14px', color: 'red' }}>* Vui lòng nhấn đúp vào 1 hàng để xem thông tin chi tiết</Typography>
-            <TableContainer className='p-4'>
-                <Table>
-                    <TableHead className='bg-orange-500'>
-                        {table.getHeaderGroups().map((headerGroup) => (
-                            <TableRow key={headerGroup.id}>
-                                {headerGroup.headers.map((header) => (
-                                    <TableCell align="left" variant="head" key={header.id}>
-                                        {header.isPlaceholder ? null : (
-                                            <Typography fontWeight={700} color={'black'}>
-                                                {flexRender(header.column.columnDef.Header ?? header.column.columnDef.header, header.getContext())}
-                                            </Typography>
-                                        )}
-                                    </TableCell>
-                                ))}
-                            </TableRow>
-                        ))}
-                    </TableHead>
-                    <TableBody>
-                        {table.getRowModel().rows.map((row, rowIndex) => (
-                            <TableRow
-                                key={row.id}
-                                selected={row.getIsSelected()}
-                                onDoubleClick={() => handleShowDetail(row.original)}
-                                style={{ backgroundColor: rowIndex % 2 === 0 ? 'white' : '#d9d9d9', cursor: 'pointer' }}
-                            >
-                                {row.getVisibleCells().map((cell) => (
-                                    <TableCell align="left" variant="body" key={cell.id}>
-                                        <MRT_TableBodyCellValue cell={cell} table={table} staticRowIndex={rowIndex} />
-                                    </TableCell>
-                                ))}
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-            <MRT_ToolbarAlertBanner stackAlertBanner table={table} />
-      {/* popup mở detail */}
+            <CommonTable
+                columns={columns}
+                data={stores || []}
+                onRowDoubleClick={handleShowStoreDetail}
+                toolbarButtons={
+                    <Button
+                        variant="contained"
+                        onClick={handlePopupOpen}
+                        sx={{
+                            color: 'black',
+                            backgroundColor: 'orange',
+                        }}
+                    >
+                        Thêm Cửa Hàng
+                    </Button>
+                }
+            />
+
+            <PopupCreateStore
+                isPopupOpen={isPopupOpen}
+                closePopup={handlePopupClose}
+            />
+            {storeData && (
+                <>
+                    <PopupStoreDetail
+                        store={storeData}
+                        onPopupDetail={onPopupStoreDetail}
+                        setOnPopupDetail={setOnPopupStoreDetail}       
+                        onRename={() =>
+                            handleOpenPopupRenameCategory(storeData.id)
+                        }
+                    />
+               
+                </>
+            )}
         </Stack>
     );
 };

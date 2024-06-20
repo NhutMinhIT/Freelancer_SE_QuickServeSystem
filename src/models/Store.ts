@@ -1,5 +1,5 @@
 export interface IStore {
-    id: string;
+    id: number;
     name: string;
     address?: string | null;
     createdBy: string;

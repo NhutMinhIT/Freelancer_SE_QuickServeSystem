@@ -1,7 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getAllStoreEndpoint, getStoreByIdEndpoint } from '../api/apiConfig';
+import { createStoreEndpoint, getAllStoreEndpoint, getStoreByIdEndpoint } from '../api/apiConfig';
 import axiosInstance from '../api/axiosInstance';
 import { IStore } from '../../models/Store';
+import { toast } from 'react-toastify';
 
 interface StoreState {
     loading: boolean;
@@ -36,7 +37,7 @@ export const getAllStore = createAsyncThunk<IStore[], void>(
     },
 );
 export const getStoreById = createAsyncThunk<IStore, { id: string }>(
-    'users/getUserById',
+    'stores/getStoreById',
     async (data, thunkAPI) => {
         const { id } = data;
         try {
@@ -57,6 +58,37 @@ export const getStoreById = createAsyncThunk<IStore, { id: string }>(
         }
     },
 );
+
+
+export const createStore = createAsyncThunk<IStore, Object>(
+    'stores/createStore',
+    async (store, thunkAPI) => {
+        try {
+            const token = sessionStorage.getItem('quickServeToken');
+            const response = await axiosInstance.post(
+                createStoreEndpoint,
+                store,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                },
+            );
+            if (response.data.success) {
+                toast.success(
+                    'Tạo cửa hàng thành công ! Có thẻ sử dụng ngay !',
+                );
+            } else {
+                toast.error(`${response.data.errors[0].description}`);
+            }
+            return response.data.data;
+        } catch (error: any) {
+            toast.error(`${error.response.data.errors[0].description}`);
+            return thunkAPI.rejectWithValue(error.response.data);
+        }
+    },
+);
+
 
 export const storeSlice = createSlice({
     name: 'stores',
