@@ -4,6 +4,7 @@ import Home from '../pages/admin/admin-home/Home';
 import RegisterAccount from '../pages/admin/register/RegisterAccount';
 import UserProfile from '../pages/user-profile/UserProfile';
 import AccountManagement from '../pages/admin/account-management/AccountManagement';
+import StoreManagement from '../pages/admin/store-management/StoreManagement';
 import Dashboard from '../pages/brand-manager/dashboard/Dashboard';
 import { useAppSelector } from '../services/store/store';
 import PageNotFoundPrevious from '../pages/page-not-found/PageNotFoundPrevious';
@@ -13,6 +14,7 @@ import IngredientType from '../pages/brand-manager/ingredient/IngredientType';
 import IngredientList from '../pages/brand-manager/ingredient/IngredientList';
 import ProductTemplate from '../pages/brand-manager/product-template/ProductTemplate';
 import TemplateStep from '../pages/brand-manager/tempate-steps/TemplateStep';
+
 
 const AppRouter = () => {
     const token = sessionStorage.getItem('quickServeToken');
@@ -47,6 +49,10 @@ const AppRouter = () => {
                             <Route
                                 path="/account-management"
                                 element={<AccountManagement />}
+                            />
+                            <Route
+                                path="/store-management"
+                                element={<StoreManagement />}
                             />
                             <Route
                                 path="/admin-register"

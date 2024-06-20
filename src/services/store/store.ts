@@ -10,6 +10,7 @@ import ingredientTypeSlice from '../features/ingredientTypeSlice';
 import ingredientSlice from '../features/ingredientSlice';
 import productTemplateSlice from '../features/productTemplateSlice';
 import templateStepSlice from '../features/templateStepSlice';
+import storeSlice from '../features/storeSlice';
 // Định nghĩa cấu hình persist
 const persistConfig = {
     key: 'root',
@@ -22,6 +23,7 @@ const persistConfig = {
         'ingredientTypes',
         'productTemplates',
         'templateSteps',
+        'stores',
     ],
 };
 
@@ -33,6 +35,7 @@ const rootReducer = combineReducers({
     ingredientTypes: ingredientTypeSlice,
     productTemplates: productTemplateSlice,
     templateSteps: templateStepSlice,
+    stores: storeSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

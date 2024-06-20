@@ -13,7 +13,7 @@ const listMenu = {
         },
         {
             title: 'QL. Cửa Hàng',
-            url: '/admin-store',
+            url: '/store-management',
             icon: storeManagementIcon,
         },
         {
