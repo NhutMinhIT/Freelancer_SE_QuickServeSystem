@@ -1,4 +1,4 @@
-import { MapIcon, PowerIcon } from "@heroicons/react/16/solid"
+import { MapIcon, PlusIcon, PowerIcon } from "@heroicons/react/16/solid"
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../services/store/store";
@@ -85,7 +85,7 @@ const TemplateStepList = () => {
                             marginRight: '1rem'
                         }}
                     >
-                        Thêm mẫu sản phẩm
+                        Thêm bước cho mẫu
                     </Button>
                 </div>
                 <PopupCreateTemplateStep
@@ -127,16 +127,22 @@ const TemplateStepList = () => {
                                     </span>
                                 </div>
                             </div>
-                            <div className="flex justify-end mr-3">
+                            <div className="flex justify-end mr-3 gap-4">
+                                <PlusIcon width={32} height={32} className="text-green-500" title="Thêm Loại Nguyên Liệu" />
+                                <button
+                                    className="p-2 rounded-lg font-sans font-bold text-center uppercase border border-blue-500 text-white-500 bg-blue-500"
+                                    type="button">
+                                    Xem chi tiết bước
+                                </button>
                                 <button
                                     onClick={() => { handleUpdateName(templateStep?.id) }}
-                                    className="p-2 rounded-lg font-sans font-bold text-center uppercase border border-blue-500 text-white-500 bg-blue-500"
+                                    className="p-2 rounded-lg font-sans font-bold text-center uppercase border border-orange-500 text-white-500 bg-orange-500"
                                     type="button">
                                     Cập nhật
                                 </button>
                                 <button
                                     onClick={() => handleOpenDeleteStep(templateStep?.id)}
-                                    className="p-2 ml-2 rounded-lg font-sans font-bold text-center uppercase border border-red-500 bg-red-500 text-white-500"
+                                    className="p-2 rounded-lg font-sans font-bold text-center uppercase border border-red-500 bg-red-500 text-white-500"
                                     type="button">
                                     Xoá
                                 </button>
