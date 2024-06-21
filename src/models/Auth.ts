@@ -7,7 +7,7 @@ export interface IUser {
     id: string;
     userName: string;
     email: string;
-    roles: string[];
+    roles: string;
     isVerified: boolean;
     accessToken: string;
     refreshToken: string;

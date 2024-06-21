@@ -42,7 +42,7 @@ const UserProfile = () => {
                             // userId={user?.id}
                             username={account.userName}
                             email={account?.email}
-                            role={account?.roles[0]}
+                            role={account?.roles}
                             phoneNumber={account?.phoneNumber}
                             name={account?.name}
                             address={account?.address}
