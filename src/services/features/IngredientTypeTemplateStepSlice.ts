@@ -167,6 +167,29 @@ export const deleteIngredientTypeTemplateStepById = createAsyncThunk<
     }
   },
 );
+export const activeProductTempalte = createAsyncThunk<IIngredientTypeTemplateStepCreate, { productTemplateId: number }>
+  ('ingredientTypeTemplateSteps/activeIngredientTypeTemplateStepById', async ({ productTemplateId }, thunkAPI) => {
+    try {
+      const token = sessionStorage.getItem("quickServeToken");
+      const response = await axiosInstance.put(
+        `${updateStatusIngredientTypeTemplateStepEndpoint}/${productTemplateId}/status`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      if (response.data.success) {
+        toast.success('Kích hoạt loại nguyên liệu cho bước thành công !');
+      } else {
+        toast.error(`${response.data.errors[0].description}`);
+      }
+      return response.data.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(toast.error(`${error.response.data.errors[0].description}`));
+    }
+  });
 
 const ingredientTypeTemplateStepsSlice = createSlice({
   name: "ingredientTypeTemplateSteps",
@@ -238,7 +261,7 @@ const ingredientTypeTemplateStepsSlice = createSlice({
     });
     builder.addCase(
       updateStatusIngredientTypeTemplateStep.fulfilled,
-      (state, action) => {
+      (state) => {
         state.loading = false;
         state.success = true;
       },
@@ -250,6 +273,19 @@ const ingredientTypeTemplateStepsSlice = createSlice({
         state.error = action.payload;
       },
     );
+
+    // handle active product template
+    builder.addCase(activeProductTempalte.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(activeProductTempalte.fulfilled, (state) => {
+      state.loading = false;
+      state.success = true;
+    });
+    builder.addCase(activeProductTempalte.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    });
   },
 });
 
