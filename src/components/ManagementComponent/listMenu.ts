@@ -3,6 +3,7 @@ import storeManagementIcon from '../../assets/icon/store-management.png';
 import chartRevenueIcon from '../../assets/icon/chart-revenue.png';
 import feedbackIcon from '../../assets/icon/feedback.png';
 import adminReportIcon from '../../assets/icon/admin-report.png';
+import employeeManagementIcon from '../../assets/icon/icon/employee.png';
 //Icon StoreManagement
 const listMenu = {
     adminMenu: [
@@ -39,6 +40,18 @@ const listMenu = {
             title: 'Store Management',
             url: '/store-management',
             icon: storeManagementIcon,
+        },
+        {
+            title: 'QL. Nhân Viên',
+            url: '/employee-management',
+            icon: employeeManagementIcon,
+            subStoreMenu: [
+                {
+                    title: 'DS. Nhân Viên',
+                    url: '/employee-management',
+                }
+                
+            ],
         },
     ],
     brandManagementMenu: [
