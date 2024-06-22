@@ -52,3 +52,7 @@ export const deleteTemplateStepEndpoint = `${BASE_URL}/TemplateSteps`;
 export const getAllStoreEndpoint = `${BASE_URL}/Stores/paged`;
 export const getStoreByIdEndpoint = `${BASE_URL}/Stores`;
 export const createStoreEndpoint = `${BASE_URL}/Stores`;
+
+//Employees endpoints
+export const getAllEmployeeEndpoint = `${BASE_URL}/employees/paged`;
+export const createEmployeeEndpoint = `${BASE_URL}/employees`;
