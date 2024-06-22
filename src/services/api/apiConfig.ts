@@ -53,6 +53,16 @@ export const getAllStoreEndpoint = `${BASE_URL}/Stores/paged`;
 export const getStoreByIdEndpoint = `${BASE_URL}/Stores`;
 export const createStoreEndpoint = `${BASE_URL}/Stores`;
 
+
 //Employees endpoints
 export const getAllEmployeeEndpoint = `${BASE_URL}/employees/paged`;
 export const createEmployeeEndpoint = `${BASE_URL}/employees`;
+
+// Ingredient Type Template Steps endpoints
+export const getIngredientTypeTemplateStepsEndpoint = `${BASE_URL}/IngredientTypeTemplateSteps/all`;
+export const getIngredientTypeTemplateStepByIdEndpoint = `${BASE_URL}/IngredientTypeTemplateSteps`;
+export const createIngredientTypeTemplateStepEndpoint = `${BASE_URL}/IngredientTypeTemplateSteps`;
+export const updateStatusIngredientTypeTemplateStepEndpoint = `${BASE_URL}/IngredientTypeTemplateSteps`;
+export const updateIngredientTypeTemplateStepEndpoint = `${BASE_URL}/IngredientTypeTemplateSteps`;
+export const deleteIngredientTypeTemplateStepEndpoint = `${BASE_URL}/IngredientTypeTemplateSteps`;
+
