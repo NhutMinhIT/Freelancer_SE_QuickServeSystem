@@ -11,8 +11,8 @@ const NavbarComponent = () => {
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-    const handleLogout = (data: any | undefined) => {
-        dispatch(logoutUser(data))
+    const handleLogout = () => {
+        dispatch(logoutUser())
             .unwrap()
             .then(() => {
                 navigate('/login');
