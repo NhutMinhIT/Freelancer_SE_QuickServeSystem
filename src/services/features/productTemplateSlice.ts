@@ -74,7 +74,7 @@ export const createProductTemplate = createAsyncThunk<IProductTemplateCreate, Fo
             } else {
                 toast.error(`${response.data.errors[0].description}`);
             }
-            return response.data.data;
+            return response.data;
         } catch (error: any) {
             return thunkAPI.rejectWithValue(
                 toast.error(`${error.response.data.errors[0].description}`)
