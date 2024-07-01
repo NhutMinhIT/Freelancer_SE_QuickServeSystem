@@ -44,9 +44,9 @@ export const changeImageProductTemplateEndpoint = `${BASE_URL}/ProductTemplates`
 //Template Step endpoints
 export const getAllTemplateStepsEndpoint = `${BASE_URL}/TemplateSteps/paged`;
 export const getTemplateStepByIdEndpoint = `${BASE_URL}/TemplateSteps`;
-export const createTemplateStepEndpoint = `${BASE_URL}/TemplateSteps`;
+export const createTemplateStepEndpoint = `${BASE_URL}/IngredientTypeTemplateSteps`;
 export const renameTemplateStepEndpoint = `${BASE_URL}/TemplateSteps`;
-export const deleteTemplateStepEndpoint = `${BASE_URL}/TemplateSteps`;
+export const deleteTemplateStepEndpoint = `${BASE_URL}/IngredientTypeTemplateSteps`;
 
 //Store endpoints
 export const getAllStoreEndpoint = `${BASE_URL}/Stores/paged`;

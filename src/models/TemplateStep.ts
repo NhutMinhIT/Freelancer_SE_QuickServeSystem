@@ -9,9 +9,16 @@ export interface ITemplateStep {
     lastModified: Date | string;
     productTemplate: string;
 }
+interface IIngredientTypesTemplate {
+    ingredientTypeId?: number;
+    quantityMin?: number;
+    quantityMax?: number;
+}
+
 export interface ITemplateStepCreate {
     productTemplateId: number;
     name: string;
+    ingredientTypes: IIngredientTypesTemplate[];
 }
 
 export interface ITemplateStepRename {

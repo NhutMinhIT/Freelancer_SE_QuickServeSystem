@@ -16,4 +16,11 @@ export const schemaCreateTemplateStep = yup.object().shape({
             'Chữ cái đầu phải viết hoa',
             (value) => !!value && value[0] === value[0].toUpperCase(),
         ),
+    ingredientTypes: yup.array().of(
+        yup.object().shape({
+            ingredientTypeId: yup.number().required('Id nguyên liệu không được để trống'),
+            quantityMin: yup.number().required('Số lượng tối thiểu không được để trống').min(0, 'Số lượng tối thiểu không được nhỏ hơn 0'),
+            quantityMax: yup.number().required('Số lượng tối đa không được để trống').min(yup.ref('quantityMin'), 'Số lượng tối đa không được nhỏ hơn số lượng tối thiểu'),
+        })
+    ).required('Danh sách nguyên liệu không được để trống'),
 });

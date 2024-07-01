@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useAppDispatch } from "../../services/store/store";
-import { useForm } from "react-hook-form";
+import { useAppDispatch, useAppSelector } from "../../services/store/store";
+import { useForm, useFieldArray } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schemaCreateTemplateStep } from "../../schemas/schemaCreateTemplateStep";
 import { createTemplateStep, getAllTemplateSteps } from "../../services/features/templateStepSlice";
@@ -10,21 +10,44 @@ type PopupCreateTemplateStepProps = {
     productTemplateId: number;
     isPopupOpen: boolean;
     closePopup: () => void;
-}
+};
+
 type FormCreateTemplateStepValues = {
     productTemplateId: number;
     name: string;
-}
+    ingredientTypes: {
+        ingredientTypeId: number;
+        quantityMin: number;
+        quantityMax: number;
+    }[];
+};
+
 const PopupCreateTemplateStep = ({
     productTemplateId,
     isPopupOpen,
-    closePopup
+    closePopup,
 }: PopupCreateTemplateStepProps) => {
     const dispatch = useAppDispatch();
     const [isLoading, setIsLoading] = useState(false);
 
-    const { register, handleSubmit, reset, formState: { errors } } = useForm<FormCreateTemplateStepValues>({
-        resolver: yupResolver(schemaCreateTemplateStep)
+    const {
+        register,
+        handleSubmit,
+        control,
+        reset,
+        formState: { errors },
+    } = useForm<FormCreateTemplateStepValues>({
+        resolver: yupResolver(schemaCreateTemplateStep),
+        defaultValues: {
+            ingredientTypes: [{ ingredientTypeId: 0, quantityMin: 0, quantityMax: 0 }],
+        },
+    });
+
+    const { ingredientTypes } = useAppSelector((state) => state.ingredientTypes);
+
+    const { fields, append, remove } = useFieldArray({
+        control,
+        name: "ingredientTypes",
     });
 
     const onSubmit = (data: FormCreateTemplateStepValues) => {
@@ -38,13 +61,12 @@ const PopupCreateTemplateStep = ({
             .catch((error: any) => console.log(error))
             .finally(() => setIsLoading(false));
         reset();
-    }
+    };
+
     return (
         isPopupOpen && (
             <div className="fixed inset-0 flex items-center justify-center z-50 bg-gray-900 bg-opacity-50">
-                <div
-                    className="relative p-6 bg-white border rounded-lg shadow-lg w-96 bg-white-400"
-                >
+                <div className="relative p-6 bg-white-500 border rounded-lg shadow-lg w-full max-w-3xl">
                     <button
                         onClick={closePopup}
                         className="absolute top-2 right-2 text-gray-600 hover:text-gray-900"
@@ -58,19 +80,78 @@ const PopupCreateTemplateStep = ({
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <input
                                 type="hidden"
-                                {...register('productTemplateId')}
+                                {...register("productTemplateId")}
                                 value={productTemplateId}
                             />
                             <div className="mb-4">
-                                <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
+                                <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                                    Tên Bước
+                                </label>
                                 <input
-                                    {...register('name')}
+                                    {...register("name")}
                                     type="text"
                                     name="name"
                                     id="name"
                                     className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
                                 />
-                                {errors.name && <p className='text-red-500 text-xs mt-2'>* {errors.name.message}</p>}
+                                {errors.name && (
+                                    <p className="text-red-500 text-xs mt-2">* {errors.name.message}</p>
+                                )}
+                            </div>
+                            <div className="mb-4">
+                                <label
+                                    htmlFor="ingredientTypes"
+                                    className="block text-sm font-medium text-gray-700"
+                                >
+                                    Loại Nguyên Liệu
+                                </label>
+                                <div className="space-y-4">
+                                    {fields.map((field, index) => (
+                                        <div key={field.id} className="flex space-x-4 items-center">
+                                            <select
+                                                {...register(`ingredientTypes.${index}.ingredientTypeId`)}
+                                                className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                                            >
+                                                <option value="0">Select Ingredient Type</option>
+                                                {ingredientTypes && ingredientTypes.map((ingredientType) => (
+                                                    <option key={ingredientType.id} value={ingredientType.id}>
+                                                        {ingredientType.name}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                            <input
+                                                {...register(`ingredientTypes.${index}.quantityMin`)}
+                                                type="number"
+                                                min={1}
+                                                placeholder="Min"
+                                                className="w-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                                            />
+                                            <input
+                                                {...register(`ingredientTypes.${index}.quantityMax`)}
+                                                type="number"
+                                                placeholder="Max"
+                                                min={1}
+                                                className="w-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                                            />
+                                            <button
+                                                type="button"
+                                                onClick={() => remove(index)}
+                                                className="text-red-500 hover:text-red-700"
+                                            >
+                                                <XMarkIcon width={24} height={24} />
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+                                {fields.length < 3 && (
+                                    <button
+                                        type="button"
+                                        onClick={() => append({ ingredientTypeId: 0, quantityMin: 0, quantityMax: 0 })}
+                                        className="mt-4 bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
+                                    >
+                                        Thêm Loại Nguyên Liệu
+                                    </button>
+                                )}
                             </div>
                             <div className="flex justify-end">
                                 <button
@@ -79,7 +160,7 @@ const PopupCreateTemplateStep = ({
                                     disabled={isLoading}
                                 >
                                     {isLoading ? (
-                                        <svg className="animate-spin h-5 w-5 mr-3 ..." viewBox="0 0 24 24">
+                                        <svg className="animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">
                                             <circle
                                                 className="opacity-25"
                                                 cx="12"
@@ -95,7 +176,7 @@ const PopupCreateTemplateStep = ({
                                             ></path>
                                         </svg>
                                     ) : (
-                                        'Tạo Bước'
+                                        "Tạo Bước"
                                     )}
                                 </button>
                             </div>
@@ -104,7 +185,7 @@ const PopupCreateTemplateStep = ({
                 </div>
             </div>
         )
-    )
-}
+    );
+};
 
-export default PopupCreateTemplateStep
+export default PopupCreateTemplateStep;

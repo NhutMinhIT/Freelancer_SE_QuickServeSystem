@@ -62,6 +62,7 @@ const PopupCreateProductTemplate: React.FC<PopupCreateProductTemplateProps> = ({
                 dispatch(getAllProductTemplates());
                 closePopup();
                 reset();
+
             })
             .catch((error) => console.log(error))
             .finally(() => setIsLoading(false));

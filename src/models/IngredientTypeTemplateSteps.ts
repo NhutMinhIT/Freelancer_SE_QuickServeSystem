@@ -10,12 +10,12 @@ export interface ITemplates {
 }
 export interface IIngredientTypesTemplate {
   ingredientTypeId?: number;
-  name?: string;
   quantityMin?: number;
   quantityMax?: number;
 }
 
 export interface IIngredientTypeTemplateStepCreate {
-  templateStepId: number;
+  productTemplateId: number;
+  name: string;
   ingredientType: IIngredientTypesTemplate[];
 }
