@@ -141,7 +141,7 @@ const PopupDetailProductTemplate: React.FC<PopupDetailProductTemplateProps> = ({
                                         </button>
                                         <button
                                             onClick={onUpdate}
-                                            className="text-xs w-24 border border-blue-500 p-1 bg-blue-500 text-white-500 font-bold rounded-lg"
+                                            className="text-xs w-24 border border-yellow-500 p-1 bg-yello-500 text-white-500 font-bold rounded-lg"
                                         >
                                             Sửa thông tin
                                         </button>

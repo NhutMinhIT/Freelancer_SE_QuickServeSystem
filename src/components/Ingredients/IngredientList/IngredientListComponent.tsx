@@ -24,9 +24,9 @@ const columns: MRT_ColumnDef<IIngredient>[] = [
         Cell: ({ cell }) => {
             const status = cell.row.original.status;
             return status === 1 ? (
-                <CheckCircleOutline className="text-green-500" />
+                <span className="text-green-500 font-bold">Hoạt động</span>
             ) : (
-                <HighlightOff className="text-red-500" />
+                <span className="text-red-500 font-bold" >Không Hoạt động</span>
             );
         },
     },
@@ -55,7 +55,7 @@ const columns: MRT_ColumnDef<IIngredient>[] = [
         header: 'Ngày tạo',
         Cell: ({ cell }) => {
             return formatAnyDate(new Date(cell.row.original.created));
-           
+
         },
     },
     {
@@ -74,7 +74,7 @@ const columns: MRT_ColumnDef<IIngredient>[] = [
 const IngredientListComponent = () => {
     const dispatch = useAppDispatch();
     const { ingredients } = useAppSelector((state) => state.ingredients);
-    const  ingredientData  = useAppSelector((state) => state.ingredients.ingredient);    
+    const ingredientData = useAppSelector((state) => state.ingredients.ingredient);
 
     const [selectedIngredientId, setSelectedIngredientId] = useState<number | null>(null);
     const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -100,7 +100,7 @@ const IngredientListComponent = () => {
 
     // Handle show ingredient detail
     const handleShowPopupIngredientDetail = (ingredient: IIngredient) => {
-        dispatch(getIngredientById({id: ingredient.id}))
+        dispatch(getIngredientById({ id: ingredient.id }))
         setOnPopupIngredientDetail(true);
     }
 

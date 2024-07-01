@@ -62,7 +62,7 @@ const PopupStoreDetail: React.FC<PopupStoreDetailProps> = ({
                                     <div>
                                         <span>{store?.name}</span>
                                     </div>
-                                    
+
                                     <div>
                                         <span className="text-sm text-back-500 font-bold">
                                             Người tạo
@@ -90,11 +90,11 @@ const PopupStoreDetail: React.FC<PopupStoreDetailProps> = ({
                                     <div className="w-auto flex gap-4">
                                         <button
                                             onClick={onRename}
-                                            className="text-xs w-24 border border-blue-500p-1 bg-blue-500 text-white-900 font-bold rounded-lg"
+                                            className="text-xs w-24 border border-yellow-500 p-1 bg-yellow-500 text-white-900 font-bold rounded-lg"
                                         >
                                             Sửa tên
                                         </button>
-                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

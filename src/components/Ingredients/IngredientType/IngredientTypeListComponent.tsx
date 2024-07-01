@@ -24,9 +24,9 @@ const columns: MRT_ColumnDef<IIngredientType>[] = [
         Cell: ({ cell }) => {
             const status = cell.row.original.status;
             return status === 1 ? (
-                <CheckCircleOutlineIcon className="text-green-500" />
+                <span className="text-green-500 font-bold">Hoạt động</span>
             ) : (
-                <HighlightOffIcon className='text-red-500' />
+                <span className="text-red-500 font-bold">Không Hoạt động</span>
             );
         },
     },

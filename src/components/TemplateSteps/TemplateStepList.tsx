@@ -153,20 +153,18 @@ const TemplateStepList = () => {
                     {templateSteps.map((templateStep) => (
                         <div
                             key={templateStep.id}
-                            className="bg-white relative mt-6 flex flex-col rounded-lg rounded-xl border border-black-200 shadow-lg"
+                            className="bg-white-500 relative mt-6 flex flex-col rounded-lg border border-black-200 shadow-lg p-2"
                         >
-                            <div className="p-6">
+                            <div>
                                 <h5 className="text-blue-gray-900 mb-2 block font-sans text-xl font-semibold leading-snug tracking-normal">
                                     {templateStep.name}
                                 </h5>
                                 <div className="flex gap-6 font-sans text-base font-light leading-relaxed text-inherit">
                                     <span>Trạng thái</span>
-                                    <span>
-                                        <PowerIcon
-                                            width={32}
-                                            height={32}
-                                            className="text-green-500"
-                                        />
+                                    <span
+                                        className="text-green-500 font-extrabold"
+                                    >
+                                        Hoạt động
                                     </span>
                                 </div>
                                 <div className="mt-2 flex flex-col font-sans text-base font-light leading-relaxed text-inherit">
@@ -190,18 +188,12 @@ const TemplateStepList = () => {
                                     </span>
                                 </div>
                             </div>
-                            <div className="mr-3 flex justify-end gap-4">
-                                <PlusIcon
-                                    width={32}
-                                    height={32}
-                                    className="text-green-500"
-                                    title="Thêm Loại Nguyên Liệu"
-                                />
+                            <div className="mr-3 flex justify-end gap-4 mt-3">
                                 <button
                                     onClick={() =>
                                         handleClickOpenAllTemplateStepId(templateStep.id)
                                     }
-                                    className="text-white rounded-lg border border-blue-500 bg-blue-500 p-2 text-center font-sans font-bold uppercase"
+                                    className="text-white rounded-lg border border-yellow-500 bg-yellow-500 p-2 text-center font-sans font-bold uppercase"
                                     type="button"
                                 >
                                     Xem chi tiết bước

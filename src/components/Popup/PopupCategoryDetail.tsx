@@ -171,7 +171,7 @@ const PopupCategoryDetail: React.FC<PopupCategoryDetailProps> = ({
                                         </button>
                                         <button
                                             onClick={onRename}
-                                            className="text-xs w-24 border border-blue-500p-1 bg-blue-500 text-white-900 font-bold rounded-lg"
+                                            className="text-xs w-24 border border-yellow-500 marker:p-1 bg-yellow-500 text-white-900 font-bold rounded-lg"
                                         >
                                             Sửa tên
                                         </button>

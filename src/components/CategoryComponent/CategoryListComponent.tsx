@@ -7,8 +7,6 @@ import {
     getAllCategories,
     updateStatusCategoryById,
 } from '../../services/features/categorySlice';
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { ICategory } from '../../models/Categoty';
 import PopupCategoryDetail from '../Popup/PopupCategoryDetail';
 import PopupCheck from '../Popup/PopupCheck';
@@ -27,9 +25,9 @@ const columns: MRT_ColumnDef<ICategory>[] = [
         Cell: ({ cell }) => {
             const status = cell.row.original.status;
             return status === 1 ? (
-                <CheckCircleOutlineIcon className="text-green-500" />
+                <span className="text-green-500 font-bold">Hoạt động</span>
             ) : (
-                <HighlightOffIcon className="text-red-500" />
+                <span className="text-red-500 font-bold">Không Hoạt động</span>
             );
         },
     },
