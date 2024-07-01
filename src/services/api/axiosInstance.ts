@@ -2,6 +2,7 @@ import axios from 'axios';
 import { store } from './../store/store';
 import { logoutUser, refreshAccessToken } from '../features/authSlice';
 import { BASE_URL } from './apiConfig';
+import { toast } from 'react-toastify';
 
 const axiosInstance = axios.create({
     baseURL: BASE_URL
@@ -31,6 +32,7 @@ axiosInstance.interceptors.response.use(
             } catch (err) {
                 store.dispatch(logoutUser());
                 window.location.href = '/login';
+                toast.error("Hết hạn đăng nhập. Vui lòng đăng nhập lại!");
                 return Promise.reject(err);
             }
         }

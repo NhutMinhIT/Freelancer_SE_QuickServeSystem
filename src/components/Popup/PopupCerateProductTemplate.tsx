@@ -4,9 +4,10 @@ import { Resolver, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schemaCreateProductTemplate } from "../../schemas/schemaProductTemplate";
 import { getAllCategories } from "../../services/features/categorySlice";
-import { createProductTemplate, getAllProductTemplates } from "../../services/features/productTemplateSlice";
+import { createProductTemplate, getProductTemplateById } from "../../services/features/productTemplateSlice";
 import { XMarkIcon } from "@heroicons/react/24/solid"; // Correct import path for the icon
 import { ICategory } from "../../models/Categoty";
+import { useNavigate } from "react-router-dom";
 
 type PopupCreateProductTemplateProps = { // Corrected type name
     isPopupOpen: boolean;
@@ -28,6 +29,8 @@ const PopupCreateProductTemplate: React.FC<PopupCreateProductTemplateProps> = ({
 }) => {
     const dispatch = useAppDispatch();
     const [isLoading, setIsLoading] = useState(false);
+
+    const navigate = useNavigate()
 
     const { categories } = useAppSelector((state) => state.categories);
     const [categoryData, setCategoryData] = useState<ICategory[] | null>(null);
@@ -58,11 +61,15 @@ const PopupCreateProductTemplate: React.FC<PopupCreateProductTemplateProps> = ({
 
         dispatch(createProductTemplate(formData))
             .unwrap()
-            .then(() => {
-                dispatch(getAllProductTemplates());
-                closePopup();
-                reset();
-
+            .then((res) => {    
+                if(res){
+                    dispatch(getProductTemplateById({ id: res?.data}));
+                    reset();
+                    setTimeout(()=>{
+                        navigate(`/product-template-step/${res?.data}`);
+                        closePopup();
+                    }, 1000);
+                }
             })
             .catch((error) => console.log(error))
             .finally(() => setIsLoading(false));
