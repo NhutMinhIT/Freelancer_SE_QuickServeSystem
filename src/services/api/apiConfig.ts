@@ -66,3 +66,16 @@ export const updateStatusIngredientTypeTemplateStepEndpoint = `${BASE_URL}/Ingre
 export const updateIngredientTypeTemplateStepEndpoint = `${BASE_URL}/IngredientTypeTemplateSteps`;
 export const deleteIngredientTypeTemplateStepEndpoint = `${BASE_URL}/IngredientTypeTemplateSteps`;
 
+//Session Endpouints
+export const getAllSessionsEndpoint = `${BASE_URL}/Sessions/paged`;
+export const getSessionByIdEndpoint = `${BASE_URL}/Sessions`;
+export const createSessionEndpoint = `${BASE_URL}/Sessions`;
+export const updateSessionEndpoint = `${BASE_URL}/Sessions`;
+export const deleteSessionEndpoint = `${BASE_URL}/Sessions`;
+
+//Ingredient Session endpoints
+export const getIngredientSessionEndpoint = `${BASE_URL}/IngredientSessions`;
+export const createIngredientSessionEndpoint = `${BASE_URL}/IngredientSessions`;
+export const updateIngredientSessionEndpoint = `${BASE_URL}/IngredientSessions`;
+export const deleteIngredientSessionEndpoint = `${BASE_URL}/IngredientSessions`;
+export const clearIngredientSessionEndpoint = `${BASE_URL}/IngredientSessions`;
