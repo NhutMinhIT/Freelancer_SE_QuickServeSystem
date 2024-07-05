@@ -14,6 +14,7 @@ import IngredientType from "../pages/brand-manager/ingredient/IngredientType";
 import IngredientList from "../pages/brand-manager/ingredient/IngredientList";
 import ProductTemplate from "../pages/brand-manager/product-template/ProductTemplate";
 import TemplateStep from "../pages/brand-manager/tempate-steps/TemplateStep";
+import SessionManagement from "../pages/store-manager/session-management/SessionManagement";
 
 const AppRouter = () => {
   const token = sessionStorage.getItem("quickServeToken");
@@ -54,6 +55,9 @@ const AppRouter = () => {
               <Route
                 path="/employee-management"
                 element={<EmployeeManagement />}
+              />
+              <Route path="/time-management"
+                element={<SessionManagement />}
               />
             </>
           )}

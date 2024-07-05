@@ -37,8 +37,8 @@ const listMenu = {
     ],
     storeManagementMenu: [
         {
-            title: 'Store Management',
-            url: '/store-management',
+            title: 'QL. Thời Gian',
+            url: '/time-management',
             icon: storeManagementIcon,
         },
         {
@@ -50,7 +50,7 @@ const listMenu = {
                     title: 'DS. Nhân Viên',
                     url: '/employee-management',
                 }
-                
+
             ],
         },
     ],

@@ -26,7 +26,7 @@ const EmployeeManagement = () => {
                         </div>
                     </div>
                     <div className="w-full overflow-auto">
-
+                        {/* Nơi đây bỏ component List  */}
                     </div>
                 </div>
             </div>
