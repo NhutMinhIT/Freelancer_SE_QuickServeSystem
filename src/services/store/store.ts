@@ -48,7 +48,7 @@ const rootReducer = combineReducers({
     stores: storeSlice,
     employees: employeeSlice,
     ingredientTypeTemplateSteps: IngredientTypeTemplateStepSlice,
-    sesssions: sessionSlice,
+    sessions: sessionSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

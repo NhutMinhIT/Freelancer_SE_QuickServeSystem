@@ -55,8 +55,8 @@ export const createStoreEndpoint = `${BASE_URL}/Stores`;
 
 
 //Employees endpoints
-export const getAllEmployeeEndpoint = `${BASE_URL}/employees/paged`;
-export const createEmployeeEndpoint = `${BASE_URL}/employees`;
+export const getAllEmployeeEndpoint = `${BASE_URL}/Stores/employees/paged`;
+export const createEmployeeEndpoint = `${BASE_URL}/Stores/employees`;
 
 // Ingredient Type Template Steps endpoints
 export const getIngredientTypeTemplateStepsEndpoint = `${BASE_URL}/IngredientTypeTemplateSteps/all`;

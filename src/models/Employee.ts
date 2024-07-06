@@ -2,7 +2,7 @@ export interface IEmployee {
     id: string;
     userName: string;
     email: string;
-    roles?: string | null;
+    role?: string | null;
     phoneNumber: string | null;
     name?: string | null;
     address?: string | null;

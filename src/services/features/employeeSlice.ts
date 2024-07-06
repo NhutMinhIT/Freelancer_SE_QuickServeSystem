@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getAllEmployeeEndpoint, createEmployeeEndpoint} from '../api/apiConfig';
+import { getAllEmployeeEndpoint, createEmployeeEndpoint } from '../api/apiConfig';
 import axiosInstance from '../api/axiosInstance';
 import { ICreateEmployee, IEmployee } from '../../models/Employee';
 import { toast } from 'react-toastify';
