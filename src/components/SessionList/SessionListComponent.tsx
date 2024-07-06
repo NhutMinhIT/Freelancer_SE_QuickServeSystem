@@ -6,6 +6,7 @@ import { getAllSessions } from "../../services/features/sessionSlice";
 import { Button, Stack } from "@mui/material";
 import CommonTable from "../CommonTable/CommonTable";
 import PopupCreateSession from "./popup-features/PopCreateSession";
+import PopupDetailSession from "./popup-features/PopupDetailSession";
 
 const columns: MRT_ColumnDef<ISession>[] = [
     {
@@ -69,7 +70,10 @@ const SessionListComponent = () => {
     const dispatch = useAppDispatch();
     const { sessions } = useAppSelector((state) => state.sessions);
     const [isPopupOpen, setIsPopupOpen] = useState(false);
+
     const [sessionData, setSessionData] = useState<ISession | null>(null);
+    const [onPopupSessionDetail, setOnPopupSessionDetail] =
+        useState<boolean>(false);
 
     useEffect(() => {
         if (!isPopupOpen) {
@@ -87,7 +91,7 @@ const SessionListComponent = () => {
 
     const handleShowSessionDetail = (session: ISession) => {
         setSessionData(session);
-        handlePopupOpen();
+        setOnPopupSessionDetail(true);
     };
 
 
@@ -117,6 +121,16 @@ const SessionListComponent = () => {
                 isPopupOpen={isPopupOpen}
                 closePopup={handlePopupClose}
             />
+            {sessionData && (
+                <>
+                    <PopupDetailSession
+                        session={sessionData}
+                        onPopupDetail={onPopupSessionDetail}
+                        setOnPopupDetail={setOnPopupSessionDetail}
+                    />
+
+                </>
+            )}
         </Stack>
     )
 }
