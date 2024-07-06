@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { getAllSessions } from "../../services/features/sessionSlice";
 import { Button, Stack } from "@mui/material";
 import CommonTable from "../CommonTable/CommonTable";
-import PopupCreateSession from "../StoreComponent/popup-features/PopCreateSession";
+import PopupCreateSession from "./popup-features/PopCreateSession";
 
 const columns: MRT_ColumnDef<ISession>[] = [
     {

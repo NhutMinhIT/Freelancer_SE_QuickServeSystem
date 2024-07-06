@@ -32,6 +32,7 @@ const PopupCreateSession: React.FC<PopupCreateSessioProps> = ({ isPopupOpen, clo
             })
             .catch((error: any) => console.log(error))
             .finally(() => setIsLoading(false));
+        reset();
     }
 
     return (

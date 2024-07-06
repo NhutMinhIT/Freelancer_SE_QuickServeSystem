@@ -1,4 +1,4 @@
-import { FaListAlt, FaPlus } from "react-icons/fa"
+import { FaListAlt } from "react-icons/fa"
 import SidebarComponent from "../../../components/ManagementComponent/SidebarComponent "
 import SessionListComponent from "../../../components/SessionList/SessionListComponent"
 
