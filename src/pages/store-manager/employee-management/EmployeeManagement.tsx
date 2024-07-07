@@ -1,6 +1,6 @@
-import { FaListAlt, FaPlus } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { FaListAlt } from "react-icons/fa";
 import SidebarComponent from "../../../components/ManagementComponent/SidebarComponent ";
+import EmployeeListComponent from "../../../components/EmployeeComponent/EmployeeListComponent";
 
 const EmployeeManagement = () => {
     return (
@@ -16,17 +16,9 @@ const EmployeeManagement = () => {
                             <FaListAlt className="text-orange-500" />
                             <h3 className="font-bold ml-6">Quản lí cửa hàng</h3>
                         </div>
-                        <div className="ml-auto">
-                            <Link to='/'>
-                                <button className="bg-green-500 hover:bg-organge-500 text-white font-bold p-3 rounded flex items-center justify-between mr-12">
-                                    <FaPlus className="text-base mr-2" />
-                                    <span>Thêm Nhân Viên</span>
-                                </button>
-                            </Link>
-                        </div>
                     </div>
                     <div className="w-full overflow-auto">
-                        {/* Nơi đây bỏ component List  */}
+                        <EmployeeListComponent />
                     </div>
                 </div>
             </div>

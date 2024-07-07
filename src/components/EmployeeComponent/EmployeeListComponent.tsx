@@ -1,12 +1,11 @@
 import { MRT_ColumnDef } from 'material-react-table';
 import { useEffect, useState } from 'react';
 import { Stack, Button } from '@mui/material';
-import { useAppDispatch, useAppSelector } from '../../services/store/store';
 
 import { IEmployee } from '../../models/Employee';
 import CommonTable from '../CommonTable/CommonTable';
-import { getAllEmployee } from '../../services/features/employeeSlice';
 import PopupCreateEmployee from '../Popup/PopupCreateEmployee';
+import { useAppSelector } from '../../services/store/store';
 
 
 
@@ -53,42 +52,23 @@ const columns: MRT_ColumnDef<IEmployee>[] = [
 ];
 
 const EmployeeListComponent = () => {
-    const dispatch = useAppDispatch();
     const { employees } = useAppSelector((state) => state.employees);
     const [isPopupOpen, setIsPopupOpen] = useState(false);
-    const [employeeData, setEmployeeData] = useState<IEmployee | null>(null);
-    const [onPopupEmployeeDetail, setOnPopupEmployeeDetail] = useState<boolean>(false);
 
-    useEffect(() => {
-        if (!isPopupOpen) {
-            dispatch(getAllEmployee());
-        }
-    }, [isPopupOpen, dispatch]);
 
     const handlePopupOpen = () => {
         setIsPopupOpen(true);
-    };
-
-    const handlePopupClose = () => {
-        setIsPopupOpen(false);
     };
 
     const handleClosePopupCreateEmployee = () => {
         setIsPopupOpen(false);
     };
 
-    const handleShowEmployeeDetail = (employee: IEmployee) => {
-        setEmployeeData(employee);
-        setOnPopupEmployeeDetail(true);
-    };
-    
-
     return (
         <Stack sx={{ m: '2rem 0' }}>
             <CommonTable
                 columns={columns}
                 data={employees || []}
-                onRowDoubleClick={handleShowEmployeeDetail}
                 toolbarButtons={
                     <Button
                         variant="contained"
@@ -106,13 +86,7 @@ const EmployeeListComponent = () => {
                 isPopupOpen={isPopupOpen}
                 closePopup={handleClosePopupCreateEmployee}
             />
-           
-            {employeeData && (
-                <>
-                 
-               
-                </>
-            )}
+
         </Stack>
     );
 };

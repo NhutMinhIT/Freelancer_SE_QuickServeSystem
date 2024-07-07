@@ -11,9 +11,7 @@ import ingredientSlice from '../features/ingredientSlice';
 import productTemplateSlice from '../features/productTemplateSlice';
 import templateStepSlice from '../features/templateStepSlice';
 import storeSlice from '../features/storeSlice';
-
 import employeeSlice from '../features/employeeSlice';
-
 import IngredientTypeTemplateStepSlice from '../features/IngredientTypeTemplateStepSlice';
 import sessionSlice from '../features/sessionSlice';
 import ingredientSessionSlice from '../features/ingredientSessionSlice';

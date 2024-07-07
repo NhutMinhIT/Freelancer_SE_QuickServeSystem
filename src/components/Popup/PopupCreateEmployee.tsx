@@ -1,10 +1,8 @@
 import { XMarkIcon } from '@heroicons/react/16/solid';
 import React, { useState } from 'react';
 import { useAppDispatch } from '../../services/store/store';
-import { Resolver , useForm } from 'react-hook-form';
+import { Resolver, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-
-import { createEmployee } from '../../services/features/employeeSlice';
 import { schemaEmployee } from '../../schemas/schemaEmployee';
 
 
@@ -27,18 +25,18 @@ const PopupCreateEmployee: React.FC<PopupCreateEmployeeProps> = ({ isPopupOpen, 
         resolver: yupResolver(schemaEmployee) as unknown as Resolver<FormCreateEmployeeValues>,
     });
 
-    const onSubmit = (data: FormCreateEmployeeValues) => {
-        setIsLoading(true);
-        dispatch(createEmployee(data))
-            .unwrap()
-            .then(() => {
-                closePopup();
-            })
-            .catch((error: any) => console.log(error))
-            .finally(() => setIsLoading(false));
-        reset();
+    // const onSubmit = (data: FormCreateEmployeeValues) => {
+    //     setIsLoading(true);
+    //     dispatch(createEmployee(data))
+    //         .unwrap()
+    //         .then(() => {
+    //             closePopup();
+    //         })
+    //         .catch((error: any) => console.log(error))
+    //         .finally(() => setIsLoading(false));
+    //     reset();
 
-    }
+    // }
 
     return (
         isPopupOpen && (
@@ -56,8 +54,10 @@ const PopupCreateEmployee: React.FC<PopupCreateEmployeeProps> = ({ isPopupOpen, 
                         <h2 className="text-xl font-bold mb-4">Tạo Nhân Viên</h2>
                     </div>
                     <div>
-                        <form onSubmit={handleSubmit(onSubmit)}>
-                        <div className="mb-4">
+                        <form
+                        //  onSubmit={handleSubmit(onSubmit)}
+                        >
+                            <div className="mb-4">
                                 <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
                                 <input
                                     {...register('email')}
@@ -66,7 +66,7 @@ const PopupCreateEmployee: React.FC<PopupCreateEmployeeProps> = ({ isPopupOpen, 
                                     id="email"
                                     className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
                                 />
-                               {errors.email && <p className='text-red-500 text-xs mt-2'>* {errors.email.message}</p>}
+                                {errors.email && <p className='text-red-500 text-xs mt-2'>* {errors.email.message}</p>}
                             </div>
                             <div className="mb-4">
                                 <label htmlFor="userName" className="block text-sm font-medium text-gray-700">Tên Tài Khoản</label>
@@ -77,7 +77,7 @@ const PopupCreateEmployee: React.FC<PopupCreateEmployeeProps> = ({ isPopupOpen, 
                                     id="userName"
                                     className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
                                 />
-                               
+
                             </div>
                             <div className="mb-4">
                                 <label htmlFor="password" className="block text-sm font-medium text-gray-700">Mật Khẩu</label>
@@ -88,7 +88,7 @@ const PopupCreateEmployee: React.FC<PopupCreateEmployeeProps> = ({ isPopupOpen, 
                                     id="password"
                                     className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
                                 />
-                               
+
                             </div>
                             <div className="flex justify-end">
                                 <button
