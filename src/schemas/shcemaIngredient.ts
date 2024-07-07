@@ -18,6 +18,11 @@ const priceSchema = yup.number()
     .positive('Giá phải là số dương')
     .max(999999999, 'Giá không được lớn hơn 9 chữ số');
 
+const defaultQuantitySchema = yup.number()
+    .required('Số lượng không được bỏ trống')
+    .positive('Số lượng phải là số dương')
+    .max(999999999, 'Số lượng không được lớn hơn 9 chữ số');
+
 const caloSchema = yup.number()
     .required('Calo không được bỏ trống')
     .positive('Calo phải là số dương')
@@ -42,6 +47,7 @@ const ingredientTypeIdSchema = yup.number()
 export const schemaCreateIngredient = yup.object().shape({
     name: nameSchema,
     price: priceSchema,
+    defaultQuantity: defaultQuantitySchema,
     calo: caloSchema,
     description: descriptionSchema,
     image: yup.mixed().required('Hình ảnh không được bỏ trống'),
@@ -51,6 +57,7 @@ export const schemaCreateIngredient = yup.object().shape({
 export const schemaUpdateIngredient = yup.object().shape({
     name: nameSchema,
     price: priceSchema,
+    defaultQuantity: defaultQuantitySchema,
     calo: caloSchema,
     description: descriptionSchema,
     image: yup.mixed(),

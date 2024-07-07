@@ -35,6 +35,7 @@ export interface IIngredientTypesRename {
 export interface IIngredientCreate {
     name: string;
     price: number;
+    defaultQuantity: number;
     calo: number;
     description: string;
     image: File;
