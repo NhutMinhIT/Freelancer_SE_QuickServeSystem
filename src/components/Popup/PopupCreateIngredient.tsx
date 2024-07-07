@@ -16,6 +16,7 @@ type PopupCreateIngredientProps = {
 type FormCreateIngredientValues = {
     name: string;
     price: number;
+    defaultQuantity: number; // Ensure `calo` is a number
     calo: number; // Ensure `calo` is a number
     description: string;
     image: FileList // Ensure `image` is lowercase to match schema
@@ -52,6 +53,7 @@ const PopupCreateIngredient: React.FC<PopupCreateIngredientProps> = ({
 
         formData.append('name', data.name);
         formData.append('price', data.price.toString());
+        formData.append('defaultQuantity', data.defaultQuantity.toString());
         formData.append('calo', data.calo.toString());
         formData.append('description', data.description);
         if (data.image && data.image.length > 0) {
@@ -108,6 +110,18 @@ const PopupCreateIngredient: React.FC<PopupCreateIngredientProps> = ({
                                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
                             />
                             {errors.price && <p className='text-red-500 text-xs mt-2'>* {errors.price.message}</p>}
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="defaultQuantity" className="block text-sm font-medium text-gray-700">Số lượng nguyên liệu</label>
+                            <input
+                                {...register('defaultQuantity')}
+                                type="number"
+                                name="defaultQuantity"
+                                id="defaultQuantity"
+                                required
+                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                            />
+                            {errors.defaultQuantity && <p className='text-red-500 text-xs mt-2'>* {errors.defaultQuantity.message}</p>}
                         </div>
                         <div className="mb-4">
                             <label htmlFor="calo" className="block text-sm font-medium text-gray-700">Calo Nguyên Liệu</label>

@@ -134,6 +134,8 @@ export const deleteIngredientTypeById = createAsyncThunk<void, { id: number }>(
             });
             if (response.data.success) {
                 toast.success('Xóa loại thành phần thành công !');
+            }else{
+                toast.error(response.data.errors[0].description);
             }
         } catch (error: any) {
             return thunkAPI.rejectWithValue(

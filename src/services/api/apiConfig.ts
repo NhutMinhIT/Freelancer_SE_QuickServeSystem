@@ -19,6 +19,7 @@ export const renameCategoryEndpoint = `${BASE_URL}/Categories`;
 
 //INGREDIENT endpoints
 export const getAllIngredientEndpoint = `${BASE_URL}/Ingredients/paged`;
+export const getAllIngredientActiveEndpoint = `${BASE_URL}/Ingredients/pagedByActiveStatus`;
 export const getIngredientByIdEndpoint = `${BASE_URL}/Ingredients`;
 export const createIngredientEndpoint = `${BASE_URL}/Ingredients`;
 export const updateIngredientEndpoint = `${BASE_URL}/Ingredients`;

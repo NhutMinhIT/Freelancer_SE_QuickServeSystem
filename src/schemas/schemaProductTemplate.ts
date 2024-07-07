@@ -17,12 +17,6 @@ const nameSchema = yup.string()
 const sizeSchema = yup.string()
     .required('Kích cỡ không được bỏ trống')
 
-const priceSchema = yup.number()
-    .required('Giá không được bỏ trống')
-    .positive('Giá phải là số dương')
-    .max(999999999, 'Giá không được lớn hơn 9 chữ số');
-
-
 const descriptionSchema = yup.string()
     .required('Mô tả không được bỏ trống')
     .max(255, 'Mô tả không được vượt quá 255 kí tự')
@@ -36,7 +30,6 @@ export const schemaCreateProductTemplate = yup.object().shape({
     name: nameSchema,
     size: sizeSchema,
     image: yup.mixed().required('Hình ảnh không được bỏ trống'),
-    price: priceSchema,
     description: descriptionSchema,
 });
 
@@ -44,6 +37,5 @@ export const schemaUpdateProductTemplate = yup.object().shape({
     categoryId: categoryIdSchema,
     name: nameSchema,
     size: sizeSchema,
-    price: priceSchema,
     description: descriptionSchema,
 });

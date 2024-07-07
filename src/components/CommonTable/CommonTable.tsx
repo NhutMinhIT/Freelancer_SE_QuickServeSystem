@@ -25,6 +25,7 @@ interface CommonTableProps<T extends MRT_RowData> {
   onRowDoubleClick?: (row: T) => void;
   enableRowSelection?: boolean;
   toolbarButtons?: React.ReactNode;
+  isShowTitleDoubleClick?: boolean; 
 }
 
 const CommonTable = <T extends MRT_RowData>({
@@ -33,6 +34,7 @@ const CommonTable = <T extends MRT_RowData>({
   onRowDoubleClick,
   enableRowSelection = false,
   toolbarButtons,
+  isShowTitleDoubleClick = true,
 }: CommonTableProps<T>) => {
   const table = useMaterialReactTable({
     columns,
@@ -63,17 +65,19 @@ const CommonTable = <T extends MRT_RowData>({
         <MRT_TablePagination table={table} />
         {toolbarButtons}
       </Box>
-      <Typography
-        variant="subtitle2"
-        sx={{
-          textAlign: "left",
-          marginLeft: "16px",
-          fontSize: "14px",
-          color: "red",
-        }}
-      >
-        * Vui lòng nhấn đúp vào 1 hàng để xem thông tin chi tiết
-      </Typography>
+      {isShowTitleDoubleClick && (
+        <Typography
+          variant="subtitle2"
+          sx={{
+            textAlign: "left",
+            marginLeft: "16px",
+            fontSize: "14px",
+            color: "red",
+          }}
+        >
+          * Vui lòng nhấn đúp vào 1 hàng để xem thông tin chi tiết
+        </Typography>
+      )}
       <TableContainer className="p-4">
         <Table>
           <TableHead className="bg-orange-500">

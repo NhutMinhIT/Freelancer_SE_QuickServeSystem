@@ -19,7 +19,6 @@ type FormCreateProductTemplate = {
     name: string;
     size: string;
     image: FileList; // Ensure `image` is lowercase to match schema
-    price: number;
     description: string;
 }
 
@@ -56,7 +55,6 @@ const PopupCreateProductTemplate: React.FC<PopupCreateProductTemplateProps> = ({
         if (data.image && data.image.length > 0) {
             formData.append('image', data.image[0]);
         }
-        formData.append('price', data.price.toString());
         formData.append('description', data.description);
 
         dispatch(createProductTemplate(formData))
@@ -131,18 +129,6 @@ const PopupCreateProductTemplate: React.FC<PopupCreateProductTemplateProps> = ({
                                 <option value="large">Lớn</option>
                             </select>
                             {errors.size && <p className='text-red-500 text-xs mt-2'>* {errors.size.message}</p>}
-                        </div>
-                        <div className="mb-4">
-                            <label htmlFor="price" className="block text-sm font-medium text-gray-700">Giá</label>
-                            <input
-                                {...register('price')}
-                                type="number"
-                                name="price"
-                                id="price"
-                                required
-                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
-                            />
-                            {errors.price && <p className='text-red-500 text-xs mt-2'>* {errors.price.message}</p>}
                         </div>
                         <div className="mb-4">
                             <label htmlFor="description" className="block text-sm font-medium text-gray-700">Mô tả</label>

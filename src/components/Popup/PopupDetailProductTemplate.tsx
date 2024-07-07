@@ -135,13 +135,13 @@ const PopupDetailProductTemplate: React.FC<PopupDetailProductTemplateProps> = ({
                                         </button>
                                         <button
                                             onClick={onDelete}
-                                            className="text-xs w-24 border border-red-500 p-1 bg-red-500 ttext-white-500 font-bold rounded-lg"
+                                            className="text-xs w-24 border border-red-500 p-1 bg-red-500 text-white-500 font-bold rounded-lg"
                                         >
                                             Xoá
                                         </button>
                                         <button
                                             onClick={onUpdate}
-                                            className="text-xs w-24 border border-yellow-500 p-1 bg-yello-500 text-white-500 font-bold rounded-lg"
+                                            className="text-xs w-24 border border-yellow-500 p-1 bg-yellow-500 text-white-500 font-bold rounded-lg"
                                         >
                                             Sửa thông tin
                                         </button>

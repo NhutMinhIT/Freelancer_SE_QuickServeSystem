@@ -7,6 +7,7 @@ import { Button, Stack } from "@mui/material";
 import CommonTable from "../CommonTable/CommonTable";
 import PopupCreateSession from "./popup-features/PopCreateSession";
 import PopupDetailSession from "./popup-features/PopupDetailSession";
+import { getIngredientSessionBySessionId } from "../../services/features/ingredientSessionSlice";
 
 const columns: MRT_ColumnDef<ISession>[] = [
     {
@@ -91,6 +92,7 @@ const SessionListComponent = () => {
 
     const handleShowSessionDetail = (session: ISession) => {
         setSessionData(session);
+        dispatch(getIngredientSessionBySessionId({sessionId: session?.id}));
         setOnPopupSessionDetail(true);
     };
 
@@ -124,7 +126,7 @@ const SessionListComponent = () => {
             {sessionData && (
                 <>
                     <PopupDetailSession
-                        session={sessionData}
+                        sessionId={sessionData?.id}
                         onPopupDetail={onPopupSessionDetail}
                         setOnPopupDetail={setOnPopupSessionDetail}
                     />

@@ -24,7 +24,6 @@ export interface IProductTemplateCreate {
     name: string;
     size: string;
     image: File;
-    price: number;
     description: string;
     data: number;
 }

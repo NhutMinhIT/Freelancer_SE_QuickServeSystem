@@ -4,6 +4,7 @@ import {
     changeImageIngredientEndpoint,
     createIngredientEndpoint,
     deleteIngredientEndpoint,
+    getAllIngredientActiveEndpoint,
     getAllIngredientEndpoint,
     getIngredientByIdEndpoint,
     updateIngredientEndpoint
@@ -15,6 +16,7 @@ import axiosInstance from '../api/axiosInstance';
 type IngredientState = {
     loading: boolean;
     ingredients: IIngredient[] | null;
+    ingredientsActive: IIngredient[] | null;
     ingredient: IIngredient | null;
     createIngredient: IIngredientCreate | null;
     error: string[] | unknown;
@@ -25,6 +27,7 @@ const initialState: IngredientState = {
     loading: false,
     ingredients: null,
     createIngredient: null,
+    ingredientsActive: null,
     ingredient: null,
     error: null,
     success: false,
@@ -36,6 +39,25 @@ export const getAllIngredients = createAsyncThunk<IIngredient[], void>(
         try {
             const token = sessionStorage.getItem('quickServeToken');
             const response = await axiosInstance.get(getAllIngredientEndpoint, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            return response.data.data;
+        } catch (error: any) {
+            return thunkAPI.rejectWithValue(
+                error.response?.data?.errorMessages || 'Unknown error',
+            );
+        }
+    },
+);
+
+export const getAllIngredientsActive = createAsyncThunk<IIngredient[], void>(
+    'ingredients/getAllIngredientsActive',
+    async (_, thunkAPI) => {
+        try {
+            const token = sessionStorage.getItem('quickServeToken');
+            const response = await axiosInstance.get(getAllIngredientActiveEndpoint, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -178,6 +200,17 @@ const ingredientSlice = createSlice({
             state.ingredients = action.payload;
         });
         builder.addCase(getAllIngredients.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload as string[];
+        }); //action get all ingredient active
+        builder.addCase(getAllIngredientsActive.pending, (state) => {
+            state.loading = true;
+        });
+        builder.addCase(getAllIngredientsActive.fulfilled, (state, action) => {
+            state.loading = false;
+            state.ingredientsActive = action.payload;
+        });
+        builder.addCase(getAllIngredientsActive.rejected, (state, action) => {
             state.loading = false;
             state.error = action.payload as string[];
         });
