@@ -7,70 +7,9 @@ import { useAppDispatch, useAppSelector } from "../../../services/store/store";
 import { useState } from "react";
 import PopupCreateIngredientSession from "./PopupCreateIngredientSession";
 import { getAllIngredientsActive } from "../../../services/features/ingredientSlice";
-import { deleteIngredientSessionBySessionId, getIngredientSessionBySessionId } from "../../../services/features/ingredientSessionSlice";
+import { deleteIngredientSessionBySessionId, getIngredientSessionBySessionId, deleteIngredientSessionByIngredientId } from "../../../services/features/ingredientSessionSlice";
 import PopupCheck from "../../Popup/PopupCheck";
-import { toast } from "react-toastify";
-
-const columns: MRT_ColumnDef<IIngredientSold>[] = [
-    {
-        accessorKey: 'name',
-        header: 'Tên nguyên liệu',
-    },
-    {
-        accessorKey: 'imageUrl',
-        header: 'Hình ảnh',
-        Cell: ({ cell }) => {
-            const imageUrl = cell.row.original.imageUrl;
-            return <img style={{height: '50px', width: '70px'}} src={imageUrl} alt="Ảnh nguyên liệu" />
-        },
-    },
-    {
-        accessorKey: 'quantity',
-        header: 'Số lượng'
-    },
-    {
-        accessorKey: 'soldQuantity',
-        header: 'Số lượng đã bán'
-    },
-    {
-        accessorKey: 'function',
-        header: 'Chức năng',
-        Cell: ({ cell }) => {
-            // const dispatch = useAppDispatch();
-            const id = cell.row.original.id;
-
-            const handleDeleteIngredientSessionById = () => {
-                console.log(`Delete: ${id}`);
-                toast.error("Chưa làm nha đỉ 😃😃😃")
-            }
-
-            const handleEditIngredientSessionById = () => {
-                console.log(`Edit: ${id}`);
-            };
-
-            return (
-                <div className="flex items-center">
-                    <Tooltip title="Chỉnh sửa nguyên liệu">
-                        <PencilIcon
-                            width={16}
-                            height={16}
-                            className="h-6 w-6 cursor-pointer text-blue-600 mr-2"
-                            onClick={handleEditIngredientSessionById}
-                        />
-                    </Tooltip>
-                    <Tooltip title="Xóa nguyên liệu">
-                        <TrashIcon
-                            width={16}
-                            height={16}
-                            className="h-6 w-6 cursor-pointer text-red-600"
-                            onClick={handleDeleteIngredientSessionById}
-                        />
-                    </Tooltip>
-                </div>
-            );
-        },
-    },
-];
+import PopupUpdateIngredientSession from "./PopupUpdateIngredientSession";
 
 type PopupDetailSessionProps = {
     sessionId: number;
@@ -82,23 +21,87 @@ const PopupDetailSession: React.FC<PopupDetailSessionProps> = ({
     onPopupDetail,
     setOnPopupDetail
 }) => {
+
+    const columns: MRT_ColumnDef<IIngredientSold>[] = [
+        {
+            accessorKey: 'name',
+            header: 'Tên nguyên liệu',
+        },
+        {
+            accessorKey: 'imageUrl',
+            header: 'Hình ảnh',
+            Cell: ({ cell }) => {
+                const imageUrl = cell.row.original.imageUrl;
+                return <img style={{height: '50px', width: '70px'}} src={imageUrl} alt="Ảnh nguyên liệu" />
+            },
+        },
+        {
+            accessorKey: 'quantity',
+            header: 'Số lượng'
+        },
+        {
+            accessorKey: 'soldQuantity',
+            header: 'Số lượng đã bán'
+        },
+        {
+            accessorKey: 'function',
+            header: 'Chức năng',
+            Cell: ({ cell }) => {
+                const id = cell.row.original.id;
+                return (
+                    <div className="flex justify-center">
+                        <Tooltip title="Xóa nguyên liệu">
+                            <TrashIcon
+                                width={16}
+                                height={16}
+                                className="h-6 w-6 cursor-pointer text-red-600"
+                                onClick={() => {
+                                    setIsDeleteIngredientSessionByIngredientIdPopupCheck(true)
+                                    setSelectedId(id)
+                                }}
+                            />
+                        </Tooltip>
+                    </div>
+                );
+            },
+        },
+    ];
     const dispatch = useAppDispatch();
     const ingredientSessionById = useAppSelector(state => state.ingredientSession.ingredientSessionById);
 
     const [isCreateIngredientSessionPopup, setIsCreateIngredientSessionPopup] = useState<boolean>(false);
+    const [isUpdateIngredientSessionPopup, setIsUpdateIngredientSessionPopup] = useState<boolean>(false);
     const [isDeleteIngredientSessionBySessionIdPopupCheck, setIsDeleteIngredientSessionBySessionIdPopupCheck] = useState<boolean>(false);
     const [isDeleteIngredientSessionByIngredientIdPopupCheck, setIsDeleteIngredientSessionByIngredientIdPopupCheck] = useState<boolean>(false);
+    const [selectedId, setSelectedId] = useState<number| null>(null);
 
     const handleCreateIngredientSessionPopup = () => {
         setIsCreateIngredientSessionPopup(true);
         dispatch(getAllIngredientsActive());
     }
 
+    const handleUpdateIngredientSessionPopup = () => {
+        setIsUpdateIngredientSessionPopup(true);
+        dispatch(getAllIngredientsActive());
+        // dispatch(getIngredientSessionBySessionId({sessionId}));
+    }
+
     const handleDeleteIngredientSessionBySessionId = () => {
-        dispatch(deleteIngredientSessionBySessionId({sessionId: sessionId}))
+        dispatch(deleteIngredientSessionBySessionId({sessionId}))
         .unwrap()
         .then(() => {
             setIsDeleteIngredientSessionBySessionIdPopupCheck(false);
+            dispatch(getIngredientSessionBySessionId({sessionId}));
+        }).catch(e=>{
+            console.log(e);
+        })
+    }
+    
+    const handleDeleteIngredientSessionByIngredientId = () => {
+        dispatch(deleteIngredientSessionByIngredientId({sessionId, ingredientId: selectedId as number}))
+        .unwrap()
+        .then(() => {
+            setIsDeleteIngredientSessionByIngredientIdPopupCheck(false);
             dispatch(getIngredientSessionBySessionId({sessionId}));
         }).catch(e=>{
             console.log(e);
@@ -161,29 +164,50 @@ const PopupDetailSession: React.FC<PopupDetailSessionProps> = ({
                                                     },
                                                     textTransform: 'none',
                                                 }}
+                                                disabled={!!ingredientSessionById?.ingredients}
                                             >
                                                 Thêm
                                             </Button>
-                                            <Button
-                                                variant="contained"
-                                                onClick={()=> setIsDeleteIngredientSessionBySessionIdPopupCheck(true)}
-                                                sx={{
-                                                    color: 'white',
-                                                    fontWeight: 'bold',
-                                                    backgroundColor: 'red',
-                                                    '&:hover': {
-                                                        backgroundColor: '#ad2518',
-                                                    },
-                                                    textTransform: 'none',
-                                                }}
-                                            >
-                                                Xóa tất cả
-                                            </Button>
+                                            {ingredientSessionById?.ingredients !== undefined && (
+                                                <Button
+                                                    variant="contained"
+                                                    onClick={()=> setIsDeleteIngredientSessionBySessionIdPopupCheck(true)}
+                                                    sx={{
+                                                        color: 'white',
+                                                        fontWeight: 'bold',
+                                                        backgroundColor: 'red',
+                                                        '&:hover': {
+                                                            backgroundColor: '#ad2518',
+                                                        },
+                                                        textTransform: 'none',
+                                                    }}
+                                                >
+                                                    Xóa tất cả
+                                                </Button>
+                                            )}
                                         </Box>
                                     }
                                 />
+                                <Box display="flex" justifyContent="flex-end" mr={2}>
+                                    {ingredientSessionById?.ingredients !== undefined && (
+                                    <Button
+                                        variant="contained"
+                                        onClick={handleUpdateIngredientSessionPopup}
+                                        sx={{
+                                            color: 'white',
+                                            fontWeight: 'bold',
+                                            backgroundColor: 'orange',
+                                            '&:hover': {
+                                            backgroundColor: '#f58f1b',
+                                        },
+                                            textTransform: 'none',
+                                        }}
+                                        >
+                                        Chỉnh sửa nguyên liệu
+                                    </Button>
+                                    )}
+                                </Box>
                             </div>
-
                         </div>
                         <div className="border-t-4 w-auto flex gap-4">
                             <div className="mt-5 gap-5">
@@ -210,6 +234,12 @@ const PopupDetailSession: React.FC<PopupDetailSessionProps> = ({
                 closePopup={() => setIsCreateIngredientSessionPopup(false)}
             />
 
+            <PopupUpdateIngredientSession
+                sessionId={sessionId}
+                isPopupOpen={isUpdateIngredientSessionPopup}
+                closePopup={() => setIsUpdateIngredientSessionPopup(false)}
+            />
+
             <PopupCheck 
                 open={isDeleteIngredientSessionBySessionIdPopupCheck}
                 content="Bạn có chắc chắn muốn xóa tất cả các nguyên liệu trong ca này không ?"
@@ -224,7 +254,7 @@ const PopupDetailSession: React.FC<PopupDetailSessionProps> = ({
                         titleCancel="Không"
                         titleAccept="Có"
                         onCancel={() => setIsDeleteIngredientSessionByIngredientIdPopupCheck(false)}
-                        onAccept={() => {}}
+                        onAccept={handleDeleteIngredientSessionByIngredientId}
             />
         </div>
     )

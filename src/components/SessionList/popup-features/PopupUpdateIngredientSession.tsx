@@ -1,19 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { XMarkIcon } from "@heroicons/react/16/solid";
 import { useAppDispatch, useAppSelector } from "../../../services/store/store";
-import { createIngredientSession, getIngredientSessionBySessionId } from "../../../services/features/ingredientSessionSlice";
-import { schemaCreateIngredientSession } from "../../../schemas/schemaCreateIngredientSession";
+import { getIngredientSessionBySessionId, updateIngredientSession } from "../../../services/features/ingredientSessionSlice";
+import { schemaUpdateIngredientSession } from "../../../schemas/schemaCreateIngredientSession";
 import { Grid } from "@mui/material";
 
-type PopupCreateIngredientSessionProps = {
+type PopupUpdateIngredientSessionProps = {
     sessionId: number;
     isPopupOpen: boolean;
     closePopup: () => void;
 };
 
-type FormCreateIngredientSessionStepValues = {
+type FormUpdateIngredientSessionStepValues = {
     sessionId: number;
     ingredients: {
         id: number;
@@ -21,26 +21,25 @@ type FormCreateIngredientSessionStepValues = {
     }[];
 };
 
-const PopupCreateIngredientSession = ({
+const PopupUpdateIngredientSession = ({
     sessionId,
     isPopupOpen,
     closePopup,
-}: PopupCreateIngredientSessionProps) => {
+}: PopupUpdateIngredientSessionProps) => {
     const dispatch = useAppDispatch();
     const [isLoading, setIsLoading] = useState(false);
 
     const ingredientsActive = useAppSelector((state)=> state.ingredients.ingredientsActive);
+    const ingredientSessionById = useAppSelector(state =>state.ingredientSession.ingredientSessionById)
 
     const {
         register,
         handleSubmit,
         control,
+        setValue,
         reset,
-    } = useForm<FormCreateIngredientSessionStepValues>({
-        resolver: yupResolver(schemaCreateIngredientSession),
-        defaultValues: {
-            ingredients: [{ id: 0, quantity: 0 }],
-        },
+    } = useForm<FormUpdateIngredientSessionStepValues>({
+        resolver: yupResolver(schemaUpdateIngredientSession),
     });
 
     const { fields, append, remove } = useFieldArray({
@@ -48,9 +47,40 @@ const PopupCreateIngredientSession = ({
         name: "ingredients",
     });
 
-    const onSubmit = (data: FormCreateIngredientSessionStepValues) => {
+    useEffect(() => {
+        if (ingredientSessionById?.ingredients) {
+            reset({
+                sessionId: sessionId,
+                ingredients: ingredientSessionById.ingredients.map((ingredient) => ({
+                    id: ingredient.id,
+                    quantity: ingredient.quantity,
+                })),
+            });
+        }
+    }, [ingredientSessionById, reset, sessionId]);
+
+    useEffect(()=> {
+        if(ingredientSessionById?.ingredients && ingredientSessionById?.ingredients.length !== 0){
+            ingredientSessionById?.ingredients.forEach((ingredient, index) => {
+                if(!fields[index]){
+                    append({
+                        id: 0,
+                        quantity: 0,
+                    })
+                }
+                setValue(`ingredients.${index}.id`, ingredient.id);
+                setValue(`ingredients.${index}.quantity`, ingredient.quantity);
+            })
+        }
+    }, [ingredientSessionById?.ingredients, setValue, append])
+
+    const handleRemove = (index: number) => {
+        remove(index);
+    }
+
+    const onSubmit = (data: FormUpdateIngredientSessionStepValues) => {
         setIsLoading(true);
-        dispatch(createIngredientSession(data))
+        dispatch(updateIngredientSession({sessionId, data}))
             .unwrap()
             .then(() => {
                 dispatch(getIngredientSessionBySessionId({sessionId: sessionId}));
@@ -72,7 +102,7 @@ const PopupCreateIngredientSession = ({
                         <XMarkIcon width={24} height={24} />
                     </button>
                     <div className="text-center">
-                        <h2 className="text-xl font-bold mb-4">Tạo nguyên liệu cho ca</h2>
+                        <h2 className="text-xl font-bold mb-4">Cập nhật nguyên liệu cho ca</h2>
                     </div>
                     <div>
                         <form onSubmit={handleSubmit(onSubmit)}>
@@ -132,7 +162,7 @@ const PopupCreateIngredientSession = ({
                                             <Grid item md={1} xs={1} xl={1} lg={1} alignSelf="center">
                                             <button
                                                     type="button"
-                                                    onClick={() => remove(index)}
+                                                    onClick={() => handleRemove(index)}
                                                     className="text-red-500 hover:text-red-700"
                                                 >
                                                     <XMarkIcon width={24} height={24} />
@@ -174,7 +204,7 @@ const PopupCreateIngredientSession = ({
                                             ></path>
                                         </svg>
                                     ) : (
-                                        "Tạo nguyên liệu cho ca"
+                                        "Cập nhật nguyên liệu cho ca"
                                     )}
                                 </button>
                             </div>
@@ -186,4 +216,4 @@ const PopupCreateIngredientSession = ({
     );
 };
 
-export default PopupCreateIngredientSession;
+export default PopupUpdateIngredientSession;

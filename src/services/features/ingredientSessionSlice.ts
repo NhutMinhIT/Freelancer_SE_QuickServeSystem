@@ -2,7 +2,7 @@ import axiosInstance from "../api/axiosInstance";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import { IIngredientSession, IIngredientSessionCreate } from "../../models/IngredientSession";
-import { createIngredientSessionEndpoint, deleteIngredientSessionEndpoint, getIngredientSessionEndpoint } from './../api/apiConfig';
+import { createIngredientSessionEndpoint, deleteIngredientSessionEndpoint, getIngredientSessionEndpoint, updateIngredientSessionEndpoint } from './../api/apiConfig';
 
 type SessionState = {
     loading: boolean;
@@ -63,52 +63,31 @@ export const createIngredientSession = createAsyncThunk<IIngredientSessionCreate
     }
 );
 
-// export const updateSession = createAsyncThunk<ISession, ISessionUpdate>(
-//     'sessions/updateSession',
-//     async ({ id, name, startTime, endTime }, thunkAPI) => {
-//         try {
-//             const token = sessionStorage.getItem('quickServeToken');
-//             const response = await axiosInstance.put(
-//                 `${updateSessionEndpoint}/${id}`,
-//                 { id, name, startTime, endTime },
-//                 {
-//                     headers: {
-//                         Authorization: `Bearer ${token}`,
-//                     },
-//                 },
-//             );
-//             if (response.data.success) {
-//                 toast.success('Cập nhật khung thời gian thành công!');
-//             } else {
-//                 toast.error(`${response.data.errors[0].description}`);
-//             }
-//             return response.data.data;
-//         } catch (error: any) {
-//             return thunkAPI.rejectWithValue(error.response.data);
-//         }
-//     }
-// );
-
-// export const deleteSession = createAsyncThunk<void, { id: number }>(
-//     'sessions/deleteSession',
-//     async ({ id }, thunkAPI) => {
-//         try {
-//             const token = sessionStorage.getItem('quickServeToken');
-//             const response = await axiosInstance.delete(`${deleteSessionEndpoint}/${id}`, {
-//                 headers: {
-//                     Authorization: `Bearer ${token}`
-//                 }
-//             });
-//             if (response.data.success) {
-//                 toast.success('Xóa khung thời gian thành công!');
-//             } else {
-//                 toast.error(`${response.data.errors[0].description}`);
-//             }
-//         } catch (error: any) {
-//             return thunkAPI.rejectWithValue(error.response.data);
-//         }
-//     }
-// )
+export const updateIngredientSession = createAsyncThunk<IIngredientSessionCreate, { sessionId: number, data: Object }>(
+    'ingredientSession/updateIngredientSession',
+    async ({sessionId, data}, thunkAPI) => {
+        try {
+            const token = sessionStorage.getItem('quickServeToken');
+            const response = await axiosInstance.put(
+                `${updateIngredientSessionEndpoint}/${sessionId}`,
+                data,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                },
+            );
+            if (response.data.success) {
+                toast.success('Cập nhật nguyên liệu cho ca thành công!');
+            } else {
+                toast.error(`${response.data.errors[0].description}`);
+            }
+            return response.data.data;
+        } catch (error: any) {
+            return thunkAPI.rejectWithValue(error.response.data);
+        }
+    }
+);
 
 export const deleteIngredientSessionBySessionId = createAsyncThunk<void, { sessionId: number }>(
     'ingredientSession/deleteIngredientBySessionId',
@@ -143,15 +122,16 @@ export const deleteIngredientSessionByIngredientId = createAsyncThunk<void, { se
         try {
             const token = sessionStorage.getItem('quickServeToken');
             const response = await axiosInstance.delete(
-                `${deleteIngredientSessionEndpoint}/${sessionId}/ingredient?ingredientId=${ingredientId}`,
+                `${deleteIngredientSessionEndpoint}/${sessionId}/ingredient`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
+                    data: { ingredientId }
                 },
             );
             if (response.data.success) {
-                toast.success('Xoá nguyên li thành công !');
+                toast.success('Xoá nguyên liệu thành công !');
             } else {
                 toast.error(`${response.data.errors[0].description}`);
             }
@@ -183,7 +163,7 @@ export const ingredientSessionSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         });
-        //create session
+        //create ingredient session
         builder.addCase(createIngredientSession.pending, (state) => {
             state.loading = true;
         });
@@ -195,18 +175,18 @@ export const ingredientSessionSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         });
-        // //update session
-        // builder.addCase(updateSession.pending, (state) => {
-        //     state.loading = true;
-        // });
-        // builder.addCase(updateSession.fulfilled, (state, action) => {
-        //     state.loading = false;
-        //     state.createSession = action.payload;
-        // });
-        // builder.addCase(updateSession.rejected, (state, action) => {
-        //     state.loading = false;
-        //     state.error = action.payload;
-        // });
+        // //update ingredient session
+        builder.addCase(updateIngredientSession.pending, (state) => {
+            state.loading = true;
+        });
+        builder.addCase(updateIngredientSession.fulfilled, (state, action) => {
+            state.loading = false;
+            state.createIngredientSession = action.payload;
+        });
+        builder.addCase(updateIngredientSession.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        });
         //delete ingredient session id
         builder.addCase(deleteIngredientSessionBySessionId.pending, (state) => {
             state.loading = true;
@@ -218,7 +198,7 @@ export const ingredientSessionSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         });
-          //delete ingredient id
+        //delete ingredient id
           builder.addCase(deleteIngredientSessionByIngredientId.pending, (state) => {
             state.loading = true;
         });
