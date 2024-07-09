@@ -40,6 +40,8 @@ export const getSessionById = createAsyncThunk<ISession, { id: number }>(
     'sessions/getSessionById',
     async (data, thunkAPI) => {
         const { id } = data;
+        console.log(id);
+        
         try {
             const token = sessionStorage.getItem('quickServeToken');
             const response = await axiosInstance.get(
@@ -86,6 +88,8 @@ export const createSesstion = createAsyncThunk<ISessionCreate, Object>(
 export const updateSession = createAsyncThunk<ISession, ISessionUpdate>(
     'sessions/updateSession',
     async ({ id, name, startTime, endTime }, thunkAPI) => {
+        console.log(id, name, startTime, endTime);
+        
         try {
             const token = sessionStorage.getItem('quickServeToken');
             const response = await axiosInstance.put(
@@ -175,10 +179,13 @@ export const sessionSlice = createSlice({
             state.error = action.payload;
         });
         //update session
-        builder.addCase(updateSession.pending, (state) => {
+        builder.addCase(updateSession.pending, (state, action) => {
+            console.log(action);
             state.loading = true;
         });
         builder.addCase(updateSession.fulfilled, (state, action) => {
+            console.log(action);
+            
             state.loading = false;
             state.createSession = action.payload;
         });

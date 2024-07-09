@@ -1,25 +1,29 @@
-import { XMarkIcon, TrashIcon, PencilIcon } from "@heroicons/react/16/solid";
+import { XMarkIcon, TrashIcon } from "@heroicons/react/16/solid";
 import CommonTable from "../../CommonTable/CommonTable";
 import { Box, Button, Tooltip } from "@mui/material";
 import { MRT_ColumnDef } from "material-react-table";
 import { IIngredientSold } from "../../../models/IngredientSession";
 import { useAppDispatch, useAppSelector } from "../../../services/store/store";
-import { useState } from "react";
+import {  useState } from "react";
 import PopupCreateIngredientSession from "./PopupCreateIngredientSession";
 import { getAllIngredientsActive } from "../../../services/features/ingredientSlice";
 import { deleteIngredientSessionBySessionId, getIngredientSessionBySessionId, deleteIngredientSessionByIngredientId } from "../../../services/features/ingredientSessionSlice";
 import PopupCheck from "../../Popup/PopupCheck";
 import PopupUpdateIngredientSession from "./PopupUpdateIngredientSession";
+import PopupUpdateSession from "./PopupUpdateSession";
+import {type ISession } from "../../../models/Session";
 
 type PopupDetailSessionProps = {
     sessionId: number;
     onPopupDetail: boolean;
     setOnPopupDetail: (value: boolean) => void;
+    session: ISession
 };
+
 const PopupDetailSession: React.FC<PopupDetailSessionProps> = ({
     sessionId,
     onPopupDetail,
-    setOnPopupDetail
+    setOnPopupDetail,
 }) => {
 
     const columns: MRT_ColumnDef<IIngredientSold>[] = [
@@ -67,13 +71,15 @@ const PopupDetailSession: React.FC<PopupDetailSessionProps> = ({
         },
     ];
     const dispatch = useAppDispatch();
-    const ingredientSessionById = useAppSelector(state => state.ingredientSession.ingredientSessionById);
-
+    const ingredientSessionById   = useAppSelector(state => state.ingredientSession.ingredientSessionById) ;
     const [isCreateIngredientSessionPopup, setIsCreateIngredientSessionPopup] = useState<boolean>(false);
     const [isUpdateIngredientSessionPopup, setIsUpdateIngredientSessionPopup] = useState<boolean>(false);
+    const [isUpdateSessionPopup, setIsUpdateSessionPopup] = useState<boolean>(false);
     const [isDeleteIngredientSessionBySessionIdPopupCheck, setIsDeleteIngredientSessionBySessionIdPopupCheck] = useState<boolean>(false);
     const [isDeleteIngredientSessionByIngredientIdPopupCheck, setIsDeleteIngredientSessionByIngredientIdPopupCheck] = useState<boolean>(false);
     const [selectedId, setSelectedId] = useState<number| null>(null);
+
+
 
     const handleCreateIngredientSessionPopup = () => {
         setIsCreateIngredientSessionPopup(true);
@@ -85,6 +91,12 @@ const PopupDetailSession: React.FC<PopupDetailSessionProps> = ({
         dispatch(getAllIngredientsActive());
         // dispatch(getIngredientSessionBySessionId({sessionId}));
     }
+
+    const handleUpdateSessionPopup = () => {
+        setIsUpdateSessionPopup(true);
+    }
+
+    
 
     const handleDeleteIngredientSessionBySessionId = () => {
         dispatch(deleteIngredientSessionBySessionId({sessionId}))
@@ -212,17 +224,17 @@ const PopupDetailSession: React.FC<PopupDetailSessionProps> = ({
                         <div className="border-t-4 w-auto flex gap-4">
                             <div className="mt-5 gap-5">
                                 <button
-                                    // onClick={onDelete}
                                     className="text-xs w-24 border border-red-500 p-3 bg-red-600 text-white-900 font-bold rounded-lg"
                                 >
                                     Xoá Ca
                                 </button>
-                                <button
-                                    // onClick={onRename}
+                                 <button
+                                    onClick={handleUpdateSessionPopup}
                                     className="text-xs w-24 border border-yellow-500  bg-yellow-500 ml-5 text-white-900 font-bold rounded-lg p-3"
                                 >
                                     Sửa ca
                                 </button>
+                                
                             </div>
                         </div>
                     </div>
@@ -239,6 +251,8 @@ const PopupDetailSession: React.FC<PopupDetailSessionProps> = ({
                 isPopupOpen={isUpdateIngredientSessionPopup}
                 closePopup={() => setIsUpdateIngredientSessionPopup(false)}
             />
+
+             <PopupUpdateSession closePopup={()=> setIsUpdateSessionPopup(false)} isPopupUpdateSessionOpen={isUpdateSessionPopup} sessionId={sessionId}/>                       
 
             <PopupCheck 
                 open={isDeleteIngredientSessionBySessionIdPopupCheck}
