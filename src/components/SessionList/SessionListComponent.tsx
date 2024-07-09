@@ -2,12 +2,13 @@ import { MRT_ColumnDef } from "material-react-table"
 import { ISession } from "../../models/Session"
 import { useAppDispatch, useAppSelector } from "../../services/store/store";
 import { useEffect, useState } from "react";
-import { getAllSessions } from "../../services/features/sessionSlice";
+import { deleteSession, getAllSessions } from "../../services/features/sessionSlice";
 import { Button, Stack } from "@mui/material";
 import CommonTable from "../CommonTable/CommonTable";
 import PopupCreateSession from "./popup-features/PopCreateSession";
 import PopupDetailSession from "./popup-features/PopupDetailSession";
 import { getIngredientSessionBySessionId } from "../../services/features/ingredientSessionSlice";
+import PopupCheck from "../Popup/PopupCheck";
 
 const columns: MRT_ColumnDef<ISession>[] = [
     {
@@ -75,6 +76,9 @@ const SessionListComponent = () => {
     const [sessionData, setSessionData] = useState<ISession | null>(null);
     const [onPopupSessionDetail, setOnPopupSessionDetail] =
         useState<boolean>(false);
+    const [onPopupCheckDeleteSession, setOnPopupCheckDeleteSession] =
+        useState<boolean>(false);
+    const [selectedSessionId, setSelectedSessionId] = useState<number | null>(null);
 
     useEffect(() => {
         if (!isPopupOpen) {
@@ -91,10 +95,29 @@ const SessionListComponent = () => {
     };
 
     const handleShowSessionDetail = (session: ISession) => {
-        setSessionData(session);        
-        dispatch(getIngredientSessionBySessionId({sessionId: session?.id}));
+        setSessionData(session);
+        dispatch(getIngredientSessionBySessionId({ sessionId: session?.id }));
         setOnPopupSessionDetail(true);
     };
+
+    const handleOpenPopupDeleteSesstion = (id: number) => {
+        setSelectedSessionId(id);
+        setOnPopupCheckDeleteSession(true);
+    };
+
+    const handleDeleteSession = () => {
+        if (selectedSessionId !== null) {
+            dispatch(deleteSession({ id: selectedSessionId }))
+                .unwrap()
+                .then(() => {
+                    setOnPopupSessionDetail(false);
+                    setOnPopupCheckDeleteSession(false);
+                    dispatch(getAllSessions());
+                })
+                .catch((error) => console.log(error));
+        }
+    };
+
 
 
     return (
@@ -129,11 +152,22 @@ const SessionListComponent = () => {
                         sessionId={sessionData?.id}
                         onPopupDetail={onPopupSessionDetail}
                         setOnPopupDetail={setOnPopupSessionDetail}
+                        onDelete={() =>
+                            handleOpenPopupDeleteSesstion(sessionData.id)
+                        }
                         session={sessionData}
                     />
 
                 </>
             )}
+            <PopupCheck
+                open={onPopupCheckDeleteSession}
+                content="Bạn có chắc chắn muốn xoá ca này không?"
+                titleAccept="Có"
+                titleCancel="Không"
+                onAccept={handleDeleteSession}
+                onCancel={() => setOnPopupCheckDeleteSession(false)}
+            />
         </Stack>
     )
 }
