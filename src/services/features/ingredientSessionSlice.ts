@@ -58,6 +58,7 @@ export const createIngredientSession = createAsyncThunk<IIngredientSessionCreate
             }
             return response.data.data;
         } catch (error: any) {
+            toast.error(`${error.response.data.errors[0].description}`);
             return thunkAPI.rejectWithValue(error.response.data);
         }
     }
@@ -84,6 +85,7 @@ export const updateIngredientSession = createAsyncThunk<IIngredientSessionCreate
             }
             return response.data.data;
         } catch (error: any) {
+            toast.error(`${error.response.data.errors[0].description}`);
             return thunkAPI.rejectWithValue(error.response.data);
         }
     }
