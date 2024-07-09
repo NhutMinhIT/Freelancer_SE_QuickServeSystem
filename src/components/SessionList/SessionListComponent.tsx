@@ -91,7 +91,7 @@ const SessionListComponent = () => {
     };
 
     const handleShowSessionDetail = (session: ISession) => {
-        setSessionData(session);
+        setSessionData(session);        
         dispatch(getIngredientSessionBySessionId({sessionId: session?.id}));
         setOnPopupSessionDetail(true);
     };
@@ -129,6 +129,7 @@ const SessionListComponent = () => {
                         sessionId={sessionData?.id}
                         onPopupDetail={onPopupSessionDetail}
                         setOnPopupDetail={setOnPopupSessionDetail}
+                        session={sessionData}
                     />
 
                 </>
