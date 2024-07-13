@@ -112,13 +112,14 @@ const PopupCreateTemplateStep = ({
                                                 {...register(`ingredientTypes.${index}.ingredientTypeId`)}
                                                 className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
                                             >
-                                                <option value="0">Select Ingredient Type</option>
+                                                <option value="0">Chọn loại nguyên liệu</option>
                                                 {ingredientTypes && ingredientTypes.map((ingredientType) => (
                                                     <option key={ingredientType.id} value={ingredientType.id}>
                                                         {ingredientType.name}
                                                     </option>
                                                 ))}
                                             </select>
+                                            <label htmlFor={`ingredientTypes.${index}.quantityMin`}>Từ</label>
                                             <input
                                                 {...register(`ingredientTypes.${index}.quantityMin`)}
                                                 type="number"
@@ -126,6 +127,7 @@ const PopupCreateTemplateStep = ({
                                                 placeholder="Min"
                                                 className="w-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
                                             />
+                                            <label htmlFor={`ingredientTypes.${index}.quantityMax`}>Đến</label>
                                             <input
                                                 {...register(`ingredientTypes.${index}.quantityMax`)}
                                                 type="number"
