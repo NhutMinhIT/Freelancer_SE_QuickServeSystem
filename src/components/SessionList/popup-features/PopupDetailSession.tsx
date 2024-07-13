@@ -91,7 +91,6 @@ const PopupDetailSession: React.FC<PopupDetailSessionProps> = ({
     const handleUpdateIngredientSessionPopup = () => {
         setIsUpdateIngredientSessionPopup(true);
         dispatch(getAllIngredientsActive());
-        // dispatch(getIngredientSessionBySessionId({sessionId}));
     }
 
     const handleUpdateSessionPopup = () => {
@@ -160,15 +159,55 @@ const PopupDetailSession: React.FC<PopupDetailSessionProps> = ({
                                     />
                                     <hr className="mt-2 text-black-700" />
                                 </div>
-                                <CommonTable
-                                    columns={columns}
-                                    isShowTitleDoubleClick={false}
-                                    data={ingredientSessionById?.ingredients || []}
-                                    toolbarButtons={
-                                        <Box display='flex' sx={{ gap: '8px' }}>
+                                <div className="overflow-y-auto h-96 mt-2"> 
+                                    <CommonTable
+                                        columns={columns}
+                                        isShowTitleDoubleClick={false}
+                                        data={ingredientSessionById?.ingredients || []}
+                                        toolbarButtons={
+                                            <Box display='flex' sx={{ gap: '8px' }}>
+                                                <Button
+                                                    variant="contained"
+                                                    onClick={handleCreateIngredientSessionPopup}
+                                                    sx={{
+                                                        color: 'white',
+                                                        fontWeight: 'bold',
+                                                        backgroundColor: 'orange',
+                                                        '&:hover': {
+                                                            backgroundColor: '#f58f1b',
+                                                        },
+                                                        textTransform: 'none',
+                                                    }}
+                                                    disabled={!!ingredientSessionById?.ingredients}
+                                                >
+                                                    Thêm
+                                                </Button>
+                                                {ingredientSessionById?.ingredients !== undefined && (
+                                                    <Button
+                                                        variant="contained"
+                                                        onClick={() => setIsDeleteIngredientSessionBySessionIdPopupCheck(true)}
+                                                        sx={{
+                                                            color: 'white',
+                                                            fontWeight: 'bold',
+                                                            backgroundColor: 'red',
+                                                            '&:hover': {
+                                                                backgroundColor: '#ad2518',
+                                                            },
+                                                            textTransform: 'none',
+                                                        }}
+                                                    >
+                                                        Xóa tất cả
+                                                    </Button>
+                                                )}
+                                            </Box>
+                                        }
+                                    />
+                                </div>
+                                <Box display="flex" justifyContent="flex-end" mr={2}>
+                                        {ingredientSessionById?.ingredients !== undefined && (
                                             <Button
                                                 variant="contained"
-                                                onClick={handleCreateIngredientSessionPopup}
+                                                onClick={handleUpdateIngredientSessionPopup}
                                                 sx={{
                                                     color: 'white',
                                                     fontWeight: 'bold',
@@ -178,49 +217,12 @@ const PopupDetailSession: React.FC<PopupDetailSessionProps> = ({
                                                     },
                                                     textTransform: 'none',
                                                 }}
-                                                disabled={!!ingredientSessionById?.ingredients}
                                             >
-                                                Thêm
+                                                Chỉnh sửa nguyên liệu
                                             </Button>
-                                            {ingredientSessionById?.ingredients !== undefined && (
-                                                <Button
-                                                    variant="contained"
-                                                    onClick={() => setIsDeleteIngredientSessionBySessionIdPopupCheck(true)}
-                                                    sx={{
-                                                        color: 'white',
-                                                        fontWeight: 'bold',
-                                                        backgroundColor: 'red',
-                                                        '&:hover': {
-                                                            backgroundColor: '#ad2518',
-                                                        },
-                                                        textTransform: 'none',
-                                                    }}
-                                                >
-                                                    Xóa tất cả
-                                                </Button>
-                                            )}
-                                        </Box>
-                                    }
-                                />
-                                <Box display="flex" justifyContent="flex-end" mr={2}>
-                                    {ingredientSessionById?.ingredients !== undefined && (
-                                        <Button
-                                            variant="contained"
-                                            onClick={handleUpdateIngredientSessionPopup}
-                                            sx={{
-                                                color: 'white',
-                                                fontWeight: 'bold',
-                                                backgroundColor: 'orange',
-                                                '&:hover': {
-                                                    backgroundColor: '#f58f1b',
-                                                },
-                                                textTransform: 'none',
-                                            }}
-                                        >
-                                            Chỉnh sửa nguyên liệu
-                                        </Button>
-                                    )}
+                                        )}
                                 </Box>
+
                             </div>
                         </div>
                         <div className="border-t-4 w-auto flex gap-4">
