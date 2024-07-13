@@ -28,7 +28,7 @@ const columns: MRT_ColumnDef<IEmployee>[] = [
     },
     {
         accessorKey: 'address',
-        header: 'Đỉa chỉ'
+        header: 'Địa chỉ'
     },
     {
         accessorKey: 'roles',
