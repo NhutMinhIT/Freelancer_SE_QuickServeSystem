@@ -80,3 +80,12 @@ export const createIngredientSessionEndpoint = `${BASE_URL}/IngredientSessions`;
 export const updateIngredientSessionEndpoint = `${BASE_URL}/IngredientSessions`;
 export const deleteIngredientSessionEndpoint = `${BASE_URL}/IngredientSessions`;
 export const clearIngredientSessionEndpoint = `${BASE_URL}/IngredientSessions`;
+
+//Nutrition endpoints
+export const getAllNutritionEndpoint = `${BASE_URL}/Nutritions/paged`;
+export const getNutritionByIdEndpoint = `${BASE_URL}/Nutritions`;
+export const createNutritionEndpoint = `${BASE_URL}/Nutritions`;
+export const updateNutritionEndpoint = `${BASE_URL}/Nutritions`;
+export const deleteNutritionEndpoint = `${BASE_URL}/Nutritions`;
+export const changeImageNutritionEndpoint = `${BASE_URL}/Nutritions`;
+export const renameNutritionEndpoint = `${BASE_URL}/Nutritions`;

@@ -15,6 +15,7 @@ import employeeSlice from '../features/employeeSlice';
 import IngredientTypeTemplateStepSlice from '../features/IngredientTypeTemplateStepSlice';
 import sessionSlice from '../features/sessionSlice';
 import ingredientSessionSlice from '../features/ingredientSessionSlice';
+import nutritionSlice from '../features/nutritionSlice';
 
 
 // Định nghĩa cấu hình persist
@@ -33,7 +34,8 @@ const persistConfig = {
         'employees',
         'ingredientTypeTemplateSteps',
         'sessions',
-        'ingredientSession'
+        'ingredientSession',
+        'nutritions',
     ],
 };
 
@@ -50,6 +52,7 @@ const rootReducer = combineReducers({
     ingredientTypeTemplateSteps: IngredientTypeTemplateStepSlice,
     sessions: sessionSlice,
     ingredientSession: ingredientSessionSlice,
+    nutritions: nutritionSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
