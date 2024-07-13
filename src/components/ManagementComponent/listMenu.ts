@@ -4,6 +4,7 @@ import chartRevenueIcon from '../../assets/icon/chart-revenue.png';
 import feedbackIcon from '../../assets/icon/feedback.png';
 import adminReportIcon from '../../assets/icon/admin-report.png';
 import employeeManagementIcon from '../../assets/icon/icon/employee.png';
+import nutritionListIcon from '../../assets/icon/nutrition-list.png';
 //Icon StoreManagement
 const listMenu = {
     adminMenu: [
@@ -37,14 +38,19 @@ const listMenu = {
     ],
     storeManagementMenu: [
         {
-            title: 'QL. Nhân Viên',
+            title: 'DS. Nhân Viên',
             url: '/employee-management',
             icon: employeeManagementIcon,
         },
         {
-            title: 'QL. Thời Gian',
+            title: 'DS. Thời Gian',
             url: '/time-management',
             icon: storeManagementIcon,
+        },
+        {
+            title: 'DS. Dinh Dưỡng',
+            url: '/list-nutritions',
+            icon: nutritionListIcon,
         },
 
     ],
@@ -78,6 +84,12 @@ const listMenu = {
             url: '/product-template',
             icon: feedbackIcon,
         },
+        {
+            title: 'DS. Dinh Dưỡng',
+            url: '/list-nutritions',
+            icon: nutritionListIcon,
+        },
+
     ],
 };
 export default listMenu;

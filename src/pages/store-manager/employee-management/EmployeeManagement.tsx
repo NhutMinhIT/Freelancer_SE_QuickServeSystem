@@ -14,7 +14,7 @@ const EmployeeManagement = () => {
                     <div className="flex">
                         <div className="flex flex-row text-3xl">
                             <FaListAlt className="text-orange-500" />
-                            <h3 className="font-bold ml-6">Quản lí cửa hàng</h3>
+                            <h3 className="font-bold ml-6 uppercase">Quản lí nhân viên</h3>
                         </div>
                     </div>
                     <div className="w-full overflow-auto">

@@ -1,8 +1,9 @@
-import { FaListAlt } from "react-icons/fa"
-import SidebarComponent from "../../../components/ManagementComponent/SidebarComponent "
-import SessionListComponent from "../../../components/SessionList/SessionListComponent"
+import React from 'react'
+import SidebarComponent from '../../../components/ManagementComponent/SidebarComponent '
+import { FaListAlt } from 'react-icons/fa'
+import NutritionList from '../../../components/NutritionList/NutritionList'
 
-const SessionManagement = () => {
+const Nutrition = () => {
     return (
         <div className="">
             <div className="grid grid-cols-1 md:grid-cols-12 md:p-0">
@@ -14,11 +15,11 @@ const SessionManagement = () => {
                     <div className="flex">
                         <div className="flex flex-row text-3xl">
                             <FaListAlt className="text-orange-500" />
-                            <h3 className="font-bold ml-6 uppercase">Quản lí thời gian nguyên liệu</h3>
+                            <h3 className="font-bold ml-6 uppercase">Danh sách dinh dưỡng</h3>
                         </div>
                     </div>
                     <div className="w-full overflow-auto">
-                        <SessionListComponent />
+                        <NutritionList />
                     </div>
                 </div>
             </div>
@@ -26,4 +27,4 @@ const SessionManagement = () => {
     )
 }
 
-export default SessionManagement
+export default Nutrition
