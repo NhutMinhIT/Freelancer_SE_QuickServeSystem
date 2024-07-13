@@ -56,7 +56,7 @@ const PopupCreateIngredientSession = ({
                 dispatch(getIngredientSessionBySessionId({sessionId: sessionId}));
                 closePopup();
             })
-            .catch((error: any) => console.log(error))
+            .catch((error) => console.log(error))
             .finally(() => setIsLoading(false));
         reset();
     };
