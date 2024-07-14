@@ -6,6 +6,7 @@ type PopupNutritionDetailProps = {
     onPopupDetail: boolean;
     setOnPopupDetail: React.Dispatch<React.SetStateAction<boolean>>
     onChangeImage: () => void;
+    onUpdateNutrition: () => void
 };
 
 const PopupNutritionDetail: React.FC<PopupNutritionDetailProps> = ({
@@ -13,6 +14,7 @@ const PopupNutritionDetail: React.FC<PopupNutritionDetailProps> = ({
     onPopupDetail,
     setOnPopupDetail,
     onChangeImage,
+    onUpdateNutrition,
 }) => {
     return (
         <div
@@ -185,7 +187,7 @@ const PopupNutritionDetail: React.FC<PopupNutritionDetailProps> = ({
                                             Xoá
                                         </button>
                                         <button
-                                            // onClick={onUpdate}
+                                            onClick={onUpdateNutrition}
                                             className="text-xs w-24 border border-yellow-500 marker:p-1 bg-yellow-500 text-white-900 font-bold rounded-lg"
                                         >
                                             Sửa thông tin
