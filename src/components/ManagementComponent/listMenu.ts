@@ -9,17 +9,17 @@ import nutritionListIcon from '../../assets/icon/nutrition-list.png';
 const listMenu = {
     adminMenu: [
         {
-            title: 'QL. Tài Khoản',
+            title: 'DS. Tài Khoản',
             url: '/account-management',
             icon: adminIcon,
         },
         {
-            title: 'QL. Cửa Hàng',
+            title: 'DS. Cửa Hàng',
             url: '/store-management',
             icon: storeManagementIcon,
         },
         {
-            title: 'QL. Báo Cáo',
+            title: 'DS. Báo Cáo',
             url: '/admin-revenue-report',
             icon: adminReportIcon,
             subAdminMenu: [
@@ -47,11 +47,6 @@ const listMenu = {
             url: '/time-management',
             icon: storeManagementIcon,
         },
-        {
-            title: 'DS. Dinh Dưỡng',
-            url: '/list-nutritions',
-            icon: nutritionListIcon,
-        },
 
     ],
     brandManagementMenu: [
@@ -61,12 +56,12 @@ const listMenu = {
             icon: chartRevenueIcon,
         },
         {
-            title: 'QL. Phân Loại',
+            title: 'DS. Phân Loại',
             url: '/brand-category',
             icon: feedbackIcon,
         },
         {
-            title: 'QL. Nguyên Liệu',
+            title: 'DS. Nguyên Liệu',
             url: '/ingredients/list-ingredients',
             submenu: [
                 {
@@ -80,7 +75,7 @@ const listMenu = {
             ],
         },
         {
-            title: 'QL. Mẫu Sản Phẩm',
+            title: 'DS. Mẫu Sản Phẩm',
             url: '/product-template',
             icon: feedbackIcon,
         },

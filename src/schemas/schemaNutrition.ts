@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 
 export const schemaNutrition = yup.object().shape({
-  id: yup.number().required("Id là bắt buộc"),
+    id: yup.number().required("Id là bắt buộc"),
     name: yup
         .string()
         .required('Tên dinh dưỡng không đuợc để trống')
@@ -16,7 +16,7 @@ export const schemaNutrition = yup.object().shape({
             'Chữ cái đầu phải viết hoa',
             (value) => !!value && value[0] === value[0].toUpperCase(),
         ),
-        description : yup.string(),
-        vitamin: yup.string(),
-        healthValue: yup.string()
+    description: yup.string(),
+    vitamin: yup.string(),
+    healthValue: yup.string()
 });

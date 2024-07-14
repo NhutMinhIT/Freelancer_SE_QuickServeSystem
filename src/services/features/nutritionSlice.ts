@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { INutrition, INutritionCreate, INutritionUpdateInfor } from "../../models/Nutrition";
+import { INutrition, INutritionCreate } from "../../models/Nutrition";
 import axiosInstance from "../api/axiosInstance";
 import { changeImageNutritionEndpoint, createNutritionEndpoint, deleteNutritionEndpoint, getAllNutritionEndpoint, getNutritionByIdEndpoint, updateNutritionEndpoint } from "../api/apiConfig";
 import { toast } from "react-toastify";
@@ -42,12 +42,10 @@ export const getAllNutritions = createAsyncThunk<INutrition[], void>(
     },
 );
 
-export const getNutrition = createAsyncThunk<INutrition[], { id: number }>(
+export const getNutrition = createAsyncThunk<INutrition, { id: number }>(
     'nutritions/getNutrition',
     async (data, thunkAPI) => {
         const { id } = data;
-        console.log(id);
-        
         try {
             const token = sessionStorage.getItem('quickServeToken');
             const response = await axiosInstance.get(`${getNutritionByIdEndpoint}/${id}`, {
@@ -144,7 +142,7 @@ export const changeImageNutrition = createAsyncThunk<void, { id: number, formDat
 export const updateInforNutrition = createAsyncThunk<INutrition, { id: number }>(
     'nutritions/renameNutrition',
     async (data, thunkAPI) => {
-    
+
         try {
             const token = sessionStorage.getItem('quickServeToken');
             const response = await axiosInstance.put(`${updateNutritionEndpoint}/${data.id}`, data, {
