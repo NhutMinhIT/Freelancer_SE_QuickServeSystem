@@ -33,6 +33,7 @@ export const getAllTemplateSteps = createAsyncThunk<ITemplateStep[], { id: numbe
             })
             return response.data.data
         } catch (error: any) {
+            toast.error(`${error.response.data.errors[0].description}`);
             return thunkAPI.rejectWithValue(error.response.data)
         }
     }
@@ -51,6 +52,7 @@ export const getTemplateStep = createAsyncThunk<ITemplateStep, { id: number }>(
             });
             return response.data.data;
         } catch (error: any) {
+            toast.error(`${error.response.data.errors[0].description}`);
             return thunkAPI.rejectWithValue(
                 error.response?.data?.errorMessages || 'Unknown error',
             );

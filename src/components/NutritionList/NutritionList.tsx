@@ -6,6 +6,7 @@ import { getAllNutritions } from "../../services/features/nutritionSlice"
 import { Button, Stack } from "@mui/material"
 import CommonTable from "../CommonTable/CommonTable"
 import PopupNutritionDetail from "./nutrition-popup/PopupNutritionDetail"
+import PopupChangeImageNutrition from "./nutrition-popup/PopupChangeImageNutrition"
 
 const columns: MRT_ColumnDef<INutrition>[] = [
     {
@@ -65,7 +66,10 @@ const NutritionList = () => {
     const [onPopupNutritionDetail, setOnPopupNutritionDetail] = useState(false);
 
     const [nutritionData, setNutritionData] = useState<INutrition | null>(null);
-    const [onPopupCheckDelete, setOnPopupCheckDelete] = useState(false);
+    // const [onPopupCheckDelete, setOnPopupCheckDelete] = useState(false);
+
+    const [openPopupChangeImage, setOpenPopupChangeImage] = useState(false);
+
 
     useEffect(() => {
         if (!isOpenPopupCreate) {
@@ -77,14 +81,20 @@ const NutritionList = () => {
     const handleOpenPopupCreate = () => {
         setIsOpenPopupCreate(true);
     };
-    const handleClosePopupCreate = () => {
-        setIsOpenPopupCreate(false);
-    };
+    // const handleClosePopupCreate = () => {
+    //     setIsOpenPopupCreate(false);
+    // };
 
     //Popup Detail
     const handleShowNutritionDetail = (nutrition: INutrition) => {
         setNutritionData(nutrition);
         setOnPopupNutritionDetail(true);
+    };
+
+    //Popup ChangeImg
+    const handleOpenPopupChangeImage = (nutrition: number) => {
+        setSelectedNutritionId(nutrition)
+        setOpenPopupChangeImage(true)
     };
 
     return (
@@ -112,6 +122,15 @@ const NutritionList = () => {
                         nutri={nutritionData}
                         onPopupDetail={onPopupNutritionDetail}
                         setOnPopupDetail={setOnPopupNutritionDetail}
+                        onChangeImage={() => handleOpenPopupChangeImage(nutritionData.id)}
+                    />
+                    <PopupChangeImageNutrition
+                        open={openPopupChangeImage}    
+                        name={nutritionData.name}
+                        nutritionId={nutritionData.id}
+                        closePopup={()=>setOpenPopupChangeImage(false)}
+                        imageUrl={nutritionData.imageUrl ?? ''}
+                        onClosePopupDetail={()=>{setOnPopupNutritionDetail(false)}}
                     />
                 </>
             )}

@@ -1,5 +1,5 @@
 export interface INutrition {
-    id: string;
+    id: number;
     name: string;
     imageUrl: string;
     description: string;
@@ -20,7 +20,7 @@ export interface INutritionCreate {
     healthValue: string;
 }
 export interface INutritionUpdateInfor {
-    id: string;
+    id: number;
     name: string;
     description: string;
     vitamin: string;

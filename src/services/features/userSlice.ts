@@ -29,6 +29,7 @@ export const getAllUser = createAsyncThunk<IUserInfo[], void>(
             });
             return response.data.data;
         } catch (error: any) {
+            toast.error(`${error.response.data.errors[0].description}`);
             return thunkAPI.rejectWithValue(
                 error.response?.data?.errorMessages || 'Unknown error',
             );
@@ -51,6 +52,7 @@ export const getUserById = createAsyncThunk<IUserInfo, { id: string }>(
             );
             return response.data.data;
         } catch (error: any) {
+            toast.error(`${error.response.data.errors[0].description}`);
             return thunkAPI.rejectWithValue(
                 error.response?.data?.errorMessages || 'Unknown error',
             );

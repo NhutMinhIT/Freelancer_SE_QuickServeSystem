@@ -32,6 +32,7 @@ export const getAllProductTemplates = createAsyncThunk<IProductTemplate[], void>
             });
             return response.data.data;
         } catch (error: any) {
+            toast.error(`${error.response.data.errors[0].description}`);
             return thunkAPI.rejectWithValue(
                 error.response?.data?.errorMessages || 'Unknown error',
             );
@@ -51,6 +52,7 @@ export const getProductTemplateById = createAsyncThunk<IProductTemplate, { id: n
             });
             return response.data.data;
         } catch (error: any) {
+            toast.error(`${error.response.data.errors[0].description}`);
             return thunkAPI.rejectWithValue(
                 error.response?.data?.errorMessages || 'Unknown error',
             );

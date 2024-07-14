@@ -1,6 +1,5 @@
 import { MRT_ColumnDef } from 'material-react-table';
 import { IIngredient } from '../../../models/Ingredient';
-import { CheckCircleOutline, HighlightOff } from '@mui/icons-material';
 import { Button, Stack } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../../services/store/store';
 import { useEffect, useState } from 'react';
@@ -101,7 +100,7 @@ const IngredientListComponent = () => {
     // Handle show ingredient detail
     const handleShowPopupIngredientDetail = (ingredient: IIngredient) => {
         dispatch(getIngredientById({ id: ingredient.id }))
-        setOnPopupIngredientDetail(true);
+        setOnPopupIngredientDetail(true);        
     }
 
     // Handle open popup delete ingredient
