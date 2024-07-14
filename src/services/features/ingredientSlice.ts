@@ -45,6 +45,7 @@ export const getAllIngredients = createAsyncThunk<IIngredient[], void>(
             });
             return response.data.data;
         } catch (error: any) {
+            toast.error(`${error.response.data.errors[0].description}`);
             return thunkAPI.rejectWithValue(
                 error.response?.data?.errorMessages || 'Unknown error',
             );
@@ -64,6 +65,7 @@ export const getAllIngredientsActive = createAsyncThunk<IIngredient[], void>(
             });
             return response.data.data;
         } catch (error: any) {
+            toast.error(`${error.response.data.errors[0].description}`);
             return thunkAPI.rejectWithValue(
                 error.response?.data?.errorMessages || 'Unknown error',
             );
@@ -83,6 +85,7 @@ export const getIngredientById = createAsyncThunk<IIngredient, { id: number }>(
             });
             return response.data.data;
         } catch (error: any) {
+            toast.error(`${error.response.data.errors[0].description}`);
             return thunkAPI.rejectWithValue(
                 error.response?.data?.errorMessages || 'Unknown error',
             );

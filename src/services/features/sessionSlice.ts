@@ -31,6 +31,7 @@ export const getAllSessions = createAsyncThunk<ISession[], void>(
             });
             return response.data.data;
         } catch (error: any) {
+            toast.error(`${error.response.data.errors[0].description}`);
             return thunkAPI.rejectWithValue(error.response.data);
         }
     }
@@ -54,6 +55,7 @@ export const getSessionById = createAsyncThunk<ISession, { id: number }>(
             );
             return response.data.data;
         } catch (error: any) {
+            toast.error(`${error.response.data.errors[0].description}`);
             return thunkAPI.rejectWithValue(error.response.data);
         }
     }
@@ -80,6 +82,7 @@ export const createSesstion = createAsyncThunk<ISessionCreate, Object>(
             }
             return response.data.data;
         } catch (error: any) {
+            toast.error(`${error.response.data.errors[0].description}`);
             return thunkAPI.rejectWithValue(error.response.data);
         }
     }
@@ -108,6 +111,7 @@ export const updateSession = createAsyncThunk<ISession, ISessionUpdate>(
             }
             return response.data.data;
         } catch (error: any) {
+            toast.error(`${error.response.data.errors[0].description}`);
             return thunkAPI.rejectWithValue(error.response.data);
         }
     }
@@ -129,6 +133,7 @@ export const deleteSession = createAsyncThunk<void, { id: number }>(
                 toast.error(`${response.data.errors[0].description}`);
             }
         } catch (error: any) {
+            toast.error(`${error.response.data.errors[0].description}`);
             return thunkAPI.rejectWithValue(error.response.data);
         }
     }

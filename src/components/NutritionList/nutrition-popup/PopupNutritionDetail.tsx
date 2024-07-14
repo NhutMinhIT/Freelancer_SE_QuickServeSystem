@@ -4,13 +4,15 @@ import { XMarkIcon } from "@heroicons/react/16/solid";
 type PopupNutritionDetailProps = {
     nutri: INutrition | null;
     onPopupDetail: boolean;
-    setOnPopupDetail: React.Dispatch<React.SetStateAction<boolean>>;
+    setOnPopupDetail: React.Dispatch<React.SetStateAction<boolean>>
+    onChangeImage: () => void;
 };
 
 const PopupNutritionDetail: React.FC<PopupNutritionDetailProps> = ({
     nutri,
     onPopupDetail,
     setOnPopupDetail,
+    onChangeImage,
 }) => {
     return (
         <div
@@ -171,7 +173,7 @@ const PopupNutritionDetail: React.FC<PopupNutritionDetailProps> = ({
                                     </div>
                                     <div className="w-auto flex gap-4">
                                         <button
-                                            // onClick={onUpdate}
+                                            onClick={onChangeImage}
                                             className="text-xs w-24 border border-orange-500 marker:p-1 bg-orange-500 text-white-900 font-bold rounded-lg"
                                         >
                                             Sửa hình ảnh

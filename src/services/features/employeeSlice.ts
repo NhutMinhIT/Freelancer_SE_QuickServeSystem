@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { IEmployee } from "../../models/Employee";
 import axiosInstance from "../api/axiosInstance";
 import { getAllEmployeeEndpoint } from "../api/apiConfig";
+import { toast } from "react-toastify";
 
 type EmployeeState = {
     loading: boolean;
@@ -28,6 +29,7 @@ export const getAllEmployees = createAsyncThunk<IEmployee[], void>(
             });
             return response.data.data;
         } catch (error: any) {
+            toast.error(`${error.response.data.errors[0].description}`);
             return thunkAPI.rejectWithValue(error.response.data);
         }
     },

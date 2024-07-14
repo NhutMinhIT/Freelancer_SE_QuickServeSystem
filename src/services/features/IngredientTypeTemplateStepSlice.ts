@@ -49,6 +49,7 @@ export const getAllIngredientTypeTemplateSteps = createAsyncThunk<
       );
       return response.data.data;
     } catch (error: any) {
+      toast.error(`${error.response.data.errors[0].description}`);
       return thunkAPI.rejectWithValue(
         error.response?.data?.errorMessages || "Unknown error",
       );
@@ -75,6 +76,7 @@ export const getIngredientTypeTemplateStepById = createAsyncThunk<
       );
       return response.data.data;
     } catch (error: any) {
+      toast.error(`${error.response.data.errors[0].description}`);
       return thunkAPI.rejectWithValue(
         error.response?.data?.errorMessages || "Unknown error",
       );

@@ -30,6 +30,7 @@ export const getAllStore = createAsyncThunk<IStore[], void>(
             });
             return response.data.data;
         } catch (error: any) {
+            toast.error(`${error.response.data.errors[0].description}`);
             return thunkAPI.rejectWithValue(
                 error.response?.data?.errorMessages || 'Unknown error',
             );
@@ -52,6 +53,7 @@ export const getStoreById = createAsyncThunk<IStore, { id: string }>(
             );
             return response.data.data;
         } catch (error: any) {
+            toast.error(`${error.response.data.errors[0].description}`);
             return thunkAPI.rejectWithValue(
                 error.response?.data?.errorMessages || 'Unknown error',
             );
