@@ -2,13 +2,14 @@ import { MRT_ColumnDef } from "material-react-table"
 import { INutrition } from "../../models/Nutrition"
 import { useAppDispatch, useAppSelector } from "../../services/store/store"
 import { useEffect, useState } from "react"
-import { getAllNutritions, getNutrition } from "../../services/features/nutritionSlice"
+import { deleteNutrition, getAllNutritions, getNutrition } from "../../services/features/nutritionSlice"
 import { Button, Stack } from "@mui/material"
 import CommonTable from "../CommonTable/CommonTable"
 import PopupNutritionDetail from "./nutrition-popup/PopupNutritionDetail"
 import PopupChangeImageNutrition from "./nutrition-popup/PopupChangeImageNutrition"
 import PopupUpdateNutrition from "./nutrition-popup/PopupUpdateInfoNutrition"
 import PopupCreateNutrition from "./nutrition-popup/PopupCreateNutrition"
+import PopupCheck from "../Popup/PopupCheck"
 
 const columns: MRT_ColumnDef<INutrition>[] = [
     {
@@ -69,7 +70,7 @@ const NutritionList = () => {
     const [onPopupNutritionDetail, setOnPopupNutritionDetail] = useState(false);
 
     const [nutritionData, setNutritionData] = useState<INutrition | null>(null);
-    // const [onPopupCheckDelete, setOnPopupCheckDelete] = useState(false);
+    const [onPopupCheckDelete, setOnPopupCheckDelete] = useState(false);
 
     const [openPopupChangeImage, setOpenPopupChangeImage] = useState(false);
     const [openPopupUpdateNutrition, setOpenPopupUpdateNutrition] = useState<boolean>(false);
@@ -107,6 +108,23 @@ const NutritionList = () => {
     const handleOpenPopupUpdateNutrition = () => {
         setOpenPopupUpdateNutrition(true)
     };
+    //handle delete nutrition
+    const handleOpenPopupDeleteNutrition = (id: number) => {
+        setSelectedNutritionId(id);
+        setOnPopupCheckDelete(true);
+    };
+    const handleDeleteNutrition = () => {
+        if (selectedNutritionId !== null) {
+            dispatch(deleteNutrition({ id: selectedNutritionId }))
+                .unwrap()
+                .then(() => {
+                    setOnPopupNutritionDetail(false);
+                    setOnPopupCheckDelete(false);
+                    dispatch(getAllNutritions());
+                })
+                .catch((error) => console.log(error));
+        }
+    };
 
     return (
         <Stack>
@@ -139,7 +157,9 @@ const NutritionList = () => {
                         setOnPopupDetail={setOnPopupNutritionDetail}
                         onChangeImage={() => handleOpenPopupChangeImage(nutritionData.id)}
                         onUpdateNutrition={() => handleOpenPopupUpdateNutrition()}
-                    />
+                        onDelete={() =>
+                            handleOpenPopupDeleteNutrition(nutritionData.id)
+                        } />
                     <PopupChangeImageNutrition
                         open={openPopupChangeImage}
                         name={nutritionData.name}
@@ -152,6 +172,15 @@ const NutritionList = () => {
                     <PopupUpdateNutrition open={openPopupUpdateNutrition} closePopup={() => setOpenPopupUpdateNutrition(false)} onClosePopupDetail={() => setOnPopupNutritionDetail(false)} />
                 </>
             )}
+            {/* Delete */}
+            <PopupCheck
+                open={onPopupCheckDelete}
+                content="Bạn có chắc chắn muốn xoá dinh dưỡng này không ?"
+                titleAccept="Có"
+                titleCancel="Không"
+                onAccept={handleDeleteNutrition}
+                onCancel={() => setOnPopupCheckDelete(false)}
+            />
         </Stack>
     )
 }

@@ -7,6 +7,7 @@ type PopupNutritionDetailProps = {
     setOnPopupDetail: React.Dispatch<React.SetStateAction<boolean>>
     onChangeImage: () => void;
     onUpdateNutrition: () => void
+    onDelete: () => void
 };
 
 const PopupNutritionDetail: React.FC<PopupNutritionDetailProps> = ({
@@ -15,6 +16,7 @@ const PopupNutritionDetail: React.FC<PopupNutritionDetailProps> = ({
     setOnPopupDetail,
     onChangeImage,
     onUpdateNutrition,
+    onDelete,
 }) => {
     return (
         <div
@@ -181,7 +183,7 @@ const PopupNutritionDetail: React.FC<PopupNutritionDetailProps> = ({
                                             Sửa hình ảnh
                                         </button>
                                         <button
-                                            // onClick={onDelete}
+                                            onClick={onDelete}
                                             className="text-xs w-24 border border-red-500 p-1 bg-red-500 text-white-900 font-bold rounded-lg"
                                         >
                                             Xoá
