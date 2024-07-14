@@ -1,13 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { INutrition, INutritionCreate, INutritionUpdateInfor } from "../../models/Nutrition";
 import axiosInstance from "../api/axiosInstance";
-import { changeImageNutritionEndpoint, createNutritionEndpoint, deleteNutritionEndpoint, getAllNutritionEndpoint, getNutritionByIdEndpoint } from "../api/apiConfig";
+import { changeImageNutritionEndpoint, createNutritionEndpoint, deleteNutritionEndpoint, getAllNutritionEndpoint, getNutritionByIdEndpoint, updateNutritionEndpoint } from "../api/apiConfig";
 import { toast } from "react-toastify";
 
 type NutritionState = {
     loading: boolean;
     nutritions: INutrition[] | null;
-    nutrition: INutrition[] | null;
+    nutrition: INutrition | null;
     createNutrition: INutritionCreate | null;
     error: string[] | unknown;
     success: boolean;
@@ -46,6 +46,8 @@ export const getNutrition = createAsyncThunk<INutrition[], { id: number }>(
     'nutritions/getNutrition',
     async (data, thunkAPI) => {
         const { id } = data;
+        console.log(id);
+        
         try {
             const token = sessionStorage.getItem('quickServeToken');
             const response = await axiosInstance.get(`${getNutritionByIdEndpoint}/${id}`, {
@@ -142,15 +144,16 @@ export const changeImageNutrition = createAsyncThunk<void, { id: number, formDat
 export const updateInforNutrition = createAsyncThunk<INutrition, { id: number }>(
     'nutritions/renameNutrition',
     async (data, thunkAPI) => {
+    
         try {
             const token = sessionStorage.getItem('quickServeToken');
-            const response = await axiosInstance.put(`${changeImageNutritionEndpoint}/${data.id}/name`, {}, {
+            const response = await axiosInstance.put(`${updateNutritionEndpoint}/${data.id}`, data, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             });
             if (response.data.success) {
-                toast.success('Thay đổi tên chất dinh dưỡng thành công !');
+                toast.success('Cập nhật chất dinh dưỡng thành công !');
             } else {
                 toast.error(`${response.data.errors[0].description}`);
             }
@@ -181,6 +184,19 @@ export const nutritionSlice = createSlice({
             state.nutritions = action.payload;
         });
         builder.addCase(getAllNutritions.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        });
+
+        //Get 1 Nutrition
+        builder.addCase(getNutrition.pending, (state) => {
+            state.loading = true;
+        });
+        builder.addCase(getNutrition.fulfilled, (state, action) => {
+            state.loading = false;
+            state.nutrition = action.payload;
+        });
+        builder.addCase(getNutrition.rejected, (state, action) => {
             state.loading = false;
             state.error = action.payload;
         });
