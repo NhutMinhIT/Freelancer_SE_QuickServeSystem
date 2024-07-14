@@ -1,69 +1,64 @@
-import { XMarkIcon } from "@heroicons/react/16/solid";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { useState } from "react";
 import { Resolver, useForm } from "react-hook-form";
-import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../../services/store/store";
-import { getAllNutritions, updateInforNutrition } from "../../../services/features/nutritionSlice";
-import { schemaUpdateNutrition } from "../../../schemas/schemaNutrition";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { schemaCreateNutrition } from "../../../schemas/schemaNutrition";
+import { createNutrition, getAllNutritions } from "../../../services/features/nutritionSlice";
+import { useAppDispatch } from "../../../services/store/store";
+import { XMarkIcon } from "@heroicons/react/16/solid";
 
-
-type PopupUpdateNutritionProps = {
-    open: boolean;
+type PopupCreateNutritionProps = {
+    isOpen: boolean;
     closePopup: () => void;
-    onClosePopupDetail: () => void;
-}
+};
 
-
-type FormUpdateNutritionValues = {
-    id: number,
+type FormCreateNutritionValues = {
     name: string;
     description: string;
+    image: FileList;
     vitamin: string;
     healthValue: string;
-}
+};
 
-
-const PopupUpdateNutrition: React.FC<PopupUpdateNutritionProps> = ({
-    open,
-    closePopup,
-    onClosePopupDetail,
+const PopupCreateNutrition: React.FC<PopupCreateNutritionProps> = ({
+    isOpen,
+    closePopup
 }) => {
     const dispatch = useAppDispatch();
+    const [isLoading, setIsLoading] = useState(false);
 
-
-
-    const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm<FormUpdateNutritionValues>({
-        resolver: yupResolver(schemaUpdateNutrition) as unknown as Resolver<FormUpdateNutritionValues>,
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<FormCreateNutritionValues>({
+        resolver: yupResolver(schemaCreateNutrition) as unknown as Resolver<FormCreateNutritionValues>,
     });
 
-    const { nutrition, loading } = useAppSelector((state) => state.nutritions)
+    const onSubmit = (data: FormCreateNutritionValues) => {
+        console.log('Form data:', data);  // Kiểm tra dữ liệu form
+        setIsLoading(true);
+        const formData = new FormData();
 
-
-    useEffect(() => {
-        if (nutrition) {
-            setValue('name', nutrition?.name);
-            setValue('description', nutrition?.description);
-            setValue('vitamin', nutrition?.vitamin);
-            setValue('healthValue', nutrition?.healthValue);
-            setValue("id", nutrition?.id)
+        formData.append('name', data.name);
+        formData.append('description', data.description);
+        if (data.image && data.image.length > 0) {
+            formData.append('image', data.image[0]);
         }
-    }, [nutrition, setValue])
+        formData.append('vitamin', data.vitamin);
+        formData.append('healthValue', data.healthValue);
 
-    const onSubmit = (data: FormUpdateNutritionValues) => {
-        dispatch(updateInforNutrition(data))
-            .unwrap()
+        dispatch(createNutrition(formData))
             .then(() => {
+                console.log('Create nutrition success');
                 dispatch(getAllNutritions());
+                setIsLoading(false);
                 closePopup();
-                onClosePopupDetail();
                 reset();
             })
-            .catch((error) => console.log(error))
-        // .finally(() => setIsLoading(false));
-    }
+            .catch((error: any) => {
+                console.error('Create nutrition error:', error);
+            })
+            .finally(() => setIsLoading(false));
+    };
 
     return (
-        open && (
+        isOpen && (
             <div className="fixed inset-0 flex items-center justify-center z-50 bg-gray-900 bg-opacity-50">
                 <div className="px-2 relative bg-white border rounded-lg shadow-lg bg-white-400 overflow-y-scroll lg:h-[500px] lg:w-[500px] w-auto h-auto">
                     <button
@@ -73,77 +68,78 @@ const PopupUpdateNutrition: React.FC<PopupUpdateNutritionProps> = ({
                         <XMarkIcon width={24} height={24} />
                     </button>
                     <div className="text-center">
-                        <h2 className="text-xl font-bold mb-4 mt-2">Cập nhật dinh dưỡng</h2>
+                        <h2 className="text-xl font-bold mb-4 mt-2">Tạo thông tin dinh dưỡng</h2>
                     </div>
                     <form onSubmit={handleSubmit(onSubmit)} className="p-2">
-                        <input
-                            {...register('id')}
-                            type="hidden"
-                            name="id"
-                            required
-                            id="id"
-                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
-                        />
                         <div className="mb-4">
                             <label htmlFor="name" className="block text-sm font-medium text-gray-700">Tên dinh dưỡng</label>
                             <input
                                 {...register('name')}
                                 type="text"
                                 name="name"
+                                placeholder="Tinh bột"
                                 required
                                 id="name"
                                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
                             />
                             {errors.name && <p className='text-red-500 text-xs mt-2'>* {errors.name.message}</p>}
                         </div>
-
-                        <div className="mb-4">
-                            <label htmlFor="description" className="block text-sm font-medium text-gray-700">Mô tả dinh dưỡng</label>
-                            <textarea
-                                {...register('description')}
-                                name="description"
-                                id="description"
-                                required
-                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
-                            />
-                            {errors.description && <p className='text-red-500 text-xs mt-2'>* {errors.description.message}</p>}
-                        </div>
-
                         <div className="mb-4">
                             <label htmlFor="vitamin" className="block text-sm font-medium text-gray-700">Vitamin</label>
                             <input
                                 {...register('vitamin')}
                                 type="text"
                                 name="vitamin"
-                                id="vitamin"
+                                placeholder="B3 B6 B12..."
                                 required
+                                id="vitamin"
                                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
                             />
                             {errors.vitamin && <p className='text-red-500 text-xs mt-2'>* {errors.vitamin.message}</p>}
                         </div>
                         <div className="mb-4">
-                            <label htmlFor="healthValue" className="block text-sm font-medium text-gray-700">Giá trị sức khỏe</label>
+                            <label htmlFor="description" className="block text-sm font-medium text-gray-700">Mô tả</label>
+                            <textarea
+                                {...register('description')}
+                                name="description"
+                                id="description"
+                                required
+                                placeholder="Cung cấp năng lượng cho con người....."
+                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                            />
+                            {errors.description && <p className='text-red-500 text-xs mt-2'>* {errors.description.message}</p>}
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="image" className="block text-sm font-medium text-gray-700">Hình ảnh</label>
                             <input
+                                {...register('image')}
+                                type="file"
+                                name="image"
+                                id="image"
+                                required
+                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                            />
+                            {errors.image && <p className='text-red-500 text-xs mt-2'>* {errors.image.message}</p>}
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="healthValue" className="block text-sm font-medium text-gray-700">Giá trị dinh dưỡng</label>
+                            <textarea
                                 {...register('healthValue')}
-                                type="text"
                                 name="healthValue"
                                 id="healthValue"
                                 required
+                                placeholder="Tinh bột có công dụng ...."
                                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
                             />
                             {errors.healthValue && <p className='text-red-500 text-xs mt-2'>* {errors.healthValue.message}</p>}
                         </div>
-
-
-
-                        {/* Button */}
                         <div className="flex justify-end">
                             <button
                                 type="submit"
                                 className="bg-orange-500 text-white px-4 py-2 rounded-md hover:bg-orange-600"
-                                disabled={loading}
+                                disabled={isLoading}
                             >
-                                {loading ? (
+                                {isLoading ? (
                                     <svg className="animate-spin h-5 w-5 mr-3 ..." viewBox="0 0 24 24">
                                         <circle
                                             className="opacity-25"
@@ -160,7 +156,7 @@ const PopupUpdateNutrition: React.FC<PopupUpdateNutritionProps> = ({
                                         ></path>
                                     </svg>
                                 ) : (
-                                    'Cập nhật'
+                                    'Tạo dinh dưỡng'
                                 )}
                             </button>
                         </div>
@@ -169,5 +165,6 @@ const PopupUpdateNutrition: React.FC<PopupUpdateNutritionProps> = ({
             </div>
         )
     );
-}
-export default PopupUpdateNutrition
+};
+
+export default PopupCreateNutrition;

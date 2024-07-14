@@ -71,6 +71,7 @@ export const createNutrition = createAsyncThunk<INutritionCreate, FormData>(
             const response = await axiosInstance.post(createNutritionEndpoint, data, {
                 headers: {
                     Authorization: `Bearer ${token}`,
+                    'Content-Type': 'multipart/form-data',
                 },
             });
             if (response.data.success) {
@@ -208,7 +209,7 @@ export const nutritionSlice = createSlice({
         });
         builder.addCase(createNutrition.rejected, (state, action) => {
             state.loading = false;
-            state.error = action.payload;
+            state.error = action.payload as string[];
         });
         //update Nutrition
         builder.addCase(updateInforNutrition.pending, (state) => {

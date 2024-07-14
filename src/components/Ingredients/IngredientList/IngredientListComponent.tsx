@@ -100,7 +100,7 @@ const IngredientListComponent = () => {
     // Handle show ingredient detail
     const handleShowPopupIngredientDetail = (ingredient: IIngredient) => {
         dispatch(getIngredientById({ id: ingredient.id }))
-        setOnPopupIngredientDetail(true);        
+        setOnPopupIngredientDetail(true);
     }
 
     // Handle open popup delete ingredient

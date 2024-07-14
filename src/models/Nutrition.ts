@@ -15,7 +15,7 @@ export interface INutrition {
 export interface INutritionCreate {
     name: string;
     description: string;
-    image: string;
+    image: File;
     vitamin: string;
     healthValue: string;
 }
