@@ -25,7 +25,7 @@ interface CommonTableProps<T extends MRT_RowData> {
   onRowDoubleClick?: (row: T) => void;
   enableRowSelection?: boolean;
   toolbarButtons?: React.ReactNode;
-  isShowTitleDoubleClick?: boolean; 
+  isShowTitleDoubleClick?: boolean;
 }
 
 const CommonTable = <T extends MRT_RowData>({
@@ -89,7 +89,7 @@ const CommonTable = <T extends MRT_RowData>({
                       <Typography fontWeight={700} color={"black"}>
                         {flexRender(
                           header.column.columnDef.Header ??
-                            header.column.columnDef.header,
+                          header.column.columnDef.header,
                           header.getContext(),
                         )}
                       </Typography>

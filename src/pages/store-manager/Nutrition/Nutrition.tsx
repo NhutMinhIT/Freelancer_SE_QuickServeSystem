@@ -1,4 +1,3 @@
-import React from 'react'
 import SidebarComponent from '../../../components/ManagementComponent/SidebarComponent '
 import { FaListAlt } from 'react-icons/fa'
 import NutritionList from '../../../components/NutritionList/NutritionList'
