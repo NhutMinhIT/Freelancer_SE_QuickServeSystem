@@ -89,3 +89,10 @@ export const updateNutritionEndpoint = `${BASE_URL}/Nutritions`;
 export const deleteNutritionEndpoint = `${BASE_URL}/Nutritions`;
 export const changeImageNutritionEndpoint = `${BASE_URL}/Nutritions`;
 export const renameNutritionEndpoint = `${BASE_URL}/Nutritions`;
+
+//Ingredient Nutrition endpoints
+export const getIngredientNutritionEndpoint = `${BASE_URL}/IngredientNutritions`;
+export const createIngredientNutritionEndpoint = `${BASE_URL}/IngredientNutritions`;
+export const updateIngredientNutritionEndpoint = `${BASE_URL}/IngredientNutritions`;
+export const deleteIngredientNutritionEndpoint = `${BASE_URL}/IngredientNutritions`;
+export const clearIngredientNutritionEndpoint = `${BASE_URL}/IngredientNutritions`;

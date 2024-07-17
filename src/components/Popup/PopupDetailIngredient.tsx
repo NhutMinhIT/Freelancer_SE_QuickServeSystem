@@ -116,6 +116,26 @@ const PopupDetailIngredient: React.FC<PopupDetailIngredientProps> = ({
                                     </div>
                                     <div>
                                         <span className="text-sm text-black-500 font-bold">
+                                            Dinh Dưỡng
+                                        </span>
+                                    </div>
+                                    <div className="flex gap-2">
+
+                                        <button
+
+                                            className="text-xs w-24 border border-gree-500 p-1 bg-green-400 text-white-500 font-bold rounded-lg"
+                                        >
+                                            Thêm
+                                        </button>
+                                        <button
+
+                                            className="text-xs w-24 border border-yellow-500 p-1 bg-yellow-500 text-white-500 font-bold rounded-lg"
+                                        >
+                                            Xem chi tiết
+                                        </button>
+                                    </div>
+                                    <div>
+                                        <span className="text-sm text-black-500 font-bold">
                                             Mô tả
                                         </span>
                                     </div>

@@ -6,7 +6,7 @@ export interface IIngredientSession {
     ingredients: IIngredientSold[]
 }
 
-export interface IIngredientSold{
+export interface IIngredientSold {
     id: number,
     name: string,
     imageUrl: string,
@@ -19,7 +19,7 @@ export interface IIngredientSessionCreate {
     ingredients: IIngredientSessionFieldsCreate[],
 }
 
-export interface IIngredientSessionFieldsCreate{
+export interface IIngredientSessionFieldsCreate {
     id: number,
     quantity: number,
 }
