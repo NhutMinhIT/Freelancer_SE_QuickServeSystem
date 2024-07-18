@@ -1,4 +1,4 @@
-interface INutritionFields {
+export interface INutritionFields {
     id: number,
     name: string,
     imageUrl: string,
@@ -10,7 +10,7 @@ interface INutritionFields {
 export interface IIngredientNutrition {
     id: number,
     name: string,
-    nutritios: INutritionFields[]
+    nutritions: INutritionFields[]
 }
 
 interface IIgredientNutritionFieldCreate {
