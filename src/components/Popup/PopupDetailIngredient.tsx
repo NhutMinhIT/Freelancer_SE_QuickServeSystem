@@ -3,7 +3,6 @@ import { IIngredient } from "../../models/Ingredient";
 import { formatAnyDate } from "../../utils";
 import { useState } from "react";
 import { useAppDispatch } from "../../services/store/store";
-import { getAllNutritions } from "../../services/features/nutritionSlice";
 import { getIngredientNutritionByIngredientId } from "../../services/features/ingredientNutritionSlice";
 import PopupGetAllNutritionIngredientId from "../Ingredients/Popup/PopupGetAllNutritionIngredientId";
 
@@ -26,9 +25,11 @@ const PopupDetailIngredient: React.FC<PopupDetailIngredientProps> = ({
 }) => {
     const dispatch = useAppDispatch();
     const [onPopupNutrition, setOnPopupNutrition] = useState(false);
+    const [ingredientId, setIngredientId] = useState<number>(0);
 
     const handleOpenAllNutrition = (id: number) => {
         setOnPopupNutrition(true);
+        setIngredientId(id);
         dispatch(getIngredientNutritionByIngredientId({ ingredientId: id }));
     }
     const handleCloseAllNutrition = () => {
@@ -136,12 +137,6 @@ const PopupDetailIngredient: React.FC<PopupDetailIngredientProps> = ({
                                         </span>
                                     </div>
                                     <div className="flex gap-2">
-
-                                        <button
-                                            className="text-xs w-24 border border-gree-500 p-1 bg-green-400 text-white-500 font-bold rounded-lg"
-                                        >
-                                            Thêm
-                                        </button>
                                         <button
                                             onClick={() => handleOpenAllNutrition(ingredient?.id as number)}
                                             className="text-xs w-24 border border-yellow-500 p-1 bg-yellow-500 text-white-500 font-bold rounded-lg"
@@ -235,6 +230,7 @@ const PopupDetailIngredient: React.FC<PopupDetailIngredientProps> = ({
             </div>
             <PopupGetAllNutritionIngredientId
                 openPopupNutrition={onPopupNutrition}
+                ingredientId={ingredientId}
                 handleCloseAllNutrition={handleCloseAllNutrition}
             />
         </div>

@@ -1,12 +1,16 @@
-import React from "react"
-import { useAppSelector } from "../../../services/store/store"
+import React, { useState } from "react"
+import { useAppDispatch, useAppSelector } from "../../../services/store/store"
 import { Box, Button, CircularProgress, Dialog, DialogContent, DialogTitle, Tooltip } from "@mui/material"
 import CommonTable from "../../CommonTable/CommonTable"
 import { MRT_ColumnDef } from "material-react-table"
 import { INutritionFields } from "../../../models/Ingredientutrition"
 import { TrashIcon, XMarkIcon } from "@heroicons/react/24/solid"
+import { getAllNutritions } from "../../../services/features/nutritionSlice"
+import PopupUpdateIngredientNutritions from "./PopupUpdateIngredientNutritions"
+import PopupCreateIngredientNutritions from "./PopupCreateIngredientNutritions"
 
 type PopupGetAllNutritionIngredientIdProps = {
+    ingredientId: number,
     openPopupNutrition: boolean
     handleCloseAllNutrition: () => void
 }
@@ -51,16 +55,34 @@ const columns: MRT_ColumnDef<INutritionFields>[] = [
     },
 ]
 const PopupGetAllNutritionIngredientId: React.FC<PopupGetAllNutritionIngredientIdProps> = ({
+    ingredientId,
     openPopupNutrition,
     handleCloseAllNutrition
 }) => {
+    const dispatch = useAppDispatch();
+    
+    const [openUpdateIngredientNutrition, setOpenUpdateIngredientNutrition]= useState<boolean>(false);    
+    const [openCreateIngredientNutrition, setOpenCreateIngredientNutrition] = useState<boolean>(false);
+
+
     const { ingredientNutritionById, loading } = useAppSelector((state) => state.ingredientNutritions)
+    
+    const handleOpenUpdateIngredientNutrition = () => {
+        setOpenUpdateIngredientNutrition(true);
+        dispatch(getAllNutritions());
+    }
+
+    const handleOpenCreateIngredientNutrition = () => {
+        setOpenCreateIngredientNutrition(true);
+    }
+
     return (
-        <Dialog
+        <Box>
+            <Dialog
             open={openPopupNutrition}
             onClose={handleCloseAllNutrition}
             fullWidth
-            maxWidth="lg"
+            maxWidth="md"
         >
             <div className="flex items-center justify-between">
                 <DialogTitle
@@ -89,6 +111,22 @@ const PopupGetAllNutritionIngredientId: React.FC<PopupGetAllNutritionIngredientI
                             isShowTitleDoubleClick={false}
                             toolbarButtons={
                                 <Box display='flex' sx={{ gap: '8px' }}>
+                                    <Button
+                                        variant="contained"
+                                        onClick={handleOpenCreateIngredientNutrition}
+                                        sx={{
+                                            color: 'white',
+                                            fontWeight: 'bold',
+                                            backgroundColor: 'orange',
+                                            '&:hover': {
+                                                backgroundColor: '#f58f1b',
+                                            },
+                                            textTransform: 'none',
+                                        }}
+                                        disabled={!!ingredientNutritionById?.nutritions}
+                                    >
+                                        Thêm
+                                    </Button>
                                     {ingredientNutritionById?.nutritions !== undefined && (
                                         <Button
                                             variant="contained"
@@ -122,6 +160,7 @@ const PopupGetAllNutritionIngredientId: React.FC<PopupGetAllNutritionIngredientI
                                         },
                                         textTransform: 'none',
                                     }}
+                                    onClick={handleOpenUpdateIngredientNutrition}
                                 >
                                     Chỉnh sửa dinh dưỡng
                                 </Button>
@@ -130,7 +169,23 @@ const PopupGetAllNutritionIngredientId: React.FC<PopupGetAllNutritionIngredientI
                     </>
                 )}
             </DialogContent>
-        </Dialog>
+            </Dialog>
+            {openUpdateIngredientNutrition && (
+                <PopupUpdateIngredientNutritions
+                    ingredientId={ingredientId}
+                    closePopup={() => setOpenUpdateIngredientNutrition(false)}
+                    isPopupOpen={openUpdateIngredientNutrition} 
+                />
+            )}
+            {openCreateIngredientNutrition && (
+
+                <PopupCreateIngredientNutritions
+                isPopupOpen={openCreateIngredientNutrition}
+                ingredientId={ingredientId}
+                closePopup={() => setOpenCreateIngredientNutrition(false)}
+                />
+            )}
+        </Box>
     )
 }
 
