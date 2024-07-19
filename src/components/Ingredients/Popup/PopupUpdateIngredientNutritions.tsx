@@ -5,7 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { XMarkIcon } from "@heroicons/react/16/solid";
 import { Dialog, DialogContent, DialogTitle, Grid } from "@mui/material";
 import { schemaUpdateIngredientNutrition } from "../../../schemas/schemaCreateIngredientNutritions";
-import { getIngredientNutritionByIngredientId, updateIngredientNutrition } from "../../../services/features/ingredientNutritionSlice";
+import { getNutritionByIngredientId, updateIngredientNutrition } from "../../../services/features/ingredientNutritionSlice";
 
 type PopupUpdateIngredientNutritionsProps = {
     ingredientId: number;
@@ -76,7 +76,7 @@ const PopupUpdateIngredientNutritions = ({
         dispatch(updateIngredientNutrition({ ingredietId: ingredientId, data }))
             .unwrap()
             .then(() => {
-                dispatch(getIngredientNutritionByIngredientId({ ingredientId: ingredientId }));
+                dispatch(getNutritionByIngredientId({ ingredientId: ingredientId }));
                 closePopup();
             })
             .catch((error) => console.log(error))

@@ -19,7 +19,7 @@ const initialState: IngredientNutritionState = {
     success: false,
 };
 
-export const getIngredientNutritionByIngredientId = createAsyncThunk<IIngredientNutrition, { ingredientId: number | null }>(
+export const getNutritionByIngredientId = createAsyncThunk<IIngredientNutrition, { ingredientId: number | null }>(
     'ingredientNutrition/getIngredientNutritionByIngredientId',
     async (data, thunkAPI) => {
         const { ingredientId } = data;
@@ -91,13 +91,13 @@ export const updateIngredientNutrition = createAsyncThunk<IIngredientNutritionCr
     }
 );
 
-export const deleteIngredientNutritionByIngredientId = createAsyncThunk<void, { ingredietId: number }>(
+export const clearIngredietNutritionByNutritionId = createAsyncThunk<void, { ingredientId: number }>(
     'ingredientNutrition/deleteIngredientNutritionbIngredientId',
-    async ({ ingredietId }, thunkAPI) => {
+    async ({ ingredientId }, thunkAPI) => {
         try {
             const token = sessionStorage.getItem('quickServeToken');
             const response = await axiosInstance.delete(
-                `${deleteIngredientNutritionEndpoint}/${ingredietId}`,
+                `${deleteIngredientNutritionEndpoint}/${ingredientId}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -105,7 +105,7 @@ export const deleteIngredientNutritionByIngredientId = createAsyncThunk<void, { 
                 },
             );
             if (response.data.success) {
-                toast.success('Xóa dinh dưỡng cho nguyên liệu thành công!');
+                toast.success('Xóa tất cả dinh dưỡng của nguyên liệu thành công!');
             } else {
                 toast.error(`${response.data.errors[0].description}`);
             }
@@ -117,7 +117,7 @@ export const deleteIngredientNutritionByIngredientId = createAsyncThunk<void, { 
     }
 );
 
-export const clearIngredietNutritionByNutritionId = createAsyncThunk<void, { ingredientId: number, nutritionId: number }>(
+export const deleteNutritionByIngredientId = createAsyncThunk<void, { ingredientId: number, nutritionId: number }>(
     'ingredientNutrition/clearIngredietNutritionByNutritionId',
     async ({ ingredientId, nutritionId }, thunkAPI) => {
         try {
@@ -153,14 +153,14 @@ export const ingredientNutritionSlice = createSlice({
         }
     },
     extraReducers: (builder) => {
-        builder.addCase(getIngredientNutritionByIngredientId.pending, (state) => {
+        builder.addCase(getNutritionByIngredientId.pending, (state) => {
             state.loading = true;
         });
-        builder.addCase(getIngredientNutritionByIngredientId.fulfilled, (state, action) => {
+        builder.addCase(getNutritionByIngredientId.fulfilled, (state, action) => {
             state.loading = false;
             state.ingredientNutritionById = action.payload;
         });
-        builder.addCase(getIngredientNutritionByIngredientId.rejected, (state, action) => {
+        builder.addCase(getNutritionByIngredientId.rejected, (state, action) => {
             state.loading = false;
             state.error = action.payload;
         });
@@ -189,13 +189,13 @@ export const ingredientNutritionSlice = createSlice({
             state.error = action.payload;
         });
         //delete ingredient nutrition
-        builder.addCase(deleteIngredientNutritionByIngredientId.pending, (state) => {
+        builder.addCase(deleteNutritionByIngredientId.pending, (state) => {
             state.loading = true;
         });
-        builder.addCase(deleteIngredientNutritionByIngredientId.fulfilled, (state) => {
+        builder.addCase(deleteNutritionByIngredientId.fulfilled, (state) => {
             state.loading = false;
         });
-        builder.addCase(deleteIngredientNutritionByIngredientId.rejected, (state, action) => {
+        builder.addCase(deleteNutritionByIngredientId.rejected, (state, action) => {
             state.loading = false;
             state.error = action.payload;
         });

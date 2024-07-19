@@ -3,7 +3,7 @@ import { IIngredient } from "../../models/Ingredient";
 import { formatAnyDate } from "../../utils";
 import { useState } from "react";
 import { useAppDispatch } from "../../services/store/store";
-import { getIngredientNutritionByIngredientId } from "../../services/features/ingredientNutritionSlice";
+import { getNutritionByIngredientId } from "../../services/features/ingredientNutritionSlice";
 import PopupGetAllNutritionIngredientId from "../Ingredients/Popup/PopupGetAllNutritionIngredientId";
 
 type PopupDetailIngredientProps = {
@@ -30,7 +30,7 @@ const PopupDetailIngredient: React.FC<PopupDetailIngredientProps> = ({
     const handleOpenAllNutrition = (id: number) => {
         setOnPopupNutrition(true);
         setIngredientId(id);
-        dispatch(getIngredientNutritionByIngredientId({ ingredientId: id }));
+        dispatch(getNutritionByIngredientId({ ingredientId: id }));
     }
     const handleCloseAllNutrition = () => {
         setOnPopupNutrition(false);

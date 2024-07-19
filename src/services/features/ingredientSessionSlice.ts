@@ -19,9 +19,9 @@ const initialState: SessionState = {
     success: false,
 };
 
-export const getIngredientSessionBySessionId = createAsyncThunk<IIngredientSession, {sessionId : number | null}>(
-'ingredientSession/getIngredientSessionBySessionId',
-async (data, thunkAPI) => {
+export const getIngredientSessionBySessionId = createAsyncThunk<IIngredientSession, { sessionId: number | null }>(
+    'ingredientSession/getIngredientSessionBySessionId',
+    async (data, thunkAPI) => {
         const { sessionId } = data;
         try {
             const token = sessionStorage.getItem('quickServeToken');
@@ -66,7 +66,7 @@ export const createIngredientSession = createAsyncThunk<IIngredientSessionCreate
 
 export const updateIngredientSession = createAsyncThunk<IIngredientSessionCreate, { sessionId: number, data: Object }>(
     'ingredientSession/updateIngredientSession',
-    async ({sessionId, data}, thunkAPI) => {
+    async ({ sessionId, data }, thunkAPI) => {
         try {
             const token = sessionStorage.getItem('quickServeToken');
             const response = await axiosInstance.put(
@@ -201,7 +201,7 @@ export const ingredientSessionSlice = createSlice({
             state.error = action.payload;
         });
         //delete ingredient id
-          builder.addCase(deleteIngredientSessionByIngredientId.pending, (state) => {
+        builder.addCase(deleteIngredientSessionByIngredientId.pending, (state) => {
             state.loading = true;
         });
         builder.addCase(deleteIngredientSessionByIngredientId.fulfilled, (state) => {

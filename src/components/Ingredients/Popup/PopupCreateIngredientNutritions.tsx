@@ -4,7 +4,7 @@ import { useFieldArray, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { XMarkIcon } from "@heroicons/react/16/solid";
 import { Dialog, DialogContent, DialogTitle, Grid } from "@mui/material";
-import { createIngredientNutrition, getIngredientNutritionByIngredientId } from "../../../services/features/ingredientNutritionSlice";
+import { createIngredientNutrition, getNutritionByIngredientId } from "../../../services/features/ingredientNutritionSlice";
 import { schemaCreateIngredientNutrition } from "../../../schemas/schemaCreateIngredientNutritions";
 
 type PopupCreateIngredientNutritionsProps = {
@@ -66,7 +66,7 @@ const PopupCreateIngredientNutritions = ({
         dispatch(createIngredientNutrition(data))
             .unwrap()
             .then(() => {
-                dispatch(getIngredientNutritionByIngredientId({ ingredientId: ingredientId }));
+                dispatch(getNutritionByIngredientId({ ingredientId: ingredientId }));
                 closePopup();
             })
             .catch((error) => console.log(error))

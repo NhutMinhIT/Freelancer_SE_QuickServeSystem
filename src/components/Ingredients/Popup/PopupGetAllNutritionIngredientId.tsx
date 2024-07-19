@@ -8,6 +8,8 @@ import { TrashIcon, XMarkIcon } from "@heroicons/react/24/solid"
 import { getAllNutritions } from "../../../services/features/nutritionSlice"
 import PopupUpdateIngredientNutritions from "./PopupUpdateIngredientNutritions"
 import PopupCreateIngredientNutritions from "./PopupCreateIngredientNutritions"
+import PopupCheck from "../../Popup/PopupCheck"
+import { clearIngredietNutritionByNutritionId, getNutritionByIngredientId } from "../../../services/features/ingredientNutritionSlice"
 
 type PopupGetAllNutritionIngredientIdProps = {
     ingredientId: number,
@@ -60,13 +62,12 @@ const PopupGetAllNutritionIngredientId: React.FC<PopupGetAllNutritionIngredientI
     handleCloseAllNutrition
 }) => {
     const dispatch = useAppDispatch();
-    
-    const [openUpdateIngredientNutrition, setOpenUpdateIngredientNutrition]= useState<boolean>(false);    
+
+    const [openUpdateIngredientNutrition, setOpenUpdateIngredientNutrition] = useState<boolean>(false);
     const [openCreateIngredientNutrition, setOpenCreateIngredientNutrition] = useState<boolean>(false);
-
-
     const { ingredientNutritionById, loading } = useAppSelector((state) => state.ingredientNutritions)
-    
+    const [clearNutrition, setClearNutrition] = useState<boolean>(false);
+
     const handleOpenUpdateIngredientNutrition = () => {
         setOpenUpdateIngredientNutrition(true);
         dispatch(getAllNutritions());
@@ -76,44 +77,94 @@ const PopupGetAllNutritionIngredientId: React.FC<PopupGetAllNutritionIngredientI
         setOpenCreateIngredientNutrition(true);
     }
 
+    const handleClearNutrition = () => {
+        dispatch(clearIngredietNutritionByNutritionId({ ingredientId }))
+            .unwrap()
+            .then(() => {
+                setClearNutrition(false);
+                dispatch(getNutritionByIngredientId({ ingredientId }));
+            }).catch((e: any) => {
+                setClearNutrition(false);
+                console.log(e);
+            })
+
+    }
+
     return (
         <Box>
             <Dialog
-            open={openPopupNutrition}
-            onClose={handleCloseAllNutrition}
-            fullWidth
-            maxWidth="md"
-        >
-            <div className="flex items-center justify-between">
-                <DialogTitle
-                    className="uppercase"
-                    sx={{
-                        fontWeight: "bold",
-                    }}
-                >Loại dinh dưỡng của nguyên liệu</DialogTitle>
-                <XMarkIcon
-                    height={24}
-                    width={24}
-                    className="h-6 w-6 items-center flex mr-4 cursor-pointer"
-                    onClick={handleCloseAllNutrition}
-                />
-            </div>
-            <DialogContent>
-                {loading ? (
-                    <Box textAlign="center">
-                        <CircularProgress />
-                    </Box>
-                ) : (
-                    <>
-                        <CommonTable
-                            columns={columns}
-                            data={ingredientNutritionById?.nutritions || []}
-                            isShowTitleDoubleClick={false}
-                            toolbarButtons={
-                                <Box display='flex' sx={{ gap: '8px' }}>
+                open={openPopupNutrition}
+                onClose={handleCloseAllNutrition}
+                fullWidth
+                maxWidth="md"
+            >
+                <div className="flex items-center justify-between">
+                    <DialogTitle
+                        className="uppercase"
+                        sx={{
+                            fontWeight: "bold",
+                        }}
+                    >Loại dinh dưỡng của nguyên liệu</DialogTitle>
+                    <XMarkIcon
+                        height={24}
+                        width={24}
+                        className="h-6 w-6 items-center flex mr-4 cursor-pointer"
+                        onClick={handleCloseAllNutrition}
+                    />
+                </div>
+                <DialogContent>
+                    {loading ? (
+                        <Box textAlign="center">
+                            <CircularProgress />
+                        </Box>
+                    ) : (
+                        <>
+                            <CommonTable
+                                columns={columns}
+                                data={ingredientNutritionById?.nutritions || []}
+                                isShowTitleDoubleClick={false}
+                                toolbarButtons={
+                                    <Box display='flex' sx={{ gap: '8px' }}>
+                                        <Button
+                                            variant="contained"
+                                            onClick={handleOpenCreateIngredientNutrition}
+                                            sx={{
+                                                color: 'white',
+                                                fontWeight: 'bold',
+                                                backgroundColor: 'orange',
+                                                '&:hover': {
+                                                    backgroundColor: '#f58f1b',
+                                                },
+                                                textTransform: 'none',
+                                            }}
+                                            disabled={!!ingredientNutritionById?.nutritions}
+                                        >
+                                            Thêm
+                                        </Button>
+                                        {ingredientNutritionById?.nutritions !== undefined && (
+                                            <Button
+                                                variant="contained"
+                                                onClick={() => setClearNutrition(true)}
+                                                sx={{
+                                                    color: 'white',
+                                                    fontWeight: 'bold',
+                                                    backgroundColor: 'red',
+                                                    '&:hover': {
+                                                        backgroundColor: '#ad2518',
+                                                    },
+                                                    textTransform: 'none',
+                                                }}
+                                            >
+                                                Xóa tất cả
+                                            </Button>
+                                        )}
+                                    </Box>
+                                }
+                            />
+                            <Box display="flex" justifyContent="flex-end" mr={2}>
+                                {ingredientNutritionById?.nutritions !== undefined && (
                                     <Button
                                         variant="contained"
-                                        onClick={handleOpenCreateIngredientNutrition}
                                         sx={{
                                             color: 'white',
                                             fontWeight: 'bold',
@@ -123,68 +174,39 @@ const PopupGetAllNutritionIngredientId: React.FC<PopupGetAllNutritionIngredientI
                                             },
                                             textTransform: 'none',
                                         }}
-                                        disabled={!!ingredientNutritionById?.nutritions}
+                                        onClick={handleOpenUpdateIngredientNutrition}
                                     >
-                                        Thêm
+                                        Chỉnh sửa dinh dưỡng
                                     </Button>
-                                    {ingredientNutritionById?.nutritions !== undefined && (
-                                        <Button
-                                            variant="contained"
-                                            // onClick={}
-                                            sx={{
-                                                color: 'white',
-                                                fontWeight: 'bold',
-                                                backgroundColor: 'red',
-                                                '&:hover': {
-                                                    backgroundColor: '#ad2518',
-                                                },
-                                                textTransform: 'none',
-                                            }}
-                                        >
-                                            Xóa tất cả
-                                        </Button>
-                                    )}
-                                </Box>
-                            }
-                        />
-                        <Box display="flex" justifyContent="flex-end" mr={2}>
-                            {ingredientNutritionById?.nutritions !== undefined && (
-                                <Button
-                                    variant="contained"
-                                    sx={{
-                                        color: 'white',
-                                        fontWeight: 'bold',
-                                        backgroundColor: 'orange',
-                                        '&:hover': {
-                                            backgroundColor: '#f58f1b',
-                                        },
-                                        textTransform: 'none',
-                                    }}
-                                    onClick={handleOpenUpdateIngredientNutrition}
-                                >
-                                    Chỉnh sửa dinh dưỡng
-                                </Button>
-                            )}
-                        </Box>
-                    </>
-                )}
-            </DialogContent>
+                                )}
+                            </Box>
+                        </>
+                    )}
+                </DialogContent>
             </Dialog>
             {openUpdateIngredientNutrition && (
                 <PopupUpdateIngredientNutritions
                     ingredientId={ingredientId}
                     closePopup={() => setOpenUpdateIngredientNutrition(false)}
-                    isPopupOpen={openUpdateIngredientNutrition} 
+                    isPopupOpen={openUpdateIngredientNutrition}
                 />
             )}
             {openCreateIngredientNutrition && (
 
                 <PopupCreateIngredientNutritions
-                isPopupOpen={openCreateIngredientNutrition}
-                ingredientId={ingredientId}
-                closePopup={() => setOpenCreateIngredientNutrition(false)}
+                    isPopupOpen={openCreateIngredientNutrition}
+                    ingredientId={ingredientId}
+                    closePopup={() => setOpenCreateIngredientNutrition(false)}
                 />
             )}
+            <PopupCheck
+                open={clearNutrition}
+                content="Bạn có chắc chắn muốn xóa tất cả các dinh dưỡng của loại nguyên liệu này không ?"
+                titleCancel="Không"
+                titleAccept="Có"
+                onCancel={() => setClearNutrition(false)}
+                onAccept={handleClearNutrition}
+            />
         </Box>
     )
 }
