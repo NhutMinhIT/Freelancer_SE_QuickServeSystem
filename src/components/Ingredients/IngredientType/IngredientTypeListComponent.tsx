@@ -1,8 +1,6 @@
 
 import { MRT_ColumnDef } from "material-react-table";
 import { IIngredientType } from "../../../models/Ingredient";
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { useAppDispatch, useAppSelector } from "../../../services/store/store";
 import { Button, Stack } from "@mui/material";
 import { useEffect, useState } from "react";

@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { IUserInfo } from '../../models/UserInfor';
 import { getAllUsersEndpoint, getUserByIdEndpoint } from '../api/apiConfig';
 import axiosInstance from '../api/axiosInstance';
+import { toast } from 'react-toastify';
 
 interface UserState {
     loading: boolean;

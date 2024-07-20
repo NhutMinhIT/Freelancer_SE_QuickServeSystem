@@ -2,9 +2,6 @@ import { MRT_ColumnDef } from 'material-react-table';
 import { useEffect, useState } from 'react';
 import { Stack, Button } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../services/store/store';
-
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { IProductTemplate } from '../../models/ProductTemplate';
 import CommonTable from '../CommonTable/CommonTable';
 import { deleteProductTemplate, getAllProductTemplates, getProductTemplateById } from '../../services/features/productTemplateSlice';

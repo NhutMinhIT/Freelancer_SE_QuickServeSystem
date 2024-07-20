@@ -1,4 +1,4 @@
-import { MapIcon, PlusIcon, PowerIcon } from "@heroicons/react/16/solid";
+import { MapIcon } from "@heroicons/react/16/solid";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../services/store/store";

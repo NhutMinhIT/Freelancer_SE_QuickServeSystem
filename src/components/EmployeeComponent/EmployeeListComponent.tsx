@@ -1,5 +1,5 @@
 import { MRT_ColumnDef } from 'material-react-table';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Stack, Button } from '@mui/material';
 
 import { IEmployee } from '../../models/Employee';

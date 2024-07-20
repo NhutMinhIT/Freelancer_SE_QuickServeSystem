@@ -20,7 +20,7 @@ const PopupCreateStore: React.FC<PopupCreateStoreProps> = ({ isPopupOpen, closeP
     const dispatch = useAppDispatch();
     const [isLoading, setIsLoading] = useState(false);
 
-    const { register, handleSubmit, reset, formState: { errors } } = useForm<FormCreateStoreValues>({
+    const { register, handleSubmit, reset } = useForm<FormCreateStoreValues>({
         resolver: yupResolver(schemaCategory)
     });
 
@@ -63,7 +63,7 @@ const PopupCreateStore: React.FC<PopupCreateStoreProps> = ({ isPopupOpen, closeP
                                     id="name"
                                     className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
                                 />
-                               
+
                             </div>
                             <div className="mb-4">
                                 <label htmlFor="address" className="block text-sm font-medium text-gray-700">Địa chỉ</label>
@@ -74,7 +74,7 @@ const PopupCreateStore: React.FC<PopupCreateStoreProps> = ({ isPopupOpen, closeP
                                     id="address"
                                     className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
                                 />
-                               
+
                             </div>
                             <div className="flex justify-end">
                                 <button

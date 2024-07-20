@@ -4,8 +4,6 @@ import { Stack, Button } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../services/store/store';
 import { getAllStore } from '../../services/features/storeSlice';
 import { IStore } from '../../models/Store';
-
-import PopupCheck from '../Popup/PopupCheck';
 import CommonTable from '../CommonTable/CommonTable';
 import PopupStoreDetail from '../Popup/PopupStoreDetail';
 import PopupCreateStore from '../Popup/PopupCreateStore';
@@ -104,12 +102,12 @@ const StoreListComponent = () => {
                     <PopupStoreDetail
                         store={storeData}
                         onPopupDetail={onPopupStoreDetail}
-                        setOnPopupDetail={setOnPopupStoreDetail}       
+                        setOnPopupDetail={setOnPopupStoreDetail}
                         onRename={() =>
                             handleOpenPopupRenameCategory(storeData.id)
                         }
                     />
-               
+
                 </>
             )}
         </Stack>
