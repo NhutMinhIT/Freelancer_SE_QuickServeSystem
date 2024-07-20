@@ -159,7 +159,7 @@ const PopupDetailSession: React.FC<PopupDetailSessionProps> = ({
                                     />
                                     <hr className="mt-2 text-black-700" />
                                 </div>
-                                <div className="overflow-y-auto h-96 mt-2"> 
+                                <div className="overflow-y-auto h-96 mt-2">
                                     <CommonTable
                                         columns={columns}
                                         isShowTitleDoubleClick={false}
@@ -204,23 +204,23 @@ const PopupDetailSession: React.FC<PopupDetailSessionProps> = ({
                                     />
                                 </div>
                                 <Box display="flex" justifyContent="flex-end" mr={2}>
-                                        {ingredientSessionById?.ingredients !== undefined && (
-                                            <Button
-                                                variant="contained"
-                                                onClick={handleUpdateIngredientSessionPopup}
-                                                sx={{
-                                                    color: 'white',
-                                                    fontWeight: 'bold',
-                                                    backgroundColor: 'orange',
-                                                    '&:hover': {
-                                                        backgroundColor: '#f58f1b',
-                                                    },
-                                                    textTransform: 'none',
-                                                }}
-                                            >
-                                                Chỉnh sửa nguyên liệu
-                                            </Button>
-                                        )}
+                                    {ingredientSessionById?.ingredients !== undefined && (
+                                        <Button
+                                            variant="contained"
+                                            onClick={handleUpdateIngredientSessionPopup}
+                                            sx={{
+                                                color: 'white',
+                                                fontWeight: 'bold',
+                                                backgroundColor: 'orange',
+                                                '&:hover': {
+                                                    backgroundColor: '#f58f1b',
+                                                },
+                                                textTransform: 'none',
+                                            }}
+                                        >
+                                            Chỉnh sửa nguyên liệu
+                                        </Button>
+                                    )}
                                 </Box>
 
                             </div>

@@ -9,64 +9,68 @@ import { getAllNutritions } from "../../../services/features/nutritionSlice"
 import PopupUpdateIngredientNutritions from "./PopupUpdateIngredientNutritions"
 import PopupCreateIngredientNutritions from "./PopupCreateIngredientNutritions"
 import PopupCheck from "../../Popup/PopupCheck"
-import { clearIngredietNutritionByNutritionId, getNutritionByIngredientId } from "../../../services/features/ingredientNutritionSlice"
+import { clearIngredietNutritionByNutritionId, deleteNutritionByIngredientId, getNutritionByIngredientId } from "../../../services/features/ingredientNutritionSlice"
 
 type PopupGetAllNutritionIngredientIdProps = {
     ingredientId: number,
     openPopupNutrition: boolean
     handleCloseAllNutrition: () => void
 }
-const columns: MRT_ColumnDef<INutritionFields>[] = [
-    {
-        accessorKey: "name",
-        header: "Tên nguyên liệu"
-    },
-    {
-        accessorKey: "vitamin",
-        header: "Vitamin"
-    },
-    {
-        accessorKey: "healthValue",
-        header: "Giá trị dinh dưỡng"
-    },
-    {
-        accessorKey: "description",
-        header: "Mô tả"
-    },
-    {
-        accessorKey: 'function',
-        header: 'Chức năng',
-        Cell: ({ cell }) => {
-            const id = cell.row.original.id;
-            return (
-                <div className="flex justify-center">
-                    <Tooltip title="Xóa dinh dưỡng">
-                        <TrashIcon
-                            width={16}
-                            height={16}
-                            className="h-6 w-6 cursor-pointer text-red-600"
-                        // onClick={() => {
-                        //     setIsDeleteIngredientSessionByIngredientIdPopupCheck(true)
-                        //     setSelectedId(id)
-                        // }}
-                        />
-                    </Tooltip>
-                </div>
-            );
-        },
-    },
-]
+
 const PopupGetAllNutritionIngredientId: React.FC<PopupGetAllNutritionIngredientIdProps> = ({
     ingredientId,
     openPopupNutrition,
     handleCloseAllNutrition
 }) => {
     const dispatch = useAppDispatch();
-
     const [openUpdateIngredientNutrition, setOpenUpdateIngredientNutrition] = useState<boolean>(false);
     const [openCreateIngredientNutrition, setOpenCreateIngredientNutrition] = useState<boolean>(false);
     const { ingredientNutritionById, loading } = useAppSelector((state) => state.ingredientNutritions)
     const [clearNutrition, setClearNutrition] = useState<boolean>(false);
+    const [isDeleteNutritionIngredient, setIsDeleteNutritionIngredient] = useState<boolean>(false);
+    const [selectedNutritionId, setSelectedNutritionId] = useState<number | null>(null);
+
+    // UI Table 
+    const columns: MRT_ColumnDef<INutritionFields>[] = [
+        {
+            accessorKey: "name",
+            header: "Tên nguyên liệu"
+        },
+        {
+            accessorKey: "vitamin",
+            header: "Vitamin"
+        },
+        {
+            accessorKey: "healthValue",
+            header: "Giá trị dinh dưỡng"
+        },
+        {
+            accessorKey: "description",
+            header: "Mô tả"
+        },
+        {
+            accessorKey: 'function',
+            header: 'Chức năng',
+            Cell: ({ cell }) => {
+                const id = cell.row.original.id;
+                return (
+                    <div className="flex justify-center">
+                        <Tooltip title="Xóa dinh dưỡng">
+                            <TrashIcon
+                                width={16}
+                                height={16}
+                                className="h-6 w-6 cursor-pointer text-red-600"
+                                onClick={() => {
+                                    setIsDeleteNutritionIngredient(true)
+                                    setSelectedNutritionId(id)
+                                }}
+                            />
+                        </Tooltip>
+                    </div>
+                );
+            },
+        },
+    ]
 
     const handleOpenUpdateIngredientNutrition = () => {
         setOpenUpdateIngredientNutrition(true);
@@ -76,7 +80,7 @@ const PopupGetAllNutritionIngredientId: React.FC<PopupGetAllNutritionIngredientI
     const handleOpenCreateIngredientNutrition = () => {
         setOpenCreateIngredientNutrition(true);
     }
-
+    //Clear Nutrition in Ingrediennt
     const handleClearNutrition = () => {
         dispatch(clearIngredietNutritionByNutritionId({ ingredientId }))
             .unwrap()
@@ -87,7 +91,18 @@ const PopupGetAllNutritionIngredientId: React.FC<PopupGetAllNutritionIngredientI
                 setClearNutrition(false);
                 console.log(e);
             })
+    }
 
+    // Delete Nutrition in Ingredient
+    const handleDeleteNutritionIngredient = () => {
+        dispatch(deleteNutritionByIngredientId({ ingredientId, nutritionId: selectedNutritionId as number }))
+            .unwrap()
+            .then(() => {
+                setIsDeleteNutritionIngredient(false);
+                dispatch(getNutritionByIngredientId({ ingredientId }));
+            }).catch(e => {
+                console.log(e);
+            })
     }
 
     return (
@@ -199,6 +214,16 @@ const PopupGetAllNutritionIngredientId: React.FC<PopupGetAllNutritionIngredientI
                     closePopup={() => setOpenCreateIngredientNutrition(false)}
                 />
             )}
+            // Delete nutrition
+            <PopupCheck
+                open={isDeleteNutritionIngredient}
+                content="Bạn có chắc chắn muốn xóa loại dinh dưỡng này không ?"
+                titleCancel="Không"
+                titleAccept="Có"
+                onCancel={() => setIsDeleteNutritionIngredient(false)}
+                onAccept={handleDeleteNutritionIngredient}
+            />
+            //Clear nutrition
             <PopupCheck
                 open={clearNutrition}
                 content="Bạn có chắc chắn muốn xóa tất cả các dinh dưỡng của loại nguyên liệu này không ?"
