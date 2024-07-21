@@ -1,6 +1,6 @@
 import { MRT_ColumnDef } from 'material-react-table';
 import { IIngredient } from '../../../models/Ingredient';
-import { Button, Stack } from '@mui/material';
+import { Box, Button, Stack, TextField } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../../services/store/store';
 import { useEffect, useState } from 'react';
 import { deleteIngredient, getAllIngredients, getIngredientById } from '../../../services/features/ingredientSlice';
@@ -74,6 +74,7 @@ const IngredientListComponent = () => {
     const dispatch = useAppDispatch();
     const { ingredients } = useAppSelector((state) => state.ingredients);
     const ingredientData = useAppSelector((state) => state.ingredients.ingredient);
+    const [searchName, setSearchName] = useState('');
 
     const [selectedIngredientId, setSelectedIngredientId] = useState<number | null>(null);
     const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -129,12 +130,24 @@ const IngredientListComponent = () => {
     const handleOpenPopupUpdateIngredient = () => {
         setOpenPopupUpdateIngredient(true)
     };
+    const filteredIngredients = ingredients?.filter(ingredient =>
+        ingredient.name.toLowerCase().includes(searchName.toLowerCase())
+    ) || [];
 
     return (
         <Stack sx={{ m: '2rem 0' }}>
+            <Box sx={{ mb: 2 }}>
+                <TextField
+                    label="Tìm kiếm theo tên"
+                    variant="outlined"
+                    fullWidth
+                    value={searchName}
+                    onChange={(e) => setSearchName(e.target.value)}
+                />
+            </Box>
             <CommonTable
                 columns={columns}
-                data={ingredients || []}
+                data={filteredIngredients}  // Sử dụng dữ liệu đã lọc
                 onRowDoubleClick={handleShowPopupIngredientDetail}
                 toolbarButtons={
                     <Button
@@ -186,7 +199,6 @@ const IngredientListComponent = () => {
                         open={openPopupUpdateIngredient}
                         closePopup={() => setOpenPopupUpdateIngredient(false)}
                     />
-
                 </>
             )}
             <PopupCheck

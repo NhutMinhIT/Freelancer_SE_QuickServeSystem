@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   MRT_ColumnDef,
   MRT_GlobalFilterTextField,
@@ -17,6 +18,7 @@ import {
   TableHead,
   TableRow,
   Typography,
+  TableSortLabel,
 } from "@mui/material";
 
 interface CommonTableProps<T extends MRT_RowData> {
@@ -40,6 +42,7 @@ const CommonTable = <T extends MRT_RowData>({
     columns,
     data,
     enableRowSelection,
+    enableSorting: true,  // Enable sorting
     initialState: {
       pagination: { pageSize: 5, pageIndex: 0 },
       showGlobalFilter: true,
@@ -86,13 +89,16 @@ const CommonTable = <T extends MRT_RowData>({
                 {headerGroup.headers.map((header) => (
                   <TableCell align="left" variant="head" key={header.id}>
                     {header.isPlaceholder ? null : (
-                      <Typography fontWeight={700} color={"black"}>
+                      <TableSortLabel
+                        active={header.column.getIsSorted() !== false}
+                        direction={header.column.getIsSorted() as 'asc' | 'desc' || 'asc'}
+                        onClick={header.column.getToggleSortingHandler()}
+                      >
                         {flexRender(
-                          header.column.columnDef.Header ??
-                          header.column.columnDef.header,
+                          header.column.columnDef.Header ?? header.column.columnDef.header,
                           header.getContext(),
                         )}
-                      </Typography>
+                      </TableSortLabel>
                     )}
                   </TableCell>
                 ))}
