@@ -98,5 +98,7 @@ export const deleteIngredientNutritionEndpoint = `${BASE_URL}/IngredientNutritio
 export const clearIngredientNutritionEndpoint = `${BASE_URL}/IngredientNutritions`;
 
 //Report endpoints
+export const getRevenueReportOfStoreEndpoint = `${BASE_URL}/Orders/RevenueReport/Store`;
+export const getBestSellingReportOfStoreEndpoint = `${BASE_URL}/Orders/BestSellingReport/Store`;
 
 
