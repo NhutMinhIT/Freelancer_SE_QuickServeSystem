@@ -38,6 +38,11 @@ const listMenu = {
     ],
     storeManagementMenu: [
         {
+            title: 'Thống Kê',
+            url: '/dashboard',
+            icon: chartRevenueIcon,
+        },
+        {
             title: 'DS. Nhân Viên',
             url: '/employee-management',
             icon: employeeManagementIcon,

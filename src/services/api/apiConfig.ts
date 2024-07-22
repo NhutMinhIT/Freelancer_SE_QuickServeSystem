@@ -96,3 +96,7 @@ export const createIngredientNutritionEndpoint = `${BASE_URL}/IngredientNutritio
 export const updateIngredientNutritionEndpoint = `${BASE_URL}/IngredientNutritions`;
 export const deleteIngredientNutritionEndpoint = `${BASE_URL}/IngredientNutritions`;
 export const clearIngredientNutritionEndpoint = `${BASE_URL}/IngredientNutritions`;
+
+//Report endpoints
+
+
