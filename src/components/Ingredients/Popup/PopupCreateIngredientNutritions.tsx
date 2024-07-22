@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../services/store/store";
-import { useFieldArray, useForm } from "react-hook-form";
+import { Resolver, useFieldArray, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { XMarkIcon } from "@heroicons/react/16/solid";
 import { Dialog, DialogContent, DialogTitle, Grid } from "@mui/material";
@@ -15,7 +15,9 @@ type PopupCreateIngredientNutritionsProps = {
 
 type FormCreateIngredientNutritionsStepValues = {
     ingredientId: number;
-    nutritionIds: number[];
+    nutritionIds: {
+        id: number,
+    }[];
 };
 
 const PopupCreateIngredientNutritions = ({
@@ -34,10 +36,7 @@ const PopupCreateIngredientNutritions = ({
         control,
         reset,
     } = useForm<FormCreateIngredientNutritionsStepValues>({
-        resolver: yupResolver(schemaCreateIngredientNutrition),
-        defaultValues: {
-            nutritionIds: [0],
-        },
+        resolver: yupResolver(schemaCreateIngredientNutrition) as unknown as Resolver<FormCreateIngredientNutritionsStepValues>,
     });
 
     const { fields, append, remove } = useFieldArray({
@@ -47,7 +46,7 @@ const PopupCreateIngredientNutritions = ({
 
     useEffect(() => {
         if (isPopupOpen && fields.length === 0) {
-            append(0);
+            append({id: 0});
         }
     }, [isPopupOpen, append, fields.length]);
 
@@ -57,13 +56,17 @@ const PopupCreateIngredientNutritions = ({
 
     const handleAddMore = () => {
         if (fields.length < 3) {
-            append(0);
+            append({id: 0});
         }
     };
 
     const onSubmit = (data: FormCreateIngredientNutritionsStepValues) => {
         setIsLoading(true);
-        dispatch(createIngredientNutrition(data))
+        const dataSend: number[] = data.nutritionIds?.map(i => i?.id);
+        dispatch(createIngredientNutrition({
+            ingredientId: data?.ingredientId,
+            nutritionIds: dataSend,
+        }))
             .unwrap()
             .then(() => {
                 dispatch(getNutritionByIngredientId({ ingredientId: ingredientId }));
@@ -72,6 +75,9 @@ const PopupCreateIngredientNutritions = ({
             .catch((error) => console.log(error))
             .finally(() => setIsLoading(false));
         reset();
+
+        console.log(dataSend);
+        
     };
 
     return (
@@ -121,7 +127,7 @@ const PopupCreateIngredientNutritions = ({
                                         <Grid container key={field.id} rowSpacing={2} columnSpacing={2} sx={{ marginBottom: 2 }}>
                                             <Grid item md={11} xs={11} xl={11} lg={11} rowSpacing={2} columnSpacing={2}>
                                                 <select
-                                                    {...register(`nutritionIds.${index}`)}
+                                                    {...register(`nutritionIds.${index}.id`)}
                                                     className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
                                                 >
                                                     <option value="0">Chọn nguyên liệu</option>
@@ -159,8 +165,8 @@ const PopupCreateIngredientNutritions = ({
                         <div className="flex justify-end">
                             <button
                                 type="submit"
-                                className="bg-orange-500 text-white px-4 py-2 rounded-md hover:bg-orange-600"
-                                disabled={isLoading}
+                                className="bg-orange-500 text-white px-4 py-2 rounded-md hover:bg-orange-600 disabled:bg-gray-500"
+                                disabled={isLoading || fields.length > 3}
                             >
                                 {isLoading ? (
                                     <svg className="animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">
