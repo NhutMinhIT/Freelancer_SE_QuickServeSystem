@@ -19,13 +19,13 @@ const initialState: RevenueState = {
     success: false,
 };
 
-export const getRevenueOfStore = createAsyncThunk<IRevenueOfStore, { StartDate: string; EndDate: string; Month: string; Year: string }>(
+export const getRevenueOfStore = createAsyncThunk<IRevenueOfStore, { data: any}>(
     'revenue/getRevenueOfStore',
     async (params, thunkAPI) => {
         try {
             const token = sessionStorage.getItem('quickServeToken');
             // Format the URL with query parameters including Month and Year
-            const formattedURL = `${getRevenueReportOfStoreEndpoint}?StartDate=${encodeURIComponent(params.StartDate)}&EndDate=${encodeURIComponent(params.EndDate)}&Month=${encodeURIComponent(params.Month)}&Year=${encodeURIComponent(params.Year)}`;
+            const formattedURL = `${getRevenueReportOfStoreEndpoint}?${params.data}`;
             const response = await axiosInstance.get(
                 formattedURL,
                 {
@@ -41,13 +41,13 @@ export const getRevenueOfStore = createAsyncThunk<IRevenueOfStore, { StartDate: 
     }
 );
 
-export const getBestSellingOfStore = createAsyncThunk<IBestSellingOfStore[], { StartDate: string; EndDate: string; Month: string; Year: string }>(
+export const getBestSellingOfStore = createAsyncThunk<IBestSellingOfStore[], {data: any}>(
     'revenue/getBestSellingOfStore',
     async (params, thunkAPI) => {
         try {
             const token = sessionStorage.getItem('quickServeToken');
             // Format the URL with query parameters including Month and Year
-            const formattedURL = `${getBestSellingReportOfStoreEndpoint}?StartDate=${encodeURIComponent(params.StartDate)}&EndDate=${encodeURIComponent(params.EndDate)}&Month=${encodeURIComponent(params.Month)}&Year=${encodeURIComponent(params.Year)}`;
+            const formattedURL = `${getBestSellingReportOfStoreEndpoint}?${params.data}`;
             const response = await axiosInstance.get(
                 formattedURL,
                 {
