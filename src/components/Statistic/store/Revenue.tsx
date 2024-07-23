@@ -30,8 +30,6 @@ const Revenue = ({ onSubmit }: RevenueProps) => {
 
     const revenueOfStore = useAppSelector(state => state.revenues.revenueOfStore);
 
-    console.log(revenueOfStore);
-
     const handleChange = (event: SelectChangeEvent) => {
         setShowForm(event.target.value as string);
     };
