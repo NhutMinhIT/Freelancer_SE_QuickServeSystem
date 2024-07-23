@@ -99,6 +99,6 @@ export const clearIngredientNutritionEndpoint = `${BASE_URL}/IngredientNutrition
 
 //Report endpoints
 export const getRevenueReportOfStoreEndpoint = `${BASE_URL}/Orders/RevenueReport/Store`;
-export const getBestSellingReportOfStoreEndpoint = `${BASE_URL}/Orders/BestSellingReport/Store`;
+export const getBestSellingReportOfStoreEndpoint = `${BASE_URL}/Orders/BestSellingProductTemplates/Store`;
 
 
