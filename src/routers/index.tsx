@@ -16,7 +16,7 @@ import ProductTemplate from "../pages/brand-manager/product-template/ProductTemp
 import TemplateStep from "../pages/brand-manager/tempate-steps/TemplateStep";
 import SessionManagement from "../pages/store-manager/session-management/SessionManagement";
 import Nutrition from "../pages/store-manager/nutrition/Nutrition";
-import Statistic from "../pages/store-manager/Statistic";
+import Statistic from "../pages/store-manager/statistic/Statistic";
 
 const AppRouter = () => {
   const token = sessionStorage.getItem("quickServeToken");

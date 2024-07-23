@@ -1,6 +1,7 @@
 import { FaListAlt } from "react-icons/fa"
-import SidebarComponent from "../../components/ManagementComponent/SidebarComponent "
-import RevenueReportStore from "../../components/Statistic/RevenueReportStore"
+import SidebarComponent from "../../../components/ManagementComponent/SidebarComponent "
+import RevenueReportStore from "../../../components/Statistic/RevenueReportStore"
+
 
 const Statistic = () => {
     return (

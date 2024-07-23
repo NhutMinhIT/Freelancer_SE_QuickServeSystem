@@ -17,13 +17,13 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
 type RevenueProps = {
     onSubmit: (data: any, action: string) => void;
-  };
-  
-  type FormRevenueValues = {
-      monthYear: string,
-      startDate: string;
-      endDate: string;
-  }
+};
+
+type FormRevenueValues = {
+    monthYear: string,
+    startDate: string;
+    endDate: string;
+}
 
 const Revenue = ({ onSubmit }: RevenueProps) => {
     const [showForm, setShowForm] = useState('month');
@@ -33,18 +33,18 @@ const Revenue = ({ onSubmit }: RevenueProps) => {
     const handleChange = (event: SelectChangeEvent) => {
         setShowForm(event.target.value as string);
     };
-    
+
     const { register, handleSubmit, formState: { errors } } = useForm<FormRevenueValues>({
         defaultValues: {
             monthYear: '2024-07',
         }
     });
 
-    
+
     const onSubmitForm = (data: FormRevenueValues) => {
         const action = (document.activeElement as HTMLButtonElement)?.value;
         onSubmit(data, action);
-    }        
+    }
 
     const dataRevenue = {
         labels: ['Tháng'],
@@ -55,19 +55,23 @@ const Revenue = ({ onSubmit }: RevenueProps) => {
                 backgroundColor: 'rgba(255, 99, 132, 0.2)',
                 borderColor: 'rgba(255, 99, 132, 1)',
                 borderWidth: 1,
+                barThickness: 30, // Adjust this value to make bars thinner
+                maxBarThickness: 30, // You can also set a maximum thickness
             },
         ],
     };
-    
+
     const dataOrder = {
         labels: ['Tháng'],
-        datasets: [         
+        datasets: [
             {
                 label: 'Số lượng đơn hàng',
                 data: [revenueOfStore?.totalOrderCount || 0],
                 backgroundColor: 'rgba(54, 162, 235, 0.2)',
                 borderColor: 'rgba(54, 162, 235, 1)',
                 borderWidth: 1,
+                barThickness: 30,
+                maxBarThickness: 30,
             }
         ],
     };
@@ -80,85 +84,85 @@ const Revenue = ({ onSubmit }: RevenueProps) => {
         },
     };
 
-  return (
-    <div className='mt-4 mr-2'>
-    <h2 className='text-xl text-black font-bold'>Thống kê chi tiết</h2>
-    <div className='flex flex-row mt-4 gap-10'>
-        <div className='border border-gray-400 w-72 flex flex-col p-4 rounded-lg shadow-md'>
-            <span className='text-xl font-semibold text-gray-700'>Tổng tất cả đơn hàng:</span>
-            <span className='text-xl font-semibold text-blue-600'>{formatNumberWithDots(revenueOfStore?.totalOrderCount)}</span>
-        </div>
-        <div className='border border-gray-400 w-72 flex flex-col p-4 rounded-lg shadow-md'>
-            <span className='text-xl font-semibold text-gray-700'>Tổng tất cả doanh thu:</span>
-            <span className='text-xl font-semibold text-green-600'>{formatNumberWithDots(revenueOfStore?.totalRevenue)} đ</span>
-        </div>
-    </div>
-    <div className="mt-3 flex flex-row py-2">
-        <div className='flex flex-grow gap-4'>
-            <div className="w-3/4">
-                <Bar data={dataRevenue} options={options} />
+    return (
+        <div className='mt-4 mr-2'>
+            <h2 className='text-xl text-black font-bold'>Thống kê chi tiết</h2>
+            <div className='flex flex-row mt-4 gap-10'>
+                <div className='border border-gray-400 w-72 flex flex-col p-4 rounded-lg shadow-md'>
+                    <span className='text-xl font-semibold text-gray-700'>Tổng tất cả đơn hàng:</span>
+                    <span className='text-xl font-semibold text-blue-600'>{formatNumberWithDots(revenueOfStore?.totalOrderCount)}</span>
+                </div>
+                <div className='border border-gray-400 w-72 flex flex-col p-4 rounded-lg shadow-md'>
+                    <span className='text-xl font-semibold text-gray-700'>Tổng tất cả doanh thu:</span>
+                    <span className='text-xl font-semibold text-green-600'>{formatNumberWithDots(revenueOfStore?.totalRevenue)} đ</span>
+                </div>
             </div>
-            <div className="w-3/4">
-                <Bar data={dataOrder} options={options} />
-            </div>
-            <div className='flex flex-col w-2/4'>
-                <FormControl fullWidth sx={{ mb: 2}}>
-                    <InputLabel>Tìm kiếm</InputLabel>
-                    <Select
-                        value={showForm}
-                        label="Age"
-                        onChange={handleChange}
-                    >
-                        <MenuItem value={'month'}>Theo tháng</MenuItem>
-                        <MenuItem value={'aboutTime'}>Theo khoảng thời gian</MenuItem>
-                    </Select>
-                </FormControl>
-                <form onSubmit={handleSubmit(onSubmitForm)}>
-                    {showForm === 'month' && (
-                        <div className="flex flex-col items-start border-2 border-black-500 rounded-lg p-2 mb-4">
-                            <label htmlFor="normal-search-chart" className="mb-2 font-semibold">Tìm kiếm theo tháng</label>
-                            <input 
-                                type="month" 
-                                id="normal-search-chart"
-                                {...register("monthYear", { required: "Vui lòng chọn tháng" })} 
-                                className="border border-gray-500 rounded-md p-2 w-full" />
-                            <button className="p-3 bg-orange-500 rounded-md mt-2 w-full" type="submit" name="month" value="month">Tìm kiếm</button>
-                        </div>
-                    )}
-                    {showForm === 'aboutTime' && (
-                        <div className="flex flex-col items-start border-2 border-black-500 rounded-lg p-2">
-                            <span className="mb-2 font-semibold">Tìm kiếm theo khoảng thời gian</span>
-                            <div className="flex flex-col gap-4 w-full">
-                                <div className="flex flex-col">
-                                    <label htmlFor="start-date-chart" className="font-bold">Từ</label>
-                                    <input 
-                                        type="date" 
-                                        id="start-date-chart" 
-                                        {...register("startDate", { required: "Vui lòng chọn ngày bắt đầu" })} 
-                                        className="border border-gray-500 rounded-md p-2 w-full" 
-                                    />
+            <div className="mt-3 flex flex-row py-2">
+                <div className='flex flex-grow gap-4'>
+                    <div className="w-3/4">
+                        <Bar data={dataRevenue} options={options} />
+                    </div>
+                    <div className="w-3/4">
+                        <Bar data={dataOrder} options={options} />
+                    </div>
+                    <div className='flex flex-col w-2/4'>
+                        <FormControl fullWidth sx={{ mb: 2 }}>
+                            <InputLabel>Tìm kiếm</InputLabel>
+                            <Select
+                                value={showForm}
+                                label="search-in-chart"
+                                onChange={handleChange}
+                            >
+                                <MenuItem value={'month'}>Theo tháng</MenuItem>
+                                <MenuItem value={'aboutTime'}>Theo khoảng thời gian</MenuItem>
+                            </Select>
+                        </FormControl>
+                        <form onSubmit={handleSubmit(onSubmitForm)}>
+                            {showForm === 'month' && (
+                                <div className="flex flex-col items-start border-2 border-black-500 rounded-lg p-2 mb-4">
+                                    <label htmlFor="normal-search-chart" className="mb-2 font-semibold">Tìm kiếm theo tháng</label>
+                                    <input
+                                        type="month"
+                                        id="normal-search-chart"
+                                        {...register("monthYear", { required: "Vui lòng chọn tháng" })}
+                                        className="border border-gray-500 rounded-md p-2 w-full" />
+                                    <button className="p-3 bg-orange-500 rounded-md mt-2 w-full" type="submit" name="month" value="month">Tìm kiếm</button>
                                 </div>
-                                {errors.startDate && <span className="text-red-500">{errors.startDate.message}</span>}
-                                <div className="flex flex-col">
-                                    <label htmlFor="end-date-chart" className="font-bold">Đến</label>
-                                    <input 
-                                        type="date" 
-                                        id="end-date-chart" 
-                                        {...register("endDate", { required: "Vui lòng chọn ngày kết thúc" })} 
-                                        className="border border-gray-500 rounded-md p-2 w-full" 
-                                />
+                            )}
+                            {showForm === 'aboutTime' && (
+                                <div className="flex flex-col items-start border-2 border-black-500 rounded-lg p-2">
+                                    <span className="mb-2 font-semibold">Tìm kiếm theo khoảng thời gian</span>
+                                    <div className="flex flex-col gap-4 w-full">
+                                        <div className="flex flex-col">
+                                            <label htmlFor="start-date-chart" className="font-bold">Từ</label>
+                                            <input
+                                                type="date"
+                                                id="start-date-chart"
+                                                {...register("startDate", { required: "Vui lòng chọn ngày bắt đầu" })}
+                                                className="border border-gray-500 rounded-md p-2 w-full"
+                                            />
+                                        </div>
+                                        {errors.startDate && <span className="text-red-500">{errors.startDate.message}</span>}
+                                        <div className="flex flex-col">
+                                            <label htmlFor="end-date-chart" className="font-bold">Đến</label>
+                                            <input
+                                                type="date"
+                                                id="end-date-chart"
+                                                {...register("endDate", { required: "Vui lòng chọn ngày kết thúc" })}
+                                                className="border border-gray-500 rounded-md p-2 w-full"
+                                            />
+                                        </div>
+                                        {errors.endDate && <span className="text-red-500">{errors.endDate.message}</span>}
+                                    </div>
+                                    <button className="p-3 bg-orange-500 rounded-md mt-2 w-full" type="submit" name="aboutTime" value="aboutTime">Tìm kiếm</button>
                                 </div>
-                                {errors.endDate && <span className="text-red-500">{errors.endDate.message}</span>}
-                            </div>
-                            <button className="p-3 bg-orange-500 rounded-md mt-2 w-full" type="submit" name="aboutTime" value="aboutTime">Tìm kiếm</button>
-                        </div>
-                    )}
-                </form>
+                            )}
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-  )
+    )
 }
 
 export default Revenue
