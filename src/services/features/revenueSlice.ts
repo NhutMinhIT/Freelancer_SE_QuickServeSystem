@@ -6,7 +6,7 @@ import { getBestSellingReportOfStoreEndpoint, getRevenueReportOfStoreEndpoint } 
 type RevenueState = {
     loading: boolean;
     revenueOfStore: IRevenueOfStore | null;
-    bestSellingOfStore: IBestSellingOfStore[] | null;
+    bestSellingOfStore: IBestSellingOfStore | null;
     error: string[] | unknown;
     success: boolean;
 };
@@ -19,7 +19,7 @@ const initialState: RevenueState = {
     success: false,
 };
 
-export const getRevenueOfStore = createAsyncThunk<IRevenueOfStore, { data: any}>(
+export const getRevenueOfStore = createAsyncThunk<IRevenueOfStore, { data: any }>(
     'revenue/getRevenueOfStore',
     async (params, thunkAPI) => {
         try {
@@ -41,7 +41,7 @@ export const getRevenueOfStore = createAsyncThunk<IRevenueOfStore, { data: any}>
     }
 );
 
-export const getBestSellingOfStore = createAsyncThunk<IBestSellingOfStore[], {data: any}>(
+export const getBestSellingOfStore = createAsyncThunk<IBestSellingOfStore, { data: any }>(
     'revenue/getBestSellingOfStore',
     async (params, thunkAPI) => {
         try {

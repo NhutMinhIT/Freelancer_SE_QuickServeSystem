@@ -8,19 +8,18 @@ type BestSellingProps = {
 };
 
 type FormBestSellingValues = {
-    monthYear: string,
-    startDate: string;
-    endDate: string;
+  monthYear: string,
+  startDate: string;
+  endDate: string;
 }
 
 const BestSelling = ({ onSubmit }: BestSellingProps) => {
   const [showForm, setShowForm] = useState('month');
 
-  const bestSellingOfStore = useAppSelector(state => state.revenues.bestSellingOfStore)  
-
+  const bestSellingOfStore = useAppSelector(state => state.revenues.bestSellingOfStore)
   const { register, handleSubmit, formState: { errors } } = useForm<FormBestSellingValues>({
     defaultValues: {
-        monthYear: '2024-07',
+      monthYear: '2024-07',
     }
   });
 
@@ -40,10 +39,10 @@ const BestSelling = ({ onSubmit }: BestSellingProps) => {
         <div className='flex flex-grow gap-2'>
           <div className="w-3/4 grid grid-cols-3 gap-3">
             {/* Thêm các sản phẩm khác tương tự ở đây */}
-            {bestSellingOfStore?.length === 0 && (
-                <h1>Không có sản phẩm nào!</h1>
+            {bestSellingOfStore?.bestSellingProductTemplates.length === 0 && (
+              <h1>Không có sản phẩm nào!</h1>
             )}
-            {bestSellingOfStore && bestSellingOfStore[0]?.bestSellingProductTemplates?.map((data: any) => (
+            {bestSellingOfStore && bestSellingOfStore?.bestSellingProductTemplates?.map((data: any) => (
               <div className="bg-white border border-gray-900 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700" key={data?.id}>
                 <img className="rounded-t-lg" src={data?.urlImage} alt="" />
                 <div className="p-5">
@@ -82,11 +81,11 @@ const BestSelling = ({ onSubmit }: BestSellingProps) => {
               {showForm === 'month' && (
                 <div className="flex flex-col items-start border-2 border-black-500 rounded-lg p-2 mb-4">
                   <label htmlFor="normal-search" className="mb-2 font-semibold">Tìm kiếm theo tháng</label>
-                  <input 
-                    type="month" 
-                    id="normal-search" 
-                    {...register("monthYear", { required: "Vui lòng chọn tháng" })} 
-                    className="border border-gray-500 rounded-md p-2 w-full" 
+                  <input
+                    type="month"
+                    id="normal-search"
+                    {...register("monthYear", { required: "Vui lòng chọn tháng" })}
+                    className="border border-gray-500 rounded-md p-2 w-full"
                   />
                   {errors.monthYear && <span className="text-red-500">{errors.monthYear.message}</span>}
                   <button className="p-3 bg-orange-500 rounded-md mt-2 w-full" type="submit" name="month" value="month">Tìm kiếm</button>
@@ -98,21 +97,21 @@ const BestSelling = ({ onSubmit }: BestSellingProps) => {
                   <div className="flex flex-col gap-4 w-full">
                     <div className="flex flex-col">
                       <label htmlFor="start-date" className="font-bold">Từ</label>
-                      <input 
-                        type="date" 
-                        id="start-date" 
-                        {...register("startDate", { required: "Vui lòng chọn ngày bắt đầu" })} 
-                        className="border border-gray-500 rounded-md p-2 w-full" 
+                      <input
+                        type="date"
+                        id="start-date"
+                        {...register("startDate", { required: "Vui lòng chọn ngày bắt đầu" })}
+                        className="border border-gray-500 rounded-md p-2 w-full"
                       />
                       {errors.startDate && <span className="text-red-500">{errors.startDate.message}</span>}
                     </div>
                     <div className="flex flex-col">
                       <label htmlFor="end-date" className="font-bold">Đến</label>
-                      <input 
-                        type="date" 
-                        id="end-date" 
-                        {...register("endDate", { required: "Vui lòng chọn ngày kết thúc" })} 
-                        className="border border-gray-500 rounded-md p-2 w-full" 
+                      <input
+                        type="date"
+                        id="end-date"
+                        {...register("endDate", { required: "Vui lòng chọn ngày kết thúc" })}
+                        className="border border-gray-500 rounded-md p-2 w-full"
                       />
                       {errors.endDate && <span className="text-red-500">{errors.endDate.message}</span>}
                     </div>
