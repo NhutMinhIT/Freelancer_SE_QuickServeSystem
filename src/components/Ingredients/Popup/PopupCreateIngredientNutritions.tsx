@@ -154,15 +154,15 @@ const PopupCreateIngredientNutritions = ({
                                 </Grid>
                             </div>
                         </div>
-                        <button
-                            type="button"
-                            onClick={handleAddMore}
-                            className="mt-4 bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 disabled:bg-gray-500"
-                            disabled={fields.length >= 3}
-                        >
-                            Thêm dinh dưỡng
-                        </button>
-                        <div className="flex justify-end">
+                        <div className="flex justify-between mt-4">
+                            <button
+                                type="button"
+                                onClick={handleAddMore}
+                                className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 disabled:bg-gray-500"
+                                disabled={fields.length >= 3}
+                            >
+                                Thêm dinh dưỡng
+                            </button>
                             <button
                                 type="submit"
                                 className="bg-orange-500 text-white px-4 py-2 rounded-md hover:bg-orange-600 disabled:bg-gray-500"
