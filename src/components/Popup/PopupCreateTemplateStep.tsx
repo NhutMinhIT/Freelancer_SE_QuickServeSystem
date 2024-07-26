@@ -145,17 +145,16 @@ const PopupCreateTemplateStep = ({
                                         </div>
                                     ))}
                                 </div>
-                                {fields.length < 3 && (
-                                    <button
-                                        type="button"
-                                        onClick={() => append({ ingredientTypeId: 0, quantityMin: 0, quantityMax: 0 })}
-                                        className="mt-4 bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
-                                    >
-                                        Thêm Loại Nguyên Liệu
-                                    </button>
-                                )}
                             </div>
-                            <div className="flex justify-end">
+                            <div className="flex justify-between mt-4">
+                                <button
+                                    type="button"
+                                    onClick={() => append({ ingredientTypeId: 0, quantityMin: 0, quantityMax: 0 })}
+                                    className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 disabled:bg-gray-600"
+                                    disabled={fields.length >= 3}
+                                >
+                                    Thêm Loại Nguyên Liệu
+                                </button>
                                 <button
                                     type="submit"
                                     className="bg-orange-500 text-white px-4 py-2 rounded-md hover:bg-orange-600"
