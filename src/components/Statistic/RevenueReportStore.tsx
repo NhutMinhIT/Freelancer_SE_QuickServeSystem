@@ -33,7 +33,20 @@ const RevenueReportStore = () => {
                     data: `StartDate=${formatMMDDYYYYDate(new Date(data?.startDate))}&EndDate=${formatMMDDYYYYDate(new Date(data?.endDate))}`
                 }));
             }
+        } else if (action === 'specificDate') {
+            if (data.specificDate) {
+                dispatch(getRevenueOfStore({
+                    data: `SpecificDate=${formatMMDDYYYYDate(new Date(data?.specificDate))}`
+                }));
+            }
+        } else if (action === 'year') {
+            if (data.year) {
+                dispatch(getRevenueOfStore({
+                    data: `Year=${data.year}`
+                }));
+            }
         }
+
     }
 
     const handleSubmitBestSellingForm = (data: BestSellingFormData, action: string) => {

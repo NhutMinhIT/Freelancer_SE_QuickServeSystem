@@ -13,7 +13,11 @@ export interface IBestSellingProductTemplates {
     totalOrders: number;
     totalRevenue: number
 }
-
+export interface IMonthlyRevenues {
+    month: number;
+    orderCount: number;
+    revenue: number
+}
 // Define the interface of IRevenueOfStore model.
 export interface IRevenueOfStore {
     startDate: Date;
@@ -22,4 +26,5 @@ export interface IRevenueOfStore {
     specificRevenue: number;
     totalOrderCount: number;
     specificOrderCount: number
+    monthlyRevenues: IMonthlyRevenues[]
 }

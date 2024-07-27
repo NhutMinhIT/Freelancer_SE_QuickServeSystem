@@ -20,7 +20,9 @@ type RevenueProps = {
 };
 
 type FormRevenueValues = {
+    specificDate?: string;
     monthYear: string,
+    year?: string;
     startDate: string;
     endDate: string;
 }
@@ -113,7 +115,9 @@ const Revenue = ({ onSubmit }: RevenueProps) => {
                                 label="search-in-chart"
                                 onChange={handleChange}
                             >
+                                <MenuItem value={'specificDate'}>Theo ngày cụ thể</MenuItem>
                                 <MenuItem value={'month'}>Theo tháng</MenuItem>
+                                <MenuItem value={'year'}>Theo năm</MenuItem>
                                 <MenuItem value={'aboutTime'}>Theo khoảng thời gian</MenuItem>
                             </Select>
                         </FormControl>
@@ -127,6 +131,35 @@ const Revenue = ({ onSubmit }: RevenueProps) => {
                                         {...register("monthYear", { required: "Vui lòng chọn tháng" })}
                                         className="border border-gray-500 rounded-md p-2 w-full" />
                                     <button className="p-3 bg-orange-500 rounded-md mt-2 w-full" type="submit" name="month" value="month">Tìm kiếm</button>
+                                </div>
+                            )}
+                            {showForm === 'specificDate' && (
+                                <div className="flex flex-col items-start border-2 border-black-500 rounded-lg p-2">
+                                    <span className="mb-2 font-semibold">Tìm kiếm theo ngày cụ thể</span>
+                                    <input
+                                        type="date"
+                                        {...register("specificDate", { required: "Vui lòng chọn ngày" })}
+                                        className="border border-gray-500 rounded-md p-2 w-full"
+                                    />
+                                    {errors.specificDate && <span className="text-red-500">{errors.specificDate.message}</span>}
+                                    <button className="p-3 bg-orange-500 rounded-md mt-2 w-full" type="submit" name="specificDate" value="specificDate">Tìm kiếm</button>
+                                </div>
+                            )}
+                            {showForm === 'year' && (
+                                <div className="flex flex-col items-start border-2 border-black-500 rounded-lg p-2 mb-4">
+                                    <label htmlFor="year" className="mb-2 font-semibold">Tìm kiếm theo năm</label>
+                                    <select
+                                        id="year"
+                                        {...register("year", { required: "Vui lòng chọn năm" })}
+                                        className="border border-gray-500 rounded-md p-2 w-full"
+                                    >
+                                        <option value="">Chọn năm</option>
+                                        {Array.from({ length: 10 }, (_, i) => 2019 + i).map(year => (
+                                            <option key={year} value={year}>{year}</option>
+                                        ))}
+                                    </select>
+                                    {errors.year && <span className="text-red-500">{errors.year.message}</span>}
+                                    <button className="p-3 bg-orange-500 rounded-md mt-2 w-full" type="submit" name="year" value="year">Tìm kiếm</button>
                                 </div>
                             )}
                             {showForm === 'aboutTime' && (
