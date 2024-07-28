@@ -5,6 +5,7 @@ import { getBestSellingReportOfStoreEndpoint, getRevenueReportOfStoreEndpoint } 
 
 type RevenueState = {
     loading: boolean;
+    loadingBestSelling: boolean;
     revenueOfStore: IRevenueOfStore | null;
     bestSellingOfStore: IBestSellingOfStore | null;
     error: string[] | unknown;
@@ -13,6 +14,7 @@ type RevenueState = {
 
 const initialState: RevenueState = {
     loading: false,
+    loadingBestSelling: false,
     revenueOfStore: null,
     bestSellingOfStore: null,
     error: null,
@@ -86,14 +88,14 @@ export const revenueSlice = createSlice({
         });
         // Add the reducers for getBestSellingOfStore
         builder.addCase(getBestSellingOfStore.pending, (state) => {
-            state.loading = true;
+            state.loadingBestSelling = true;
         });
         builder.addCase(getBestSellingOfStore.fulfilled, (state, action) => {
-            state.loading = false;
+            state.loadingBestSelling = false;
             state.bestSellingOfStore = action.payload;
         });
         builder.addCase(getBestSellingOfStore.rejected, (state, action) => {
-            state.loading = false;
+            state.loadingBestSelling = false;
             state.error = action.payload as string[];
         });
     }

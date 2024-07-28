@@ -2,6 +2,7 @@ import { useState } from "react";
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { useAppSelector } from "../../../services/store/store";
+import { CircularProgress } from '@mui/material';
 
 type BestSellingProps = {
   onSubmit: (data: any, action: string) => void;
@@ -19,7 +20,7 @@ type FormBestSellingValues = {
 const BestSelling = ({ onSubmit }: BestSellingProps) => {
   const [showForm, setShowForm] = useState('month');
 
-  const bestSellingOfStore = useAppSelector(state => state.revenues.bestSellingOfStore)
+  const {bestSellingOfStore, loadingBestSelling} = useAppSelector(state => state.revenues)
   const { register, handleSubmit, formState: { errors } } = useForm<FormBestSellingValues>({
     defaultValues: {
       monthYear: '2024-07',
@@ -93,7 +94,9 @@ const BestSelling = ({ onSubmit }: BestSellingProps) => {
                     className="border border-gray-500 rounded-md p-2 w-full"
                   />
                   {errors.specificDate && <span className="text-red-500">{errors.specificDate.message}</span>}
-                  <button className="p-3 bg-orange-500 rounded-md mt-2 w-full" type="submit" name="specificDate" value="specificDate">Tìm kiếm</button>
+                  <button className="p-3 bg-orange-500 rounded-md mt-2 w-full" type="submit" name="specificDate" value="specificDate" disabled={loadingBestSelling}>
+                    {loadingBestSelling ? <CircularProgress size={24} /> : 'Tìm kiếm'}
+                  </button>
                 </div>
               )}
               {showForm === 'month' && (
@@ -106,7 +109,9 @@ const BestSelling = ({ onSubmit }: BestSellingProps) => {
                     className="border border-gray-500 rounded-md p-2 w-full"
                   />
                   {errors.monthYear && <span className="text-red-500">{errors.monthYear.message}</span>}
-                  <button className="p-3 bg-orange-500 rounded-md mt-2 w-full" type="submit" name="month" value="month">Tìm kiếm</button>
+                  <button className="p-3 bg-orange-500 rounded-md mt-2 w-full" type="submit" name="month" value="month" disabled={loadingBestSelling}>
+                    {loadingBestSelling ? <CircularProgress size={24} /> : 'Tìm kiếm'}
+                  </button>
                 </div>
               )}
               {showForm === 'year' && (
@@ -123,7 +128,9 @@ const BestSelling = ({ onSubmit }: BestSellingProps) => {
                     ))}
                   </select>
                   {errors.year && <span className="text-red-500">{errors.year.message}</span>}
-                  <button className="p-3 bg-orange-500 rounded-md mt-2 w-full" type="submit" name="year" value="year">Tìm kiếm</button>
+                  <button className="p-3 bg-orange-500 rounded-md mt-2 w-full" type="submit" name="year" value="year" disabled={loadingBestSelling}>
+                    {loadingBestSelling ? <CircularProgress size={24} /> : 'Tìm kiếm'}
+                  </button>
                 </div>
               )}
               {showForm === 'aboutTime' && (
@@ -151,7 +158,9 @@ const BestSelling = ({ onSubmit }: BestSellingProps) => {
                       {errors.endDate && <span className="text-red-500">{errors.endDate.message}</span>}
                     </div>
                   </div>
-                  <button className="p-3 bg-orange-500 rounded-md mt-2 w-full" type="submit" name="aboutTime" value="aboutTime">Tìm kiếm</button>
+                  <button className="p-3 bg-orange-500 rounded-md mt-2 w-full" type="submit" name="aboutTime" value="aboutTime" disabled={loadingBestSelling}>
+                    {loadingBestSelling ? <CircularProgress size={24} /> : 'Tìm kiếm'}
+                  </button>
                 </div>
               )}
             </form>
