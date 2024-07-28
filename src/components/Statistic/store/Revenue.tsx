@@ -91,6 +91,14 @@ const Revenue = ({ onSubmit }: RevenueProps) => {
             <h2 className='text-xl text-black font-bold'>Thống kê chi tiết</h2>
             <div className='flex flex-row mt-4 gap-10'>
                 <div className='border border-gray-400 w-72 flex flex-col p-4 rounded-lg shadow-md'>
+                    <span className='text-xl font-semibold text-gray-700'>Đơn hàng cụ thể:</span>
+                    <span className='text-xl font-semibold text-green-600'>{formatNumberWithDots(revenueOfStore?.specificOrderCount)}</span>
+                </div>
+                <div className='border border-gray-400 w-72 flex flex-col p-4 rounded-lg shadow-md'>
+                    <span className='text-xl font-semibold text-gray-700'>Doanh thu cụ thể:</span>
+                    <span className='text-xl font-semibold text-green-600'>{formatNumberWithDots(revenueOfStore?.specificRevenue)} đ</span>
+                </div>
+                <div className='border border-gray-400 w-72 flex flex-col p-4 rounded-lg shadow-md'>
                     <span className='text-xl font-semibold text-gray-700'>Tổng tất cả đơn hàng:</span>
                     <span className='text-xl font-semibold text-blue-600'>{formatNumberWithDots(revenueOfStore?.totalOrderCount)}</span>
                 </div>
