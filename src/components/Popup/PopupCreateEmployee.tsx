@@ -18,12 +18,16 @@ type FormCreateEmployeeValues = {
 }
 
 const PopupCreateEmployee: React.FC<PopupCreateEmployeeProps> = ({ isPopupOpen, closePopup }) => {
-    const dispatch = useAppDispatch();
+    // const dispatch = useAppDispatch();
     const [isLoading, setIsLoading] = useState(false);
 
-    const { register, handleSubmit, reset, formState: { errors } } = useForm<FormCreateEmployeeValues>({
-        resolver: yupResolver(schemaEmployee) as unknown as Resolver<FormCreateEmployeeValues>,
-    });
+    const {
+        register,
+        //  handleSubmit,
+        //   reset,
+        formState: { errors } } = useForm<FormCreateEmployeeValues>({
+            resolver: yupResolver(schemaEmployee) as unknown as Resolver<FormCreateEmployeeValues>,
+        });
 
     // const onSubmit = (data: FormCreateEmployeeValues) => {
     //     setIsLoading(true);
