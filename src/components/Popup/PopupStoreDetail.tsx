@@ -6,7 +6,7 @@ type PopupStoreDetailProps = {
     store: IStore | null;
     onPopupDetail: boolean;
     setOnPopupDetail: React.Dispatch<React.SetStateAction<boolean>>;
-    onRename: () => void;
+    onRename?: () => void;
 }
 
 const PopupStoreDetail: React.FC<PopupStoreDetailProps> = ({

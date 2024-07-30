@@ -38,8 +38,8 @@ const StoreListComponent = () => {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [storeData, setStoreData] = useState<IStore | null>(null);
     const [onPopupStoreDetail, setOnPopupStoreDetail] = useState<boolean>(false);
-    const [openPopupRename, setOpenPopupRename] = useState<boolean>(false);
-    const [selectedStoreId, setSelectedStoreId] = useState<number | null>(null);
+    // const [openPopupRename, setOpenPopupRename] = useState<boolean>(false);
+    // const [selectedStoreId, setSelectedStoreId] = useState<number | null>(null);
 
 
     useEffect(() => {
@@ -66,10 +66,12 @@ const StoreListComponent = () => {
     //     setOnPopupCheckChangeStatus(true);
     // };
 
-    const handleOpenPopupRenameCategory = (id: number) => {
-        setSelectedStoreId(id);
-        setOpenPopupRename(true);
-    };
+    // const handleOpenPopupRenameCategory = (
+    //     // id: number
+    // ) => {
+    //     // setSelectedStoreId(id);
+    //     // setOpenPopupRename(true);
+    // };
 
 
 
@@ -103,9 +105,9 @@ const StoreListComponent = () => {
                         store={storeData}
                         onPopupDetail={onPopupStoreDetail}
                         setOnPopupDetail={setOnPopupStoreDetail}
-                        onRename={() =>
-                            handleOpenPopupRenameCategory(storeData.id)
-                        }
+                    // onRename={() =>
+                    //     handleOpenPopupRenameCategory(storeData.id)
+                    // }
                     />
 
                 </>
