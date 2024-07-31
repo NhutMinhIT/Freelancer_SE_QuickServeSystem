@@ -119,8 +119,8 @@ const PopupDetailIngredient: React.FC<PopupDetailIngredientProps> = ({
                                             }}
                                         >
                                             {ingredient?.status === 1
-                                                ? 'Active'
-                                                : 'Inactive'}
+                                                ? 'Hoạt động'
+                                                : 'Không hoạt động'}
                                         </span>
                                     </div>
                                     <div>

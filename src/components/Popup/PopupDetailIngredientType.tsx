@@ -80,8 +80,8 @@ const PopupDetailIngredientType: React.FC<PopupIngredientTypeDetailProps> = ({
                                             }}
                                         >
                                             {ingredientType?.status === 1
-                                                ? 'Active'
-                                                : 'Inactive'}
+                                                ? 'Hoạt động'
+                                                : 'Không hoạt động'}
                                         </span>
                                     </div>
 
