@@ -81,8 +81,8 @@ const PopupNutritionDetail: React.FC<PopupNutritionDetailProps> = ({
                                             }}
                                         >
                                             {nutri?.status === 1
-                                                ? 'Active'
-                                                : 'Inactive'}
+                                                ? 'Hoạt động'
+                                                : 'Không hoạt động'}
                                         </span>
                                     </div>
                                     <div>

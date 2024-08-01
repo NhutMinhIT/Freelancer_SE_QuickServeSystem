@@ -80,7 +80,7 @@ const PopupDetailProductTemplate: React.FC<PopupDetailProductTemplateProps> = ({
                                     </div>
                                     <div>
                                         <span style={{ color: productTemplate?.status === 1 ? 'green' : 'red', fontWeight: 'bold' }}>
-                                            {productTemplate?.status === 1 ? 'Active' : 'Inactive'}
+                                            {productTemplate?.status === 1 ? 'Hoạt động' : 'Không hoạt động'}
                                         </span>
                                     </div>
                                     <div>

@@ -80,8 +80,8 @@ const PopupCategoryDetail: React.FC<PopupCategoryDetailProps> = ({
                                             }}
                                         >
                                             {cate?.status === 1
-                                                ? 'Active'
-                                                : 'Inactive'}
+                                                ? 'Hoạt động'
+                                                : 'Không hoạt động'}
                                         </span>
                                     </div>
 
