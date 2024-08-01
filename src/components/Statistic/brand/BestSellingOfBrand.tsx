@@ -12,16 +12,14 @@ type FormBestSellingValues = {
     year: string,
     startDate: string;
     endDate: string;
-
 }
-
 
 const BestSellingOfBrand = ({ onSubmit }: BestSellingOfBrandProps) => {
     const [showForm, setShowForm] = useState('month');
     const { bestSellingOfBrand, loadingBestSelling } = useAppSelector(state => state.revenues)
     const { register, handleSubmit, formState: { errors } } = useForm<FormBestSellingValues>({
         defaultValues: {
-            monthYear: '2024-07',
+            monthYear: '2024-08',
         }
     });
     const handleChange = (event: SelectChangeEvent) => {
