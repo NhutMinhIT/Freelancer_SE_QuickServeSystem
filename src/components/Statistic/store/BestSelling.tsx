@@ -20,10 +20,10 @@ type FormBestSellingValues = {
 const BestSelling = ({ onSubmit }: BestSellingProps) => {
   const [showForm, setShowForm] = useState('month');
 
-  const {bestSellingOfStore, loadingBestSelling} = useAppSelector(state => state.revenues)
+  const { bestSellingOfStore, loadingBestSelling } = useAppSelector(state => state.revenues)
   const { register, handleSubmit, formState: { errors } } = useForm<FormBestSellingValues>({
     defaultValues: {
-      monthYear: '2024-07',
+      monthYear: '2024-08',
     }
   });
 

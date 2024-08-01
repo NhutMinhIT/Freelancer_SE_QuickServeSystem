@@ -4,6 +4,12 @@ export interface IBestSellingOfStore {
     endDate: Date;
     bestSellingProductTemplates: IBestSellingProductTemplates[]
 }
+export interface IBestSellingOfBrand {
+    startDate: Date;
+    endDate: Date;
+    bestSellingProductTemplates: IBestSellingProductTemplates[]
+}
+
 export interface IBestSellingProductTemplates {
     id: number
     name: string;
@@ -28,3 +34,13 @@ export interface IRevenueOfStore {
     specificOrderCount: number
     monthlyRevenues: IMonthlyRevenues[]
 }
+export interface IRevenueOfAdmin {
+    startDate: Date;
+    endDate: Date;
+    totalRevenue: number;
+    specificRevenue: number;
+    totalOrderCount: number;
+    specificOrderCount: number
+    monthlyRevenues: IMonthlyRevenues[]
+}
+

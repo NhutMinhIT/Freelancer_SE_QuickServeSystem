@@ -100,5 +100,7 @@ export const clearIngredientNutritionEndpoint = `${BASE_URL}/IngredientNutrition
 //Report endpoints
 export const getRevenueReportOfStoreEndpoint = `${BASE_URL}/Orders/RevenueReport/Store`;
 export const getBestSellingReportOfStoreEndpoint = `${BASE_URL}/Orders/BestSellingProductTemplates/Store`;
+export const getBestSellingReportOfBrandEndpoint = `${BASE_URL}/Orders/BestSellingProductTemplates`;
+export const getRevenueReportOfAdminEndpoint = `${BASE_URL}/Orders/RevenueReport`;
 
 

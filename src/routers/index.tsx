@@ -5,7 +5,6 @@ import RegisterAccount from "../pages/admin/register/RegisterAccount";
 import UserProfile from "../pages/user-profile/UserProfile";
 import AccountManagement from "../pages/admin/account-management/AccountManagement";
 import StoreManagement from "../pages/admin/store-management/StoreManagement";
-import Dashboard from "../pages/brand-manager/dashboard/Dashboard";
 import { useAppSelector } from "../services/store/store";
 import PageNotFoundPrevious from "../pages/page-not-found/PageNotFoundPrevious";
 import EmployeeManagement from "../pages/store-manager/employee-management/EmployeeManagement";
@@ -17,6 +16,7 @@ import TemplateStep from "../pages/brand-manager/tempate-steps/TemplateStep";
 import SessionManagement from "../pages/store-manager/session-management/SessionManagement";
 import Nutrition from "../pages/store-manager/nutrition/Nutrition";
 import Statistic from "../pages/store-manager/statistic/Statistic";
+import StatictisOfBrand from "../pages/brand-manager/statictisBrandManagement/StatictisOfBrand";
 
 const AppRouter = () => {
   const token = sessionStorage.getItem("quickServeToken");
@@ -71,7 +71,7 @@ const AppRouter = () => {
           {/* Brand Manager  */}
           {isBrandManager && (
             <>
-              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/dashboard" element={<StatictisOfBrand />} />
               <Route path="/brand-category" element={<CategoryManagement />} />
               <Route
                 path="/ingredients/list-ingredients"

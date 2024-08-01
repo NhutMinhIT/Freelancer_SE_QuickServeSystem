@@ -1,8 +1,8 @@
-import Revenue from './store/Revenue';
-import BestSelling from './store/BestSelling';
-import { useAppDispatch } from '../../services/store/store';
-import { getBestSellingOfStore, getRevenueOfStore } from '../../services/features/revenueSlice';
-import { formatMMDDYYYYDate } from '../../utils';
+import Revenue from './Revenue';
+import BestSelling from './BestSelling';
+import { useAppDispatch } from '../../../services/store/store';
+import { getBestSellingOfStore, getRevenueOfStore } from '../../../services/features/revenueSlice';
+import { formatMMDDYYYYDate } from '../../../utils';
 import { useEffect } from 'react';
 
 type BestSellingFormData = {
