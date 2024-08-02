@@ -41,7 +41,7 @@ const AppRouter = () => {
           {/* Admin */}
           {isAdmin && (
             <>
-              <Route path="/admin-home" element={<Home />} />
+              <Route path="/admin-revenue-report" element={<Home />} />
               <Route
                 path="/account-management"
                 element={<AccountManagement />}
