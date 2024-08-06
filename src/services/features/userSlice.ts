@@ -3,11 +3,11 @@ import { IUserInfo } from '../../models/UserInfor';
 import { getAllUsersEndpoint, getUserByIdEndpoint } from '../api/apiConfig';
 import axiosInstance from '../api/axiosInstance';
 import { toast } from 'react-toastify';
-interface FilterConfig {
+export interface FilterConfig {
     pageNumber: number;
     pageSize: number;
     name: string;
-    roles: string;
+    roles: string | null;
 }
 interface UserState {
     loading: boolean;
@@ -15,6 +15,8 @@ interface UserState {
     user: IUserInfo | null;
     error: string | null;
     filterConfig: FilterConfig;
+    totalItems: number;
+    totalPages: number; 
 }
 
 const initialState: UserState = {
@@ -24,23 +26,32 @@ const initialState: UserState = {
     error: null,
     filterConfig: {
         pageNumber: 1,
-        pageSize: 60,
+        pageSize: 20,
         name: '',
-        roles: '',
+        roles: null,
     },
+    totalItems: 0,
+    totalPages: 0,
 };
 
-export const getAllUser = createAsyncThunk<IUserInfo[], void>(
+export const getAllUser = createAsyncThunk<{ data: IUserInfo[], totalItems: number, totalPages: number }, FilterConfig>(
     'users/getAllUser',
-    async (_, thunkAPI) => {
+    async (filterConfig, thunkAPI) => {
         try {
             const token = sessionStorage.getItem('quickServeToken');
             const response = await axiosInstance.get(getAllUsersEndpoint, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
+                params: {
+                    pageNumber: filterConfig.pageNumber,
+                    pageSize: filterConfig.pageSize,
+                    name: filterConfig.name,
+                    roles: filterConfig.roles,
+                },
             });
-            return response.data.data;
+            const { data, totalItems, totalPages } = response.data;
+            return { data, totalItems, totalPages };
         } catch (error: any) {
             toast.error(`${error.response.data.errors[0].description}`);
             return thunkAPI.rejectWithValue(
@@ -49,6 +60,7 @@ export const getAllUser = createAsyncThunk<IUserInfo[], void>(
         }
     },
 );
+
 export const getUserById = createAsyncThunk<IUserInfo, { id: string }>(
     'users/getUserById',
     async (data, thunkAPI) => {
@@ -90,7 +102,9 @@ export const usersSlice = createSlice({
         });
         builder.addCase(getAllUser.fulfilled, (state, action) => {
             state.loading = false;
-            state.users = action.payload;
+            state.users = action.payload.data;
+            state.totalItems = action.payload.totalItems;
+            state.totalPages = action.payload.totalPages;
             state.error = null;
         });
         builder.addCase(getAllUser.rejected, (state, action) => {
