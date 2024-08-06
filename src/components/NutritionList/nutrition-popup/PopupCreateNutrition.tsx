@@ -5,6 +5,7 @@ import { schemaCreateNutrition } from "../../../schemas/schemaNutrition";
 import { createNutrition, getAllNutritions } from "../../../services/features/nutritionSlice";
 import { useAppDispatch } from "../../../services/store/store";
 import { XMarkIcon } from "@heroicons/react/16/solid";
+import './style/style.css'
 
 type PopupCreateNutritionProps = {
     isOpen: boolean;
@@ -105,7 +106,7 @@ const PopupCreateNutrition: React.FC<PopupCreateNutritionProps> = ({
                                 id="description"
                                 required
                                 placeholder="Cung cấp năng lượng cho con người....."
-                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                                className="textArea mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
                             />
                             {errors.description && <p className='text-red-500 text-xs mt-2'>* {errors.description.message}</p>}
                         </div>
@@ -129,7 +130,7 @@ const PopupCreateNutrition: React.FC<PopupCreateNutritionProps> = ({
                                 id="healthValue"
                                 required
                                 placeholder="Tinh bột có công dụng ...."
-                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                                className="textArea mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
                             />
                             {errors.healthValue && <p className='text-red-500 text-xs mt-2'>* {errors.healthValue.message}</p>}
                         </div>

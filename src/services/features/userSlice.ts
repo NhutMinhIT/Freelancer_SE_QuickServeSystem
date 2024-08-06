@@ -3,12 +3,18 @@ import { IUserInfo } from '../../models/UserInfor';
 import { getAllUsersEndpoint, getUserByIdEndpoint } from '../api/apiConfig';
 import axiosInstance from '../api/axiosInstance';
 import { toast } from 'react-toastify';
-
+interface FilterConfig {
+    pageNumber: number;
+    pageSize: number;
+    name: string;
+    roles: string;
+}
 interface UserState {
     loading: boolean;
     users: IUserInfo[] | null;
     user: IUserInfo | null;
     error: string | null;
+    filterConfig: FilterConfig;
 }
 
 const initialState: UserState = {
@@ -16,6 +22,12 @@ const initialState: UserState = {
     users: null,
     user: null,
     error: null,
+    filterConfig: {
+        pageNumber: 1,
+        pageSize: 60,
+        name: '',
+        roles: '',
+    },
 };
 
 export const getAllUser = createAsyncThunk<IUserInfo[], void>(
@@ -68,6 +80,9 @@ export const usersSlice = createSlice({
         setError: (state, action) => {
             state.error = action.payload;
         },
+        setFilterConfig: (state, action) => {
+            state.filterConfig = action.payload;
+        }
     },
     extraReducers: (builder) => {
         builder.addCase(getAllUser.pending, (state) => {
@@ -98,5 +113,5 @@ export const usersSlice = createSlice({
     },
 });
 
-export const { setError } = usersSlice.actions;
+export const { setError, setFilterConfig } = usersSlice.actions;
 export default usersSlice.reducer;

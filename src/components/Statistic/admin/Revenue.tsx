@@ -31,7 +31,7 @@ type FormRevenueValues = {
 const Revenue = ({ onSubmit }: RevenueProps) => {
     const [showForm, setShowForm] = useState('month');
 
-    const {revenueOfStore, loading} = useAppSelector(state => state.revenues);    
+    const {revenueOfAdmin, loading} = useAppSelector(state => state.revenues);    
 
     const handleChange = (event: SelectChangeEvent) => {
         setShowForm(event.target.value as string);
@@ -49,7 +49,7 @@ const Revenue = ({ onSubmit }: RevenueProps) => {
         onSubmit(data, action);
     }
 
-    const revenuesData = revenueOfStore?.monthlyRevenues;
+    const revenuesData = revenueOfAdmin?.monthlyRevenues;
 
     const dataRevenue = {
         labels: revenuesData && revenuesData.map((revenue => `Tháng ${revenue.month}`)),
@@ -95,19 +95,19 @@ const Revenue = ({ onSubmit }: RevenueProps) => {
             <div className='flex flex-row mt-4 gap-10'>
                 <div className='border border-gray-400 w-72 flex flex-col p-4 rounded-lg shadow-md'>
                     <span className='text-xl font-semibold text-gray-700'>Đơn hàng cụ thể:</span>
-                    <span className='text-xl font-semibold text-green-600'>{formatNumberWithDots(revenueOfStore?.specificOrderCount)}</span>
+                    <span className='text-xl font-semibold text-green-600'>{formatNumberWithDots(revenueOfAdmin?.specificOrderCount)}</span>
                 </div>
                 <div className='border border-gray-400 w-72 flex flex-col p-4 rounded-lg shadow-md'>
                     <span className='text-xl font-semibold text-gray-700'>Doanh thu cụ thể:</span>
-                    <span className='text-xl font-semibold text-green-600'>{formatNumberWithDots(revenueOfStore?.specificRevenue)} đ</span>
+                    <span className='text-xl font-semibold text-green-600'>{formatNumberWithDots(revenueOfAdmin?.specificRevenue)} đ</span>
                 </div>
                 <div className='border border-gray-400 w-72 flex flex-col p-4 rounded-lg shadow-md'>
                     <span className='text-xl font-semibold text-gray-700'>Tổng tất cả đơn hàng:</span>
-                    <span className='text-xl font-semibold text-blue-600'>{formatNumberWithDots(revenueOfStore?.totalOrderCount)}</span>
+                    <span className='text-xl font-semibold text-blue-600'>{formatNumberWithDots(revenueOfAdmin?.totalOrderCount)}</span>
                 </div>
                 <div className='border border-gray-400 w-72 flex flex-col p-4 rounded-lg shadow-md'>
                     <span className='text-xl font-semibold text-gray-700'>Tổng tất cả doanh thu:</span>
-                    <span className='text-xl font-semibold text-green-600'>{formatNumberWithDots(revenueOfStore?.totalRevenue)} đ</span>
+                    <span className='text-xl font-semibold text-green-600'>{formatNumberWithDots(revenueOfAdmin?.totalRevenue)} đ</span>
                 </div>
             </div>
             <div className="mt-3 flex flex-row py-2">
