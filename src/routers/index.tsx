@@ -14,7 +14,7 @@ import IngredientList from "../pages/brand-manager/ingredient/IngredientList";
 import ProductTemplate from "../pages/brand-manager/product-template/ProductTemplate";
 import TemplateStep from "../pages/brand-manager/tempate-steps/TemplateStep";
 import SessionManagement from "../pages/store-manager/session-management/SessionManagement";
-import Nutrition from "../pages/store-manager/nutrition/Nutrition";
+import Nutrition from "../pages/store-manager/Nutrition/Nutrition";
 import Statistic from "../pages/store-manager/statistic/Statistic";
 import StatictisOfBrand from "../pages/brand-manager/statictisBrandManagement/StatictisOfBrand";
 
