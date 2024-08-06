@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../services/store/store";
 import { getAllNutritions, updateInforNutrition } from "../../../services/features/nutritionSlice";
 import { schemaUpdateNutrition } from "../../../schemas/schemaNutrition";
+import './style/style.css'
 
 
 type PopupUpdateNutritionProps = {
@@ -104,7 +105,7 @@ const PopupUpdateNutrition: React.FC<PopupUpdateNutritionProps> = ({
                                 name="description"
                                 id="description"
                                 required
-                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                                className="textArea mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
                             />
                             {errors.description && <p className='text-red-500 text-xs mt-2'>* {errors.description.message}</p>}
                         </div>
