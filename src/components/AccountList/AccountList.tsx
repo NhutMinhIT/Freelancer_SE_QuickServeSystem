@@ -6,6 +6,8 @@ import { IUserInfo } from "../../models/UserInfor";
 import PopupUserDetail from "../Popup/PopupUserDetail";
 import CommonTableFilterPagination from '../CommonTable/CommonTableFilterPagination';
 import { Stack } from '@mui/material';
+import { FaPlus } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const rolesSelect = [
   {
@@ -127,6 +129,17 @@ const AccountList = () => {
         onPageChange={handlePageChange}
         onRowDoubleClick={handleShowDetail}
         rolesSelect={rolesSelect}
+        isShowFilter
+        toolbarButtons={
+          <div className="ml-auto">
+          <Link to='/admin-register'>
+              <button className="bg-orange-500 hover:bg-organge-500 text-white font-bold p-3 rounded flex items-center justify-between mr-12">
+                  <FaPlus className="text-base mr-2" />
+                  <span>Thêm Nhân Viên</span>
+              </button>
+          </Link>
+      </div>
+        }
       />
       <PopupUserDetail user={userData} onPopupDetail={onPopupDetail} setOnPopupDetail={setOnPopupDetail} />
     </Stack>

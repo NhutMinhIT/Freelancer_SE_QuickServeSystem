@@ -10,6 +10,7 @@ import {
   Box,
   Button,
   FormControl,
+  InputLabel,
   // InputLabel,
   MenuItem,
   Select,
@@ -20,6 +21,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TextField,
   // TextField,
   Typography,
 } from '@mui/material';
@@ -40,10 +42,11 @@ interface CommonTableFilterPaginationProps<T extends MRT_RowData> {
   onFilterChange: (key: keyof FilterConfig, value: string | number) => void;
   onPageChange: (newPageIndex: number) => void;
   onRowDoubleClick?: (row: T) => void;
-  rolesSelect: { value: string; name: string }[];
+  rolesSelect?: { value: string; name: string }[];
   nameLabel?: string;
   roleLabel?: string;
   toolbarButtons?: React.ReactNode;
+  isShowFilter?: boolean
 }
 
 const CommonTableFilterPagination = <T extends MRT_RowData>({
@@ -55,10 +58,11 @@ const CommonTableFilterPagination = <T extends MRT_RowData>({
   onFilterChange,
   onPageChange,
   onRowDoubleClick,
-  // rolesSelect,
-  // nameLabel = 'Tên',
-  // roleLabel = 'Chức vụ',
+  rolesSelect,
+  nameLabel = 'Tên',
+  roleLabel = 'Chức vụ',
   toolbarButtons,
+  isShowFilter = false,
 }: CommonTableFilterPaginationProps<T>) => {
   const table = useMaterialReactTable({
     columns,
@@ -80,16 +84,16 @@ const CommonTableFilterPagination = <T extends MRT_RowData>({
 
   return (
     <Stack sx={{ m: '2rem 0' }}>
-      <Box display={'flex'} gap={2} mx={2} justifyContent="space-between">
-        <Box display={'flex'} gap={2}>
-          {/* <TextField
+      <Box display={'flex'} gap={2} mx={2} justifyContent={!isShowFilter ? 'flex-end' : "space-between"}>
+        {isShowFilter && <Box display={'flex'} gap={2}>
+          <TextField
             label={nameLabel}
             value={filterConfig.name}
             onChange={(e) => onFilterChange('name', e.target.value)}
-          /> */}
+          />
           <FormControl sx={{ minWidth: 200 }}>
-            {/* <InputLabel shrink>{roleLabel}</InputLabel> */}
-            {/* <Select
+            <InputLabel shrink>{roleLabel}</InputLabel>
+            <Select
               value={filterConfig.roles}
               onChange={(e) => onFilterChange('roles', e.target.value)}
               displayEmpty
@@ -98,12 +102,12 @@ const CommonTableFilterPagination = <T extends MRT_RowData>({
               <MenuItem value="">
                 <>Tất cả</>
               </MenuItem>
-              {rolesSelect.map((role) => (
+              {rolesSelect && rolesSelect.map((role) => (
                 <MenuItem value={role.value} key={role.value}>{role.name}</MenuItem>
               ))}
-            </Select> */}
+            </Select>
           </FormControl>
-        </Box>
+        </Box>}
         {toolbarButtons}
       </Box>
       <Typography

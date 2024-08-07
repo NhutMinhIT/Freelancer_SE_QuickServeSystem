@@ -7,6 +7,7 @@ import { IEmployee } from '../../models/Employee';
 import PopupCreateEmployee from '../Popup/PopupCreateEmployee';
 import { useAppDispatch, useAppSelector } from '../../services/store/store';
 import { FilterConfig, getAllEmployees, setFilterConfig } from '../../services/features/employeeSlice';
+import PopupEmployeeDetail from '../Popup/PopupEmployeeDetail';
 
 const rolesSelect = [
     {
@@ -65,11 +66,19 @@ const EmployeeListComponent = () => {
     const dispatch = useAppDispatch();
     const { employees, filterConfig, totalItems, totalPages } = useAppSelector((state) => state.employees);
     const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [emplpyeeData, setEmployeeData] = useState<IEmployee | null>(null);
+    const [onPopupDetail, setOnPopupDetail] = useState<boolean>(false);
+
 
     useEffect(() => {
         dispatch(getAllEmployees(filterConfig));
       }, [dispatch, filterConfig]);
     
+      const handleShowDetail = (user: IEmployee) => {
+        setEmployeeData(user);
+        setOnPopupDetail(true);
+      };
+
       const handleFilterChange = (key: keyof FilterConfig, value: string | number) => {
         dispatch(setFilterConfig({ ...filterConfig, [key]: value }));
       };
@@ -104,7 +113,7 @@ const EmployeeListComponent = () => {
                 totalItems={totalItems}
                 onFilterChange={handleFilterChange}
                 onPageChange={handlePageChange}
-                // onRowDoubleClick={handleShowDetail}
+                onRowDoubleClick={handleShowDetail}
                 rolesSelect={rolesSelect}
                 toolbarButtons={
                     <Button
@@ -123,6 +132,8 @@ const EmployeeListComponent = () => {
                 isPopupOpen={isPopupOpen}
                 closePopup={handleClosePopupCreateEmployee}
             />
+            <PopupEmployeeDetail employee={emplpyeeData} onPopupDetail={onPopupDetail} setOnPopupDetail={setOnPopupDetail} />
+
         </Stack>
     );
 };
