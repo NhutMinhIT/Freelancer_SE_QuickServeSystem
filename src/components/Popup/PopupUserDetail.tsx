@@ -13,14 +13,20 @@ const isIUserInfo = (user: any): user is IUserInfo => {
   return (user as IUserInfo).name !== undefined;
 };
 
-const getRoleTitle = (role: string): string => {
-  switch (role) {
+const getRoleTitle = (roles: string): string => {
+  switch (roles) {
     case "Brand_Manager":
       return "Quản lý thương hiệu";
     case "Admin":
       return "Quản trị viên";
+    case "Store_Manager":
+      return "QL. Cửa hàng";
+    case "Staff":
+      return "Nhân viên";
+    case "Customer":
+        return "Khách hàng";
     default:
-      return role;
+      return roles;
   }
 };
 const PopupUserDetail: React.FC<PopupUserDetailProps> = ({
