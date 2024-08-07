@@ -9,17 +9,17 @@ import nutritionListIcon from '../../assets/icon/nutrition-list.png';
 const listMenu = {
     adminMenu: [
         {
-            title: 'DS. Tài Khoản',
+            title: 'QL. Tài Khoản',
             url: '/account-management',
             icon: adminIcon,
         },
         {
-            title: 'DS. Cửa Hàng',
+            title: 'QL. Cửa Hàng',
             url: '/store-management',
             icon: storeManagementIcon,
         },
         {
-            title: 'DS. Báo Cáo',
+            title: 'QL. Báo Cáo',
             url: '/admin-revenue-report',
             icon: adminReportIcon,
             subAdminMenu: [
@@ -43,12 +43,12 @@ const listMenu = {
             icon: chartRevenueIcon,
         },
         {
-            title: 'DS. Nhân Viên',
+            title: 'QL. Nhân Viên',
             url: '/employee-management',
             icon: employeeManagementIcon,
         },
         {
-            title: 'DS. Thời Gian',
+            title: 'QL. Thời Gian',
             url: '/time-management',
             icon: storeManagementIcon,
         },
@@ -61,16 +61,16 @@ const listMenu = {
             icon: chartRevenueIcon,
         },
         {
-            title: 'DS. Phân Loại',
+            title: 'QL. Phân Loại',
             url: '/brand-category',
             icon: feedbackIcon,
         },
         {
-            title: 'DS. Nguyên Liệu',
+            title: 'QL. Nguyên Liệu',
             url: '/ingredients/list-ingredients',
             submenu: [
                 {
-                    title: 'DS. Nguyên Liệu',
+                    title: 'QL. Nguyên Liệu',
                     url: '/ingredients/list-ingredients',
                 },
                 {
@@ -80,12 +80,12 @@ const listMenu = {
             ],
         },
         {
-            title: 'DS. Mẫu Sản Phẩm',
+            title: 'QL. Mẫu Sản Phẩm',
             url: '/product-template',
             icon: feedbackIcon,
         },
         {
-            title: 'DS. Dinh Dưỡng',
+            title: 'QL. Dinh Dưỡng',
             url: '/list-nutritions',
             icon: nutritionListIcon,
         },

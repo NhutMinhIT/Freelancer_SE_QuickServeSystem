@@ -14,7 +14,7 @@ const StoreManagement = () => {
                 <div className="flex justify-between items-center">
                     <div className="flex items-center space-x-4">
                         <FaAcquisitionsIncorporated className="text-3xl text-orange-500" />
-                        <h3 className="text-3xl font-bold">Quản Lí Danh Sách Cửa Hàng</h3>
+                        <h3 className="text-3xl font-bold">Danh Sách Cửa Hàng</h3>
                     </div>
                 </div>
 

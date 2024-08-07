@@ -1,4 +1,4 @@
-import { FaProjectDiagram  } from "react-icons/fa";
+import { FaProjectDiagram } from "react-icons/fa";
 import SidebarComponent from "../../../components/ManagementComponent/SidebarComponent ";
 import ProductTemplateComponent from "../../../components/ProductTemplateComponent/ProductTemplateComponent";
 
@@ -12,11 +12,11 @@ const ProductTemplate = () => {
             <div className="md:col-span-10 mt-20">
                 <div className="flex justify-between items-center">
                     <div className="flex items-center space-x-4">
-                        <FaProjectDiagram  className="text-3xl text-orange-500" />
-                        <h3 className="text-3xl font-bold">Quản lí mẫu sản phẩm</h3>
+                        <FaProjectDiagram className="text-3xl text-orange-500" />
+                        <h3 className="text-3xl font-bold">Danh sách mẫu sản phẩm</h3>
                     </div>
                 </div>
-            <ProductTemplateComponent />
+                <ProductTemplateComponent />
             </div>
         </div>
     )
