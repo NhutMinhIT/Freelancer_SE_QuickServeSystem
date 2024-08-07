@@ -2,7 +2,7 @@ export interface IUserInfo {
     id: string;
     userName: string;
     email: string;
-    role: string | null;
+    roles: string | null;
     phoneNumber?: string | null;
     name: string | null;
     address?: string | null;

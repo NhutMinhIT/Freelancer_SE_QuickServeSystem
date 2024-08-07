@@ -4,30 +4,62 @@ import axiosInstance from "../api/axiosInstance";
 import { getAllEmployeeEndpoint } from "../api/apiConfig";
 import { toast } from "react-toastify";
 
+export interface FilterConfig {
+    pageNumber: number;
+    pageSize: number;
+    name: string;
+    roles: string;
+}
+
 type EmployeeState = {
     loading: boolean;
     employees: IEmployee[] | null;
     error: string[] | unknown;
     success: boolean;
+    filterConfig: FilterConfig;
+    totalItems: number;
+    totalPages: number; 
 };
+
 const initialState: EmployeeState = {
     loading: false,
     employees: null,
     error: null,
     success: false,
+    filterConfig: {
+        pageNumber: 1,
+        pageSize: 20,
+        name: '',
+        roles: '',
+    },
+    totalItems: 0,
+    totalPages: 0,
 };
 
-export const getAllEmployees = createAsyncThunk<IEmployee[], void>(
+export const getAllEmployees = createAsyncThunk<{ data: IEmployee[], totalItems: number, totalPages: number }, FilterConfig>(
     'employees/getAllEmployees',
-    async (_, thunkAPI) => {
+    async (filterConfig, thunkAPI) => {
         try {
             const token = sessionStorage.getItem('quickServeToken');
+
+            const params: any = {
+                pageNumber: filterConfig.pageNumber,
+                pageSize: filterConfig.pageSize,
+                name: filterConfig.name,
+            };
+
+            if (filterConfig.roles) {
+                params.roles = filterConfig.roles;
+            }
+
             const response = await axiosInstance.get(getAllEmployeeEndpoint, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
+                params
             });
-            return response.data.data;
+            const { data, totalItems, totalPages } = response.data;
+            return { data, totalItems, totalPages };
         } catch (error: any) {
             toast.error(`${error.response.data.errors[0].description}`);
             return thunkAPI.rejectWithValue(error.response.data);
@@ -42,6 +74,9 @@ export const employeeSlice = createSlice({
         setError: (state, action) => {
             state.error = action.payload;
         },
+        setFilterConfig: (state, action) => {
+            state.filterConfig = action.payload;
+        }
     },
     extraReducers: (builder) => {
         builder.addCase(getAllEmployees.pending, (state) => {
@@ -52,7 +87,10 @@ export const employeeSlice = createSlice({
         builder.addCase(getAllEmployees.fulfilled, (state, action) => {
             state.loading = false;
             state.success = true;
-            state.employees = action.payload;
+            state.employees = action.payload.data;
+            state.totalItems = action.payload.totalItems;
+            state.totalPages = action.payload.totalPages;
+            state.error = null;
         });
         builder.addCase(getAllEmployees.rejected, (state, action) => {
             state.loading = false;
@@ -62,5 +100,5 @@ export const employeeSlice = createSlice({
     },
 });
 
-export const { setError } = employeeSlice.actions;
+export const { setError, setFilterConfig } = employeeSlice.actions;
 export default employeeSlice.reducer;

@@ -1,13 +1,23 @@
+import { useEffect, useState } from 'react';
 import { MRT_ColumnDef } from 'material-react-table';
-import { useState } from 'react';
+import CommonTableFilterPagination from '../CommonTable/CommonTableFilterPagination';
 import { Stack, Button } from '@mui/material';
 
 import { IEmployee } from '../../models/Employee';
-import CommonTable from '../CommonTable/CommonTable';
 import PopupCreateEmployee from '../Popup/PopupCreateEmployee';
-import { useAppSelector } from '../../services/store/store';
+import { useAppDispatch, useAppSelector } from '../../services/store/store';
+import { FilterConfig, getAllEmployees, setFilterConfig } from '../../services/features/employeeSlice';
 
-
+const rolesSelect = [
+    {
+      value: "Staff",
+      name: 'Nhân viên'
+    },
+    {
+      value: "Store_Manager",
+      name: 'QL. Cửa hàng'
+    },
+  ]
 
 const columns: MRT_ColumnDef<IEmployee>[] = [
     {
@@ -52,8 +62,28 @@ const columns: MRT_ColumnDef<IEmployee>[] = [
 ];
 
 const EmployeeListComponent = () => {
-    const { employees } = useAppSelector((state) => state.employees);
+    const dispatch = useAppDispatch();
+    const { employees, filterConfig, totalItems, totalPages } = useAppSelector((state) => state.employees);
     const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+    useEffect(() => {
+        dispatch(getAllEmployees(filterConfig));
+      }, [dispatch, filterConfig]);
+    
+      const handleFilterChange = (key: keyof FilterConfig, value: string | number) => {
+        dispatch(setFilterConfig({ ...filterConfig, [key]: value }));
+      };
+    
+      const handlePageChange = (newPageIndex: number) => {
+        dispatch(setFilterConfig({
+          ...filterConfig,
+          pageNumber: newPageIndex + 1,
+        }));
+        dispatch(getAllEmployees({
+          ...filterConfig,
+          pageNumber: newPageIndex + 1,
+        }));
+      };
 
 
     const handlePopupOpen = () => {
@@ -66,9 +96,16 @@ const EmployeeListComponent = () => {
 
     return (
         <Stack sx={{ m: '2rem 0' }}>
-            <CommonTable
+            <CommonTableFilterPagination
                 columns={columns}
                 data={employees || []}
+                filterConfig={filterConfig}
+                totalPages={totalPages}
+                totalItems={totalItems}
+                onFilterChange={handleFilterChange}
+                onPageChange={handlePageChange}
+                // onRowDoubleClick={handleShowDetail}
+                rolesSelect={rolesSelect}
                 toolbarButtons={
                     <Button
                         variant="contained"
@@ -86,7 +123,6 @@ const EmployeeListComponent = () => {
                 isPopupOpen={isPopupOpen}
                 closePopup={handleClosePopupCreateEmployee}
             />
-
         </Stack>
     );
 };
