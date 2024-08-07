@@ -12,6 +12,7 @@ export interface IEmployee {
 
 export interface ICreateEmployee {
     email: string;
+    name: string
     userName?: string | null;
     password?: string | null;
 }

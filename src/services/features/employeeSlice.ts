@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { IEmployee } from "../../models/Employee";
+import { ICreateEmployee, IEmployee } from "../../models/Employee";
 import axiosInstance from "../api/axiosInstance";
-import { getAllEmployeeEndpoint } from "../api/apiConfig";
+import { createEmployeeEndpoint, getAllEmployeeEndpoint } from "../api/apiConfig";
 import { toast } from "react-toastify";
 
 export interface FilterConfig {
@@ -18,7 +18,7 @@ type EmployeeState = {
     success: boolean;
     filterConfig: FilterConfig;
     totalItems: number;
-    totalPages: number; 
+    totalPages: number;
 };
 
 const initialState: EmployeeState = {
@@ -66,6 +66,34 @@ export const getAllEmployees = createAsyncThunk<{ data: IEmployee[], totalItems:
         }
     },
 );
+export const createEmployee = createAsyncThunk<ICreateEmployee, Object>(
+    'stores/createEmployee',
+    async (employee, thunkAPI) => {
+        try {
+            const token = sessionStorage.getItem('quickServeToken');
+            const response = await axiosInstance.post(
+                createEmployeeEndpoint,
+                employee,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                },
+            );
+            if (response.data.success) {
+                toast.success(
+                    'Tạo nhân viên thành công !',
+                );
+            } else {
+                toast.error(`${response.data.errors[0].description}`);
+            }
+            return response.data.data;
+        } catch (error: any) {
+            toast.error(`${error.response.data.errors[0].description}`);
+            return thunkAPI.rejectWithValue(error.response.data);
+        }
+    },
+);
 
 export const employeeSlice = createSlice({
     name: 'employees',
@@ -93,6 +121,21 @@ export const employeeSlice = createSlice({
             state.error = null;
         });
         builder.addCase(getAllEmployees.rejected, (state, action) => {
+            state.loading = false;
+            state.success = false;
+            state.error = action.payload;
+        });
+        // createEmployee
+        builder.addCase(createEmployee.pending, (state) => {
+            state.loading = true;
+            state.success = false;
+            state.error = null;
+        });
+        builder.addCase(createEmployee.fulfilled, (state) => {
+            state.loading = false;
+            state.success = true;
+        });
+        builder.addCase(createEmployee.rejected, (state, action) => {
             state.loading = false;
             state.success = false;
             state.error = action.payload;
