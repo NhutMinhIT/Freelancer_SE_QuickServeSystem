@@ -7,7 +7,7 @@ export interface FilterConfig {
     pageNumber: number;
     pageSize: number;
     name: string;
-    roles: string | null;
+    roles: string;
 }
 interface UserState {
     loading: boolean;
@@ -28,7 +28,7 @@ const initialState: UserState = {
         pageNumber: 1,
         pageSize: 20,
         name: '',
-        roles: null,
+        roles: '',
     },
     totalItems: 0,
     totalPages: 0,
@@ -39,16 +39,21 @@ export const getAllUser = createAsyncThunk<{ data: IUserInfo[], totalItems: numb
     async (filterConfig, thunkAPI) => {
         try {
             const token = sessionStorage.getItem('quickServeToken');
+            const params: any = {
+                pageNumber: filterConfig.pageNumber,
+                pageSize: filterConfig.pageSize,
+                name: filterConfig.name,
+            };
+
+            if (filterConfig.roles) {
+                params.roles = filterConfig.roles;
+            }
+
             const response = await axiosInstance.get(getAllUsersEndpoint, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
-                params: {
-                    pageNumber: filterConfig.pageNumber,
-                    pageSize: filterConfig.pageSize,
-                    name: filterConfig.name,
-                    roles: filterConfig.roles,
-                },
+                params,
             });
             const { data, totalItems, totalPages } = response.data;
             return { data, totalItems, totalPages };

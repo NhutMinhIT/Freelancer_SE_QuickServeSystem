@@ -147,7 +147,7 @@ const AccountList = () => {
             displayEmpty
             label="Chức vụ"
           >
-            <MenuItem value={null}>
+            <MenuItem value="">
               <>Tất cả</>
             </MenuItem>
             <MenuItem value="Brand_Manager">QL. Thương hiệu</MenuItem>
@@ -252,4 +252,3 @@ const AccountList = () => {
 };
 
 export default AccountList;
-

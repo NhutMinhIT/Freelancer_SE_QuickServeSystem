@@ -19,6 +19,12 @@ const getRoleTitle = (role: string): string => {
       return "Quản lý thương hiệu";
     case "Admin":
       return "Quản trị viên";
+    case "Store_Manager":
+      return "QL. Cửa hàng";
+    case "Staff":
+      return "Nhân viên";
+    case "Customer":
+        return "Khách hàng";
     default:
       return role;
   }
@@ -97,7 +103,7 @@ const PopupUserDetail: React.FC<PopupUserDetailProps> = ({
                   </div>
                   <div>
                     <span>
-                      {user?.roles ? getRoleTitle(user.roles) : "N/A"}
+                      {user?.role ? getRoleTitle(user.role) : "N/A"}
                     </span>
                   </div>
                   <div>
