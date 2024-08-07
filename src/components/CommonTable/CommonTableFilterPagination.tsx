@@ -55,9 +55,9 @@ const CommonTableFilterPagination = <T extends MRT_RowData>({
   onFilterChange,
   onPageChange,
   onRowDoubleClick,
-  rolesSelect,
-  nameLabel = 'Tên',
-  roleLabel = 'Chức vụ',
+  // rolesSelect,
+  // nameLabel = 'Tên',
+  // roleLabel = 'Chức vụ',
   toolbarButtons,
 }: CommonTableFilterPaginationProps<T>) => {
   const table = useMaterialReactTable({
@@ -82,14 +82,14 @@ const CommonTableFilterPagination = <T extends MRT_RowData>({
     <Stack sx={{ m: '2rem 0' }}>
       <Box display={'flex'} gap={2} mx={2} justifyContent="space-between">
         <Box display={'flex'} gap={2}>
-          <TextField
+          {/* <TextField
             label={nameLabel}
             value={filterConfig.name}
             onChange={(e) => onFilterChange('name', e.target.value)}
-          />
+          /> */}
           <FormControl sx={{ minWidth: 200 }}>
-            <InputLabel shrink>{roleLabel}</InputLabel>
-            <Select
+            {/* <InputLabel shrink>{roleLabel}</InputLabel> */}
+            {/* <Select
               value={filterConfig.roles}
               onChange={(e) => onFilterChange('roles', e.target.value)}
               displayEmpty
@@ -101,7 +101,7 @@ const CommonTableFilterPagination = <T extends MRT_RowData>({
               {rolesSelect.map((role) => (
                 <MenuItem value={role.value} key={role.value}>{role.name}</MenuItem>
               ))}
-            </Select>
+            </Select> */}
           </FormControl>
         </Box>
         {toolbarButtons}
@@ -145,7 +145,7 @@ const CommonTableFilterPagination = <T extends MRT_RowData>({
                   selected={row.getIsSelected()}
                   onDoubleClick={() =>
                     onRowDoubleClick && onRowDoubleClick(row.original)
-                  }   
+                  }
                   style={{
                     backgroundColor: rowIndex % 2 === 0 ? "white" : "#d9d9d9",
                     cursor: onRowDoubleClick ? "pointer" : "default",
