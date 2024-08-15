@@ -31,7 +31,7 @@ import { useEffect, useState } from 'react';
 interface FilterConfig {
   pageNumber: number;
   pageSize: number;
-  storeId: number | null;
+  storeId?: number | null;
   refOrderId: number | null;
   createdDate: string;
   last7Days: boolean;
@@ -51,6 +51,7 @@ interface CommonTableFilterPaginationV2Props<T extends MRT_RowData> {
   storesList?: { id: number; name: string }[];
   toolbarButtons?: React.ReactNode;
   isShowFilter?: boolean;
+  isStoreId?: boolean;
 }
 
 const CommonTableFilterPaginationV2 = <T extends MRT_RowData>({
@@ -65,6 +66,7 @@ const CommonTableFilterPaginationV2 = <T extends MRT_RowData>({
   storesList,
   toolbarButtons,
   isShowFilter = false,
+  isStoreId = false,
 }: CommonTableFilterPaginationV2Props<T>) => {
   const [showForm, setShowForm] = useState('lastDay');
 
@@ -114,28 +116,30 @@ const CommonTableFilterPaginationV2 = <T extends MRT_RowData>({
               }}
               type="number"
             />
-            <FormControl sx={{ minWidth: 200 }}>
-              <InputLabel shrink>{'Cửa hàng'}</InputLabel>
-              <Select
-                value={filterConfig?.storeId !=null ? filterConfig.storeId : ''}
-                onChange={(e) => {
-                  const value = e.target.value ? Number(e.target.value) : null;
-                  onFilterChange({ storeId: value })
-                }}
-                displayEmpty
-                label={'Cửa hàng'}
-              >
-                <MenuItem value="">
-                  <>Tất cả</>
-                </MenuItem>
-                {storesList &&
-                  storesList.map((store) => (
-                    <MenuItem value={store.id} key={store.id}>
-                      {store.name}
-                    </MenuItem>
-                  ))}
-              </Select>
-            </FormControl>
+            {isStoreId && (
+              <FormControl sx={{ minWidth: 200 }}>
+                <InputLabel shrink>{'Cửa hàng'}</InputLabel>
+                <Select
+                  value={filterConfig?.storeId !=null ? filterConfig.storeId : ''}
+                  onChange={(e) => {
+                    const value = e.target.value ? Number(e.target.value) : null;
+                    onFilterChange({ storeId: value })
+                  }}
+                  displayEmpty
+                  label={'Cửa hàng'}
+                  >
+                  <MenuItem value="">
+                    <>Tất cả</>
+                  </MenuItem>
+                  {storesList &&
+                    storesList.map((store) => (
+                      <MenuItem value={store.id} key={store.id}>
+                        {store.name}
+                      </MenuItem>
+                    ))}
+                </Select>
+              </FormControl>
+            )}
             <FormControl sx={{ minWidth: 200 }}>
               <InputLabel>Tìm kiếm</InputLabel>
               <Select value={showForm} label="search-in-chart" onChange={handleChange}>

@@ -15,12 +15,22 @@ export interface FilterPaymentsConfig {
     specificYear: number | null;
 }
 
+export interface FilterPaymentsStoreConfig {
+    pageNumber: number;
+    pageSize: number;
+    refOrderId: number | null;
+    createdDate: string;
+    last7Days: boolean;
+    specificMonth: number | null;
+    specificYear: number | null;
+}
+
 type PaymentState = {
     loading: boolean;
     payments: IPayment[] | null; 
     paymentsStore: IPayment[] | null; 
     filterPaymentsConfig: FilterPaymentsConfig;
-    filterPaymentsStoreConfig: FilterPaymentsConfig;
+    filterPaymentsStoreConfig: FilterPaymentsStoreConfig;
     totalItems: number;
     totalPages: number; 
     totalItemsStore: number;
@@ -46,7 +56,6 @@ const initialState: PaymentState = {
     filterPaymentsStoreConfig: {
         pageNumber: 1,
         pageSize: 20,
-        storeId: null,
         refOrderId: null,
         createdDate: '',
         last7Days: false,
@@ -95,7 +104,7 @@ export const getPayments = createAsyncThunk<{ data: IPayment[], totalItems: numb
     },
 );
 
-export const getPaymentsStore = createAsyncThunk<{ data: IPayment[], totalItemsStore: number, totalPagesStore: number }, FilterPaymentsConfig>(
+export const getPaymentsStore = createAsyncThunk<{ data: IPayment[], totalItems: number, totalPages: number }, FilterPaymentsStoreConfig>(
     'users/getPaymentsStore',
     async (filterConfig, thunkAPI) => {
         try {
@@ -105,7 +114,6 @@ export const getPaymentsStore = createAsyncThunk<{ data: IPayment[], totalItemsS
                 pageSize: filterConfig.pageSize,
             };
 
-            if (filterConfig.storeId !== null)  params.storeId = filterConfig.storeId;
             if (filterConfig.refOrderId !== null) params.refOrderId = filterConfig.refOrderId;
             if (filterConfig.last7Days) params.last7Days = filterConfig.last7Days;
             if (filterConfig.createdDate) params.createdDate = filterConfig.createdDate;
@@ -118,8 +126,8 @@ export const getPaymentsStore = createAsyncThunk<{ data: IPayment[], totalItemsS
                 },
                 params,
             });
-            const { data, totalItemsStore, totalPagesStore } = response.data;
-            return { data, totalItemsStore, totalPagesStore };
+            const { data, totalItems, totalPages } = response.data;
+            return { data, totalItems, totalPages };
         } catch (error: any) {
             toast.error(`${error.response.data.errors[0].description}`);
             return thunkAPI.rejectWithValue(
@@ -164,8 +172,8 @@ export const paymentSlice = createSlice({
         builder.addCase(getPaymentsStore.fulfilled, (state, action) => {
             state.loading = false;
             state.paymentsStore = action.payload.data;
-            state.totalItemsStore = action.payload.totalItemsStore;
-            state.totalPagesStore = action.payload.totalPagesStore;
+            state.totalItemsStore = action.payload.totalItems;
+            state.totalPagesStore = action.payload.totalPages;
             state.error = null;
         });
         builder.addCase(getPaymentsStore.rejected, (state, action) => {

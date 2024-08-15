@@ -13,6 +13,10 @@ const PaymentStoreComponent = () => {
   const { paymentsStore, filterPaymentsStoreConfig, totalItemsStore, totalPagesStore } = useAppSelector(state => state.payment)
   const { stores } = useAppSelector(state => state.stores)
 
+  console.log(totalItemsStore && totalItemsStore);
+  console.log(totalPagesStore && totalPagesStore);
+  
+
   const columns: MRT_ColumnDef<IPayment>[] = [
       {
         accessorKey: "refOrderId",
@@ -102,8 +106,8 @@ return (
       columns={columns}
       data={paymentsStore || []}
       filterConfig={filterPaymentsStoreConfig}
-      totalPages={totalItemsStore}
-      totalItems={totalPagesStore}
+      totalPages={totalPagesStore}
+      totalItems={totalItemsStore}
       onFilterChange={handleFilterChange}
       onPageChange={handlePageChange}
       onRowDoubleClick={() => {}}

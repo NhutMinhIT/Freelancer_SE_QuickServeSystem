@@ -109,6 +109,7 @@ const PaymentBrandComponent = () => {
         onRowDoubleClick={() => {}}
         storesList={stores ? stores : []}
         isShowFilter
+        isStoreId
       />
     </Stack>
   )
