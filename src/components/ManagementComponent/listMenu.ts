@@ -1,12 +1,12 @@
-import adminIcon from '../../assets/icon/account-management.png';
-import storeManagementIcon from '../../assets/icon/store-management.png';
-import chartRevenueIcon from '../../assets/icon/chart-revenue.png';
-import feedbackIcon from '../../assets/icon/feedback.png';
-import adminReportIcon from '../../assets/icon/admin-report.png';
-import employeeManagementIcon from '../../assets/icon/icon/employee.png';
-import nutritionListIcon from '../../assets/icon/nutrition-list.png';
-import transactionIcon from '../../assets/icon/transaction.png';
-
+import adminIcon from '../../assets/icons/admin-report.png';
+import storeManagementIcon from '../../assets/icons/store-management.png';
+import chartRevenueIcon from '../../assets/icons/chart-revenue.png';
+import feedbackIcon from '../../assets/icons/feedback.png';
+import adminReportIcon from '../../assets/icons/admin-report.png';
+import employeeManagementIcon from '../../assets/icons/employee.png';
+import nutritionListIcon from '../../assets/icons/nutrition-list.png';
+import transactionIcon from '../../assets/icons/transaction.png';
+import orderManagementIcon from '../../assets/icons/order-icon.png';
 //Icon StoreManagement
 const listMenu = {
     adminMenu: [
@@ -100,6 +100,11 @@ const listMenu = {
             url: '/list-payments',
             icon: transactionIcon,
         },
+        {
+            title: 'QL. Đơn hàng',
+            url: '/order-management',
+            icon: orderManagementIcon,
+        }
     ],
 };
 export default listMenu;

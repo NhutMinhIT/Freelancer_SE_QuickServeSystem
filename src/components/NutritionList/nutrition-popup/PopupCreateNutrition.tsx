@@ -32,7 +32,6 @@ const PopupCreateNutrition: React.FC<PopupCreateNutritionProps> = ({
     });
 
     const onSubmit = (data: FormCreateNutritionValues) => {
-        console.log('Form data:', data);  // Kiểm tra dữ liệu form
         setIsLoading(true);
         const formData = new FormData();
 
@@ -46,7 +45,6 @@ const PopupCreateNutrition: React.FC<PopupCreateNutritionProps> = ({
 
         dispatch(createNutrition(formData))
             .then(() => {
-                console.log('Create nutrition success');
                 dispatch(getAllNutritions());
                 setIsLoading(false);
                 closePopup();

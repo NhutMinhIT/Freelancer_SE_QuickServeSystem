@@ -3,38 +3,18 @@ import axiosInstance from "../api/axiosInstance";
 import { IPayment } from "../../models/Payment";
 import { getPaymentsByStoreEndpoint, getPaymentsEndpoint } from "../api/apiConfig";
 import { toast } from "react-toastify";
-
-export interface FilterPaymentsConfig {
-    pageNumber: number;
-    pageSize: number;
-    storeId: number | null;
-    refOrderId: number | null;
-    createdDate: string;
-    last7Days: boolean;
-    specificMonth: number | null;
-    specificYear: number | null;
-}
-
-export interface FilterPaymentsStoreConfig {
-    pageNumber: number;
-    pageSize: number;
-    refOrderId: number | null;
-    createdDate: string;
-    last7Days: boolean;
-    specificMonth: number | null;
-    specificYear: number | null;
-}
+import { FilterConfigByBrand, FilterConfigByStore } from "../../models/constant/FilterConfig";
 
 type PaymentState = {
     loading: boolean;
-    payments: IPayment[] | null; 
-    paymentsStore: IPayment[] | null; 
-    filterPaymentsConfig: FilterPaymentsConfig;
-    filterPaymentsStoreConfig: FilterPaymentsStoreConfig;
+    payments: IPayment[] | null;
+    paymentsStore: IPayment[] | null;
+    filterPaymentsConfig: FilterConfigByBrand;
+    filterPaymentsStoreConfig: FilterConfigByStore;
     totalItems: number;
-    totalPages: number; 
+    totalPages: number;
     totalItemsStore: number;
-    totalPagesStore: number; 
+    totalPagesStore: number;
     error: string[] | unknown;
     success: boolean;
 };
@@ -70,7 +50,7 @@ const initialState: PaymentState = {
     success: false,
 };
 
-export const getPayments = createAsyncThunk<{ data: IPayment[], totalItems: number, totalPages: number }, FilterPaymentsConfig>(
+export const getPayments = createAsyncThunk<{ data: IPayment[], totalItems: number, totalPages: number }, FilterConfigByBrand>(
     'users/getPayments',
     async (filterConfig, thunkAPI) => {
         try {
@@ -80,13 +60,13 @@ export const getPayments = createAsyncThunk<{ data: IPayment[], totalItems: numb
                 pageSize: filterConfig.pageSize,
             };
 
-            if (filterConfig.storeId !== null)  params.storeId = filterConfig.storeId;
+            if (filterConfig.storeId !== null) params.storeId = filterConfig.storeId;
             if (filterConfig.refOrderId !== null) params.refOrderId = filterConfig.refOrderId;
             if (filterConfig.last7Days) params.last7Days = filterConfig.last7Days;
             if (filterConfig.createdDate) params.createdDate = filterConfig.createdDate;
-            if (filterConfig.specificMonth !==null) params.specificMonth = filterConfig.specificMonth;
-            if (filterConfig.specificYear !==null) params.specificYear = filterConfig.specificYear;
-            
+            if (filterConfig.specificMonth !== null) params.specificMonth = filterConfig.specificMonth;
+            if (filterConfig.specificYear !== null) params.specificYear = filterConfig.specificYear;
+
             const response = await axiosInstance.get(getPaymentsEndpoint, {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -104,7 +84,7 @@ export const getPayments = createAsyncThunk<{ data: IPayment[], totalItems: numb
     },
 );
 
-export const getPaymentsStore = createAsyncThunk<{ data: IPayment[], totalItems: number, totalPages: number }, FilterPaymentsStoreConfig>(
+export const getPaymentsStore = createAsyncThunk<{ data: IPayment[], totalItems: number, totalPages: number }, FilterConfigByStore>(
     'users/getPaymentsStore',
     async (filterConfig, thunkAPI) => {
         try {
@@ -117,9 +97,9 @@ export const getPaymentsStore = createAsyncThunk<{ data: IPayment[], totalItems:
             if (filterConfig.refOrderId !== null) params.refOrderId = filterConfig.refOrderId;
             if (filterConfig.last7Days) params.last7Days = filterConfig.last7Days;
             if (filterConfig.createdDate) params.createdDate = filterConfig.createdDate;
-            if (filterConfig.specificMonth !==null) params.specificMonth = filterConfig.specificMonth;
-            if (filterConfig.specificYear !==null) params.specificYear = filterConfig.specificYear;
-            
+            if (filterConfig.specificMonth !== null) params.specificMonth = filterConfig.specificMonth;
+            if (filterConfig.specificYear !== null) params.specificYear = filterConfig.specificYear;
+
             const response = await axiosInstance.get(getPaymentsByStoreEndpoint, {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -183,7 +163,7 @@ export const paymentSlice = createSlice({
     }
 });
 
-export const { setError, setFilterPaymentsConfig,setFilterPaymentsStoreConfig } = paymentSlice.actions;
+export const { setError, setFilterPaymentsConfig, setFilterPaymentsStoreConfig } = paymentSlice.actions;
 export default paymentSlice.reducer;
 
 

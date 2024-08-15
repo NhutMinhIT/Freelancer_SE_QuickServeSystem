@@ -19,6 +19,7 @@ import Statistic from "../pages/store-manager/statistic/Statistic";
 import StatictisOfBrand from "../pages/brand-manager/statictisBrandManagement/StatictisOfBrand";
 import Payment from "../pages/brand-manager/payment/Payment";
 import PaymentStore from "../pages/store-manager/payment/Payment";
+import Order from "../pages/brand-manager/order/Order";
 
 const AppRouter = () => {
   const token = sessionStorage.getItem("quickServeToken");
@@ -100,6 +101,9 @@ const AppRouter = () => {
               />
               <Route path="/list-payments"
                 element={<Payment />}
+              />
+              <Route path="/order-management"
+                element={<Order />}
               />
             </>
 
