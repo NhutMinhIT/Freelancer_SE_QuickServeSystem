@@ -18,6 +18,8 @@ import ingredientSessionSlice from '../features/ingredientSessionSlice';
 import nutritionSlice from '../features/nutritionSlice';
 import ingredientNutritionSlice from '../features/ingredientNutritionSlice';
 import revenueSlice from '../features/revenueSlice';
+import  paymentSlice from '../features/paymentSlice';
+import  orderSlice  from '../features/orderSlice';
 
 
 // Định nghĩa cấu hình persist
@@ -40,6 +42,8 @@ const persistConfig = {
         'nutritions',
         'ingredientNutritions',
         'revenues',
+        'payment',
+        'order'
     ],
 };
 
@@ -59,6 +63,8 @@ const rootReducer = combineReducers({
     nutritions: nutritionSlice,
     ingredientNutritions: ingredientNutritionSlice,
     revenues: revenueSlice,
+    payment: paymentSlice,
+    order: orderSlice
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
