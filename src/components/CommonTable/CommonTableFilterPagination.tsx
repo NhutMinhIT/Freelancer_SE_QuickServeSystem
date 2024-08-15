@@ -70,8 +70,8 @@ const CommonTableFilterPagination = <T extends MRT_RowData>({
     enableRowSelection: false,
     initialState: {
       pagination: {
-        pageSize: filterConfig.pageSize,
-        pageIndex: filterConfig.pageNumber - 1,
+        pageSize: filterConfig?.pageSize,
+        pageIndex: filterConfig?.pageNumber - 1,
       },
       showGlobalFilter: true,
     },
@@ -88,13 +88,13 @@ const CommonTableFilterPagination = <T extends MRT_RowData>({
         {isShowFilter && <Box display={'flex'} gap={2}>
           <TextField
             label={nameLabel}
-            value={filterConfig.name}
+            value={filterConfig?.name}
             onChange={(e) => onFilterChange('name', e.target.value)}
           />
           <FormControl sx={{ minWidth: 200 }}>
             <InputLabel shrink>{roleLabel}</InputLabel>
             <Select
-              value={filterConfig.roles}
+              value={filterConfig?.roles}
               onChange={(e) => onFilterChange('roles', e.target.value)}
               displayEmpty
               label={roleLabel}
@@ -168,11 +168,11 @@ const CommonTableFilterPagination = <T extends MRT_RowData>({
       </TableContainer>
       <MRT_ToolbarAlertBanner stackAlertBanner table={table} />
       <Box display="flex" justifyContent="space-between" mx={2}>
-        <Typography alignContent={'center'}>Tổng số lượng: {totalItems}</Typography>
-        <Box display={'flex'} gap={2} justifyContent={'flex-end'} textAlign={'center'} p={2}>
+      <Typography alignContent={'center'} fontWeight={600}>Tổng số lượng: {totalItems}</Typography>
+      <Box display={'flex'} gap={2} justifyContent={'flex-end'} textAlign={'center'} p={2}>
           <FormControl variant="outlined" size="small">
             <Select
-              value={filterConfig.pageSize}
+              value={filterConfig?.pageSize}
               onChange={(e) => onFilterChange('pageSize', Number(e.target.value))}
             >
               {[5, 10, 20, 60].map((size) => (
@@ -184,16 +184,16 @@ const CommonTableFilterPagination = <T extends MRT_RowData>({
           </FormControl>
           <Button
             variant="outlined"
-            onClick={() => onPageChange(filterConfig.pageNumber - 2)}
-            disabled={filterConfig.pageNumber === 1}
+            onClick={() => onPageChange(filterConfig?.pageNumber - 2)}
+            disabled={filterConfig?.pageNumber === 1}
           >
             Trước
           </Button>
-          <Typography alignContent={'center'}>{`Trang ${filterConfig.pageNumber} của ${totalPages}`}</Typography>
+          <Typography alignContent={'center'}>{`Trang ${filterConfig?.pageNumber} của ${totalPages}`}</Typography>
           <Button
             variant="outlined"
-            onClick={() => onPageChange(filterConfig.pageNumber)}
-            disabled={filterConfig.pageNumber >= totalPages}
+            onClick={() => onPageChange(filterConfig?.pageNumber)}
+            disabled={filterConfig?.pageNumber >= totalPages}
           >
             Kế
           </Button>

@@ -17,6 +17,8 @@ import SessionManagement from "../pages/store-manager/session-management/Session
 import Nutrition from "../pages/store-manager/Nutrition/Nutrition";
 import Statistic from "../pages/store-manager/statistic/Statistic";
 import StatictisOfBrand from "../pages/brand-manager/statictisBrandManagement/StatictisOfBrand";
+import Payment from "../pages/brand-manager/payment/Payment";
+import PaymentStore from "../pages/store-manager/payment/Payment";
 
 const AppRouter = () => {
   const token = sessionStorage.getItem("quickServeToken");
@@ -65,6 +67,9 @@ const AppRouter = () => {
               <Route path="/time-management"
                 element={<SessionManagement />}
               />
+              <Route path="/list-payments"
+                element={<PaymentStore />}
+              />
             </>
           )}
 
@@ -92,6 +97,9 @@ const AppRouter = () => {
               />
               <Route path="/list-nutritions"
                 element={<Nutrition />}
+              />
+              <Route path="/list-payments"
+                element={<Payment />}
               />
             </>
 

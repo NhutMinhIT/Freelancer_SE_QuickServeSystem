@@ -5,6 +5,8 @@ import feedbackIcon from '../../assets/icon/feedback.png';
 import adminReportIcon from '../../assets/icon/admin-report.png';
 import employeeManagementIcon from '../../assets/icon/icon/employee.png';
 import nutritionListIcon from '../../assets/icon/nutrition-list.png';
+import transactionIcon from '../../assets/icon/transaction.png';
+
 //Icon StoreManagement
 const listMenu = {
     adminMenu: [
@@ -52,7 +54,11 @@ const listMenu = {
             url: '/time-management',
             icon: storeManagementIcon,
         },
-
+        {
+            title: 'QL. Giao dịch',
+            url: '/list-payments',
+            icon: transactionIcon,
+        },
     ],
     brandManagementMenu: [
         {
@@ -89,7 +95,11 @@ const listMenu = {
             url: '/list-nutritions',
             icon: nutritionListIcon,
         },
-
+        {
+            title: 'QL. Giao dịch',
+            url: '/list-payments',
+            icon: transactionIcon,
+        },
     ],
 };
 export default listMenu;
