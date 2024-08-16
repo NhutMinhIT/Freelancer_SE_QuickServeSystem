@@ -54,7 +54,7 @@ const SidebarComponent = () => {
                   <li
                     className={`mb-2 flex cursor-pointer gap-6 rounded py-2 hover:bg-orange-500 hover:shadow ${item.url === location.pathname ? "text-orange-500" : ""}`}
                   >
-                    <i className={item.icon} />
+                    <img src={item.icon} className="ml-2 inline-block h-6 w-6" />
                     <span>{item.title}</span>
                   </li>
                 </Link>
