@@ -59,6 +59,11 @@ const listMenu = {
             url: '/list-payments',
             icon: transactionIcon,
         },
+        {
+            title: 'QL. Đơn hàng',
+            url: '/order-management',
+            icon: orderManagementIcon,
+        }
     ],
     brandManagementMenu: [
         {
@@ -97,12 +102,12 @@ const listMenu = {
         },
         {
             title: 'QL. Giao dịch',
-            url: '/list-payments',
+            url: '/list-payments-brand',
             icon: transactionIcon,
         },
         {
             title: 'QL. Đơn hàng',
-            url: '/order-management',
+            url: '/order-management-brand',
             icon: orderManagementIcon,
         }
     ],

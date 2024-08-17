@@ -20,6 +20,7 @@ import StatictisOfBrand from "../pages/brand-manager/statictisBrandManagement/St
 import Payment from "../pages/brand-manager/payment/Payment";
 import PaymentStore from "../pages/store-manager/payment/Payment";
 import Order from "../pages/brand-manager/order/Order";
+import OrderManagement from "../pages/store-manager/order-management/OrderManagement";
 
 const AppRouter = () => {
   const token = sessionStorage.getItem("quickServeToken");
@@ -71,6 +72,9 @@ const AppRouter = () => {
               <Route path="/list-payments"
                 element={<PaymentStore />}
               />
+              <Route path="/order-management"
+                element={<OrderManagement />}
+              />
             </>
           )}
 
@@ -99,10 +103,10 @@ const AppRouter = () => {
               <Route path="/list-nutritions"
                 element={<Nutrition />}
               />
-              <Route path="/list-payments"
+              <Route path="/list-payments-brand"
                 element={<Payment />}
               />
-              <Route path="/order-management"
+              <Route path="/order-management-brand"
                 element={<Order />}
               />
             </>
