@@ -43,6 +43,17 @@ const listMenu = {
             title: 'Thống Kê',
             url: '/dashboard',
             icon: chartRevenueIcon,
+            subStoreMenu: [
+                {
+                    title: 'TK. Giao dịch',
+                    url: '/list-payments',
+                    icon: transactionIcon,
+                },
+                {
+                    title: 'TK. Đơn hàng',
+                    url: '/order-management',
+                    icon: orderManagementIcon,
+                }],
         },
         {
             title: 'QL. Nhân Viên',
@@ -54,22 +65,24 @@ const listMenu = {
             url: '/time-management',
             icon: storeManagementIcon,
         },
-        {
-            title: 'QL. Giao dịch',
-            url: '/list-payments',
-            icon: transactionIcon,
-        },
-        {
-            title: 'QL. Đơn hàng',
-            url: '/order-management',
-            icon: orderManagementIcon,
-        }
+
     ],
     brandManagementMenu: [
         {
             title: 'Thống Kê',
             url: '/dashboard',
             icon: chartRevenueIcon,
+            submenu: [
+                {
+                    title: 'TK. Giao dịch',
+                    url: '/list-payments-brand',
+                    icon: transactionIcon,
+                },
+                {
+                    title: 'TK. Đơn hàng',
+                    url: '/order-management-brand',
+                    icon: orderManagementIcon,
+                }],
         },
         {
             title: 'QL. Phân Loại',
@@ -101,16 +114,7 @@ const listMenu = {
             url: '/list-nutritions',
             icon: nutritionListIcon,
         },
-        {
-            title: 'QL. Giao dịch',
-            url: '/list-payments-brand',
-            icon: transactionIcon,
-        },
-        {
-            title: 'QL. Đơn hàng',
-            url: '/order-management-brand',
-            icon: orderManagementIcon,
-        }
+
     ],
 };
 export default listMenu;

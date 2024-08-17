@@ -36,14 +36,28 @@ const SidebarComponent = () => {
         {account?.roles === "Store_Manager" &&
           menu.storeManagementMenu.map((item, index) => (
             <ul className="mt-3 font-bold text-white-500" key={index}>
-              <Link to={item.url} className="">
-                <li
-                  className={`mb-2 flex cursor-pointer gap-6 rounded py-2 hover:bg-orange-500 hover:shadow ${item.url === location.pathname ? "text-orange-500" : ""}`}
-                >
-                  <img src={item.icon} className="ml-2 inline-block h-6 w-6" />
-                  <span>{item.title}</span>
-                </li>
-              </Link>
+              <div className="group">
+                <Link to={item.url} className="">
+                  <li
+                    className={`mb-2 flex cursor-pointer gap-6 rounded py-2 hover:bg-orange-500 hover:shadow ${item.url === location.pathname ? "text-orange-500" : ""}`}
+                  >
+                    <img src={item.icon} className="ml-2 inline-block h-6 w-6" />
+                    <span>{item.title}</span>
+                  </li>
+                </Link>
+                {item.subStoreMenu &&
+                  item.subStoreMenu.map((subItem, subIndex) => (
+                    <div className="submenu hidden group-hover:block" key={subIndex}>
+                      <Link to={subItem.url} className="">
+                        <li
+                          className={`mb-2 ml-8 flex cursor-pointer rounded py-2 transition-all duration-500 hover:bg-orange-500 hover:shadow hover:transition-opacity ${subItem.url === location.pathname ? "text-orange-500" : ""} pl-4`}
+                        >
+                          <span>{subItem.title}</span>
+                        </li>
+                      </Link>
+                    </div>
+                  ))}
+              </div>
             </ul>
           ))}
         {account?.roles === "Brand_Manager" &&

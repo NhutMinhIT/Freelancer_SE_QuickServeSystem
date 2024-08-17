@@ -31,7 +31,7 @@ type FormRevenueValues = {
 const Revenue = ({ onSubmit }: RevenueProps) => {
     const [showForm, setShowForm] = useState('month');
 
-    const {revenueOfStore, loading} = useAppSelector(state => state.revenues);    
+    const { revenueOfStore, loading } = useAppSelector(state => state.revenues);
 
     const handleChange = (event: SelectChangeEvent) => {
         setShowForm(event.target.value as string);
@@ -39,7 +39,7 @@ const Revenue = ({ onSubmit }: RevenueProps) => {
 
     const { register, handleSubmit, formState: { errors } } = useForm<FormRevenueValues>({
         defaultValues: {
-            monthYear: '2024-07',
+            monthYear: '2024-08',
         }
     });
 
