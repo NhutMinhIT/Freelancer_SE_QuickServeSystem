@@ -89,6 +89,7 @@ const listMenu = {
                     url: '/ingredients/list-ingredients-type',
                 },
             ],
+            icon: feedbackIcon,
         },
         {
             title: 'QL. Mẫu Sản Phẩm',
