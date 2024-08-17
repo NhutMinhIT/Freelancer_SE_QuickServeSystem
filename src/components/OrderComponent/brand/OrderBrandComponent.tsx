@@ -71,9 +71,9 @@ const OrderBrandComponent = () => {
             Cell: ({ cell }) => {
                 const status = cell.row.original.status;
                 if (status === 1) {
-                    return "Thành công"
+                    return <span style={{ color: 'green', fontWeight: "bold" }}>Thành công</span>;
                 } else {
-                    return "Thất bại"
+                    return <span style={{ color: 'red', fontWeight: "bold" }}>Thất bại</span>;
                 }
             },
         },

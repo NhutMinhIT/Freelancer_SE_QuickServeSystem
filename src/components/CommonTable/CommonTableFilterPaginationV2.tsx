@@ -115,19 +115,25 @@ const CommonTableFilterPaginationV2 = <T extends MRT_RowData>({
                 onFilterChange({ refOrderId: value });
               }}
               type="number"
+              inputProps={{ min: 0 }}
+              onKeyDown={(e) => {
+                if (e.key === '-' || e.key === 'e') {
+                  e.preventDefault();
+                }
+              }}
             />
             {isStoreId && (
               <FormControl sx={{ minWidth: 200 }}>
                 <InputLabel shrink>{'Cửa hàng'}</InputLabel>
                 <Select
-                  value={filterConfig?.storeId !=null ? filterConfig.storeId : ''}
+                  value={filterConfig?.storeId != null ? filterConfig.storeId : ''}
                   onChange={(e) => {
                     const value = e.target.value ? Number(e.target.value) : null;
                     onFilterChange({ storeId: value })
                   }}
                   displayEmpty
                   label={'Cửa hàng'}
-                  >
+                >
                   <MenuItem value="">
                     <>Tất cả</>
                   </MenuItem>
@@ -189,7 +195,7 @@ const CommonTableFilterPaginationV2 = <T extends MRT_RowData>({
           <FormControl sx={{ minWidth: 200 }}>
             <InputLabel shrink>{'Chọn năm'}</InputLabel>
             <Select
-              value={filterConfig?.specificYear !=null ? filterConfig.specificYear : '' }
+              value={filterConfig?.specificYear != null ? filterConfig.specificYear : ''}
               onChange={(e) => {
                 const value = e.target.value ? Number(e.target.value) : null;
                 onFilterChange({ specificYear: value })
