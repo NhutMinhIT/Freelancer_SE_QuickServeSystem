@@ -180,7 +180,7 @@ export const sessionSlice = createSlice({
             state.error = action.payload;
         });
         //update session
-        builder.addCase(updateSession.pending, (state, action) => {
+        builder.addCase(updateSession.pending, (state) => {
             state.loading = true;
         });
         builder.addCase(updateSession.fulfilled, (state, action) => {

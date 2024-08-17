@@ -3,18 +3,19 @@ import {
   MRT_GlobalFilterTextField,
   MRT_RowData,
   MRT_TableBodyCellValue,
-  MRT_TablePagination,
   MRT_ToolbarAlertBanner,
   flexRender,
   useMaterialReactTable,
 } from "material-react-table";
 import {
   Box,
+  LabelDisplayedRowsArgs,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
+  TablePagination,
   TableRow,
   Typography,
 } from "@mui/material";
@@ -47,6 +48,20 @@ const CommonTable = <T extends MRT_RowData>({
     muiPaginationProps: {
       rowsPerPageOptions: [5, 10, 15],
       variant: "outlined",
+      getItemAriaLabel: (type) => {
+        switch (type) {
+          case 'first':
+            return 'Trang đầu';
+          case 'last':
+            return 'Trang cuối';
+          case 'next':
+            return 'Trang tiếp theo';
+          case 'previous':
+            return 'Trang trước';
+          default:
+            return '';
+        }
+      },
     },
     paginationDisplayMode: "pages",
   });
@@ -62,8 +77,17 @@ const CommonTable = <T extends MRT_RowData>({
         }}
       >
         <MRT_GlobalFilterTextField table={table} />
-        <MRT_TablePagination table={table} />
-        {toolbarButtons}
+        <TablePagination
+          component="div"
+          count={table.getPageCount() * table.getState().pagination.pageSize}
+          page={table.getState().pagination.pageIndex}
+          onPageChange={(_, newPage) => table.setPageIndex(newPage)}
+          rowsPerPage={table.getState().pagination.pageSize}
+          onRowsPerPageChange={(event) => table.setPageSize(parseInt(event.target.value, 10))}
+          labelRowsPerPage="Số hàng mỗi trang"
+          labelDisplayedRows={({ from, to, count }: LabelDisplayedRowsArgs) => `${from}-${to} trong tổng số ${count}`}
+          rowsPerPageOptions={[5, 10, 15]}
+        />        {toolbarButtons}
       </Box>
       {isShowTitleDoubleClick && (
         <Typography
@@ -88,8 +112,7 @@ const CommonTable = <T extends MRT_RowData>({
                     {header.isPlaceholder ? null : (
                       <Typography fontWeight={700} color={"black"}>
                         {flexRender(
-                          header.column.columnDef.Header ??
-                          header.column.columnDef.header,
+                          header.column.columnDef.Header ?? header.column.columnDef.header,
                           header.getContext(),
                         )}
                       </Typography>
@@ -144,6 +167,17 @@ const CommonTable = <T extends MRT_RowData>({
         </Table>
       </TableContainer>
       <MRT_ToolbarAlertBanner stackAlertBanner table={table} />
+      <TablePagination
+        component="div"
+        count={table.getPageCount() * table.getState().pagination.pageSize}
+        page={table.getState().pagination.pageIndex}
+        onPageChange={(_, newPage) => table.setPageIndex(newPage)}
+        rowsPerPage={table.getState().pagination.pageSize}
+        onRowsPerPageChange={(event) => table.setPageSize(parseInt(event.target.value, 10))}
+        labelRowsPerPage="Số hàng mỗi trang"
+        labelDisplayedRows={({ from, to, count }: LabelDisplayedRowsArgs) => `${from}-${to} trong tổng số ${count}`}
+        rowsPerPageOptions={[5, 10, 15]}
+      />
     </>
   );
 };
