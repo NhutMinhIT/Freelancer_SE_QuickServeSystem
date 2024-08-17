@@ -76,7 +76,10 @@ const CommonTable = <T extends MRT_RowData>({
           padding: "1rem",
         }}
       >
-        <MRT_GlobalFilterTextField table={table} />
+        <MRT_GlobalFilterTextField
+          table={table}
+          placeholder="Tìm kiếm"
+        />
         <TablePagination
           component="div"
           count={table.getPageCount() * table.getState().pagination.pageSize}
