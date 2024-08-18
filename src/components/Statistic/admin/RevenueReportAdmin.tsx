@@ -1,7 +1,7 @@
 
 import { useAppDispatch } from '../../../services/store/store';
 import { getRevenueOfAdmin,  } from '../../../services/features/revenueSlice';
-import { formatMMDDYYYYDate } from '../../../utils';
+import { formatAnyDate, formatMMDDYYYYDate } from '../../../utils';
 import { useEffect } from 'react';
 import Revenue from './Revenue';
 
@@ -16,9 +16,12 @@ type RevenueFormData = {
 const RevenueReportAdmin = () => {
     const dispatch = useAppDispatch();
 
+    const [, newMonth, newYear] = (formatAnyDate(new Date()) ?? '').split('-');
+
     useEffect(() => {
-        dispatch(getRevenueOfAdmin({ data: `Month=07&Year=2024` }))
-    }, [dispatch])
+        const dateParams = `Month=${newMonth}&Year=${newYear}`;
+        dispatch(getRevenueOfAdmin({ data: dateParams }))
+    }, [dispatch, newMonth, newYear])
 
     const handleSubmitRevenueForm = (data: RevenueFormData, action: string) => {
         if (action === 'month') {

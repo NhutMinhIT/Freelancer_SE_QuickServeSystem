@@ -1,7 +1,7 @@
 import moment from 'moment';
 
-export const formatAnyDate = (date: Date | null | undefined): string | null => {
-    return date ? moment(date).format('DD-MM-YYYY') : null;
+export const formatAnyDate = (date: string | Date | null | undefined): string | null => {
+  return date ? moment.utc(date).format('DD-MM-YYYY') : null;
 }
 
 export const formatMMDDYYYYDate = (date: Date | null | undefined): string | null => {

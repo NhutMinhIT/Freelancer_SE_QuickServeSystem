@@ -11,7 +11,7 @@ import { useState } from 'react';
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { useAppSelector } from '../../../services/store/store';
-import { formatNumberWithDots } from '../../../utils';
+import { formatAnyDate, formatNumberWithDots } from '../../../utils';
 import { CircularProgress } from '@mui/material';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
@@ -30,6 +30,7 @@ type FormRevenueValues = {
 
 const Revenue = ({ onSubmit }: RevenueProps) => {
     const [showForm, setShowForm] = useState('month');
+    const [, newMonth, newYear] = (formatAnyDate(new Date()) ?? '').split('-');
 
     const { revenueOfAdmin, loading } = useAppSelector(state => state.revenues);
 
@@ -39,7 +40,7 @@ const Revenue = ({ onSubmit }: RevenueProps) => {
 
     const { register, handleSubmit, formState: { errors } } = useForm<FormRevenueValues>({
         defaultValues: {
-            monthYear: '2024-08',
+            monthYear: `${newYear}-${newMonth}`,
         }
     });
 
