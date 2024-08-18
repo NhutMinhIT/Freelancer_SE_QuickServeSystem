@@ -80,17 +80,7 @@ const CommonTable = <T extends MRT_RowData>({
           table={table}
           placeholder="Tìm kiếm"
         />
-        <TablePagination
-          component="div"
-          count={table.getPageCount() * table.getState().pagination.pageSize}
-          page={table.getState().pagination.pageIndex}
-          onPageChange={(_, newPage) => table.setPageIndex(newPage)}
-          rowsPerPage={table.getState().pagination.pageSize}
-          onRowsPerPageChange={(event) => table.setPageSize(parseInt(event.target.value, 10))}
-          labelRowsPerPage="Số hàng mỗi trang"
-          labelDisplayedRows={({ from, to, count }: LabelDisplayedRowsArgs) => `${from}-${to} trong tổng số ${count}`}
-          rowsPerPageOptions={[5, 10, 15]}
-        />        {toolbarButtons}
+        {toolbarButtons}
       </Box>
       {isShowTitleDoubleClick && (
         <Typography

@@ -50,7 +50,7 @@ const BestSelling = ({ onSubmit }: BestSellingProps) => {
             )}
             {bestSellingOfStore && bestSellingOfStore?.bestSellingProductTemplates?.map((data: any) => (
               <div className="bg-white border border-gray-900 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700" key={data?.id}>
-                <img className="rounded-t-lg" src={data?.urlImage} alt="" />
+                <img className="rounded-t-lg h-48" src={data?.urlImage} alt="" />
                 <div className="p-5">
                   <a href="#">
                     <h5 className="mb-2 text-lg font-bold tracking-tight text-gray-900 dark:text-white">{data?.name}</h5>
