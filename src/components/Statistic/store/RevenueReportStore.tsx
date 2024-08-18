@@ -2,7 +2,7 @@ import Revenue from './Revenue';
 import BestSelling from './BestSelling';
 import { useAppDispatch } from '../../../services/store/store';
 import { getBestSellingOfStore, getRevenueOfStore } from '../../../services/features/revenueSlice';
-import { formatMMDDYYYYDate } from '../../../utils';
+import { formatAnyDate, formatMMDDYYYYDate } from '../../../utils';
 import { useEffect } from 'react';
 
 type BestSellingFormData = {
@@ -16,10 +16,13 @@ type BestSellingFormData = {
 const RevenueReportStore = () => {
     const dispatch = useAppDispatch();
 
+    const [, newMonth, newYear] = (formatAnyDate(new Date()) ?? '').split('-');
+    
     useEffect(() => {
-        dispatch(getRevenueOfStore({ data: `Month=07&Year=2024` }))
-        dispatch(getBestSellingOfStore({ data: `Month=07&Year=2024` }))
-    }, [dispatch])
+        const dateParams = `Month=${newMonth}&Year=${newYear}`;
+        dispatch(getRevenueOfStore({ data: dateParams }));
+        dispatch(getBestSellingOfStore({ data: dateParams }));
+    }, [dispatch, newYear, newMonth])
 
     const handleSubmitRevenueForm = (data: BestSellingFormData, action: string) => {
         if (action === 'month') {

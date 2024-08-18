@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { getBestSellingOfBrand } from "../../../services/features/revenueSlice";
 import { useAppDispatch } from "../../../services/store/store";
-import { formatMMDDYYYYDate } from "../../../utils";
+import { formatAnyDate, formatMMDDYYYYDate } from "../../../utils";
 import BestSellingOfBrand from "./BestSellingOfBrand";
 
 type BestSellingFormData = {
@@ -15,9 +15,12 @@ type BestSellingFormData = {
 const RevenueReportBrand = () => {
     const dispatch = useAppDispatch();
 
+    const [, newMonth, newYear] = (formatAnyDate(new Date()) ?? '').split('-');
+
     useEffect(() => {
-        dispatch(getBestSellingOfBrand({ data: `Month=08&Year=2024` }))
-    }, [dispatch])
+        const dateParams = `Month=${newMonth}&Year=${newYear}`;
+        dispatch(getBestSellingOfBrand({data: dateParams }))
+    }, [dispatch, newMonth, newYear])
 
     const handleSubmitBestSellingOfBrandForm = (data: BestSellingFormData, action: string) => {
         if (action === 'month') {

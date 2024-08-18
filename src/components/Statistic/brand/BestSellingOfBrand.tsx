@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useAppSelector } from "../../../services/store/store";
 import { useForm } from "react-hook-form";
 import { CircularProgress, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
+import { formatAnyDate } from "../../../utils";
 
 type BestSellingOfBrandProps = {
     onSubmit: (data: any, action: string) => void;
@@ -16,10 +17,12 @@ type FormBestSellingValues = {
 
 const BestSellingOfBrand = ({ onSubmit }: BestSellingOfBrandProps) => {
     const [showForm, setShowForm] = useState('month');
+    const [, newMonth, newYear] = (formatAnyDate(new Date()) ?? '').split('-');
+
     const { bestSellingOfBrand, loadingBestSelling } = useAppSelector(state => state.revenues)
     const { register, handleSubmit, formState: { errors } } = useForm<FormBestSellingValues>({
         defaultValues: {
-            monthYear: '2024-08',
+            monthYear: `${newYear}-${newMonth}`,
         }
     });
     const handleChange = (event: SelectChangeEvent) => {
