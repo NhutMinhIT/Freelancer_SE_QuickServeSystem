@@ -1,3 +1,5 @@
+import { IIngredientSold } from "./Ingredient";
+
 // Purpose: Define the interface of Statistic model.
 export interface IBestSellingOfStore {
     startDate: Date;
@@ -7,7 +9,8 @@ export interface IBestSellingOfStore {
 export interface IBestSellingOfBrand {
     startDate: Date;
     endDate: Date;
-    bestSellingProductTemplates: IBestSellingProductTemplates[]
+    bestSellingProductTemplates: IBestSellingProductTemplates[];
+    soldIngredients: IIngredientSold[];
 }
 
 export interface IBestSellingProductTemplates {

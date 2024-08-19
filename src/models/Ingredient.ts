@@ -49,3 +49,10 @@ export interface IIngredientUpdate {
     description: string;
     ingredientTypeId: number;
 }
+
+export interface IIngredientSold{
+    id: number
+    name: string;
+    urlImage: string;
+    quantitySold: number;
+}

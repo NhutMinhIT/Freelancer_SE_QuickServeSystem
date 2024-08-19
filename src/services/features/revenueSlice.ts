@@ -103,7 +103,7 @@ export const getBestSellingOfBrand = createAsyncThunk<IBestSellingOfBrand, { dat
                         Authorization: `Bearer ${token}`,
                     },
                 }
-            );
+            );            
             return response.data.data;
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.response.data);
