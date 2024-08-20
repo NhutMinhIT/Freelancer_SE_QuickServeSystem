@@ -27,6 +27,14 @@ export interface IMonthlyRevenues {
     orderCount: number;
     revenue: number
 }
+export interface IOrderStatusCount {
+    Pending: number;
+    Preparing: number;
+    Success: number;
+    Paided: number;
+    Failed: number;
+    Canceled: number;
+}
 // Define the interface of IRevenueOfStore model.
 export interface IRevenueOfStore {
     startDate: Date;
@@ -36,6 +44,7 @@ export interface IRevenueOfStore {
     totalOrderCount: number;
     specificOrderCount: number
     monthlyRevenues: IMonthlyRevenues[]
+    orderStatusCounts: IOrderStatusCount[]
 }
 export interface IRevenueOfAdmin {
     startDate: Date;

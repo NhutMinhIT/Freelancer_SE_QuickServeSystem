@@ -13,6 +13,7 @@ import { useForm } from 'react-hook-form';
 import { useAppSelector } from '../../../services/store/store';
 import { formatAnyDate, formatNumberWithDots } from '../../../utils';
 import { CircularProgress } from '@mui/material';
+import { HeartIcon } from '@heroicons/react/24/solid';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
@@ -115,7 +116,66 @@ const Revenue = ({ onSubmit }: RevenueProps) => {
                 <div className='flex flex-grow gap-4'>
                     <div className="w-3/4">
                         <Bar data={dataRevenue} options={options} />
+                        <div className='flex flex-col items-start relative p-4 bg-white shadow-md rounded-lg'>
+                            <div className='absolute left-7 transform top-5 bottom-4 w-0.5 bg-green-500 h-52'></div>
+
+                            <div className='flex flex-row items-center gap-4 mb-4'>
+                                <div className="relative">
+                                    <svg className="h-6 w-6 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
+                                        <circle cx="12" cy="12" r="10" />
+                                    </svg>
+                                </div>
+                                <span className='text-gray-700 font-medium'>Pending: 10</span>
+                            </div>
+
+                            <div className='flex flex-row items-center gap-4 mb-4'>
+                                <div className="relative">
+                                    <svg className="h-6 w-6 text-yellow-500" fill="currentColor" viewBox="0 0 24 24">
+                                        <circle cx="12" cy="12" r="10" />
+                                    </svg>
+                                </div>
+                                <span className='text-gray-700 font-medium'>Preparing: 5</span>
+                            </div>
+
+                            <div className='flex flex-row items-center gap-4 mb-4'>
+                                <div className="relative">
+                                    <svg className="h-6 w-6 text-green-500" fill="currentColor" viewBox="0 0 24 24">
+                                        <circle cx="12" cy="12" r="10" />
+                                    </svg>
+                                </div>
+                                <span className='text-gray-700 font-medium'>Success: 20</span>
+                            </div>
+
+                            <div className='flex flex-row items-center gap-4 mb-4'>
+                                <div className="relative">
+                                    <svg className="h-6 w-6 text-purple-500" fill="currentColor" viewBox="0 0 24 24">
+                                        <circle cx="12" cy="12" r="10" />
+                                    </svg>
+                                </div>
+                                <span className='text-gray-700 font-medium'>Paided: 15</span>
+                            </div>
+
+                            <div className='flex flex-row items-center gap-4 mb-4'>
+                                <div className="relative">
+                                    <svg className="h-6 w-6 text-red-500" fill="currentColor" viewBox="0 0 24 24">
+                                        <circle cx="12" cy="12" r="10" />
+                                    </svg>
+                                </div>
+                                <span className='text-gray-700 font-medium'>Failed: 3</span>
+                            </div>
+
+                            <div className='flex flex-row items-center gap-4'>
+                                <div className="relative">
+                                    <svg className="h-6 w-6 text-gray-500" fill="currentColor" viewBox="0 0 24 24">
+                                        <circle cx="12" cy="12" r="10" />
+                                    </svg>
+                                </div>
+                                <span className='text-gray-700 font-medium'>Canceled: 8</span>
+                            </div>
+                        </div>
+
                     </div>
+
                     <div className="w-3/4">
                         <Bar data={dataOrder} options={options} />
                     </div>
