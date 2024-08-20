@@ -13,7 +13,8 @@ import { useForm } from 'react-hook-form';
 import { useAppSelector } from '../../../services/store/store';
 import { formatAnyDate, formatNumberWithDots } from '../../../utils';
 import { CircularProgress } from '@mui/material';
-import { HeartIcon } from '@heroicons/react/24/solid';
+import { ArrowPathIcon, CheckCircleIcon, ClockIcon, CurrencyDollarIcon, ExclamationCircleIcon } from '@heroicons/react/24/solid';
+
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
@@ -91,6 +92,28 @@ const Revenue = ({ onSubmit }: RevenueProps) => {
         },
     };
 
+    const orderPending = Array.isArray(revenueOfStore?.orderStatusCounts)
+        ? revenueOfStore.orderStatusCounts.find(status => status.Pending)?.Pending ?? 0
+        : 0;
+    const orderPreparing = Array.isArray(revenueOfStore?.orderStatusCounts)
+        ? revenueOfStore.orderStatusCounts.find(status => status.Preparing)?.Preparing ?? 0
+        : 0;
+    const orderSuccess = Array.isArray(revenueOfStore?.orderStatusCounts)
+        ? revenueOfStore.orderStatusCounts.find(status => status.Success)?.Success ?? 0
+        : 0;
+
+    const orderPaided = Array.isArray(revenueOfStore?.orderStatusCounts)
+        ? revenueOfStore.orderStatusCounts.find(status => status.Paided)?.Paided ?? 0
+        : 0;
+
+    const orderFailed = Array.isArray(revenueOfStore?.orderStatusCounts)
+        ? revenueOfStore.orderStatusCounts.find(status => status.Failed)?.Failed ?? 0
+        : 0;
+
+    const orderCanceled = Array.isArray(revenueOfStore?.orderStatusCounts)
+        ? revenueOfStore.orderStatusCounts.find(status => status.Canceled)?.Canceled ?? 0
+        : 0;
+
     return (
         <div className='mt-4 mr-2'>
             <h2 className='text-xl text-black font-bold'>Thống kê chi tiết</h2>
@@ -116,61 +139,64 @@ const Revenue = ({ onSubmit }: RevenueProps) => {
                 <div className='flex flex-grow gap-4'>
                     <div className="w-3/4">
                         <Bar data={dataRevenue} options={options} />
+                        <div className='mt-8'>
+                            <h4 className='font-bold text-xl'>Thống kê trạng thái đơn hàng</h4>
+                        </div>
                         <div className='flex flex-col items-start relative p-4 bg-white shadow-md rounded-lg'>
-                            <div className='absolute left-7 transform top-5 bottom-4 w-0.5 bg-green-500 h-52'></div>
+                            <div className='absolute left-8 transform top-5 bottom-4 w-0.5 bg-green-500 h-64'></div>
 
                             <div className='flex flex-row items-center gap-4 mb-4'>
                                 <div className="relative">
-                                    <svg className="h-6 w-6 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
-                                        <circle cx="12" cy="12" r="10" />
-                                    </svg>
+                                    <ArrowPathIcon className="h-8 w-8 bg-white-500 text-yellow-500 rounded-lg" />
                                 </div>
-                                <span className='text-gray-700 font-medium'>Pending: 10</span>
+                                <span className='text-gray-700 font-medium'>
+                                    Đơn hàng đang chờ: {orderPending}
+                                </span>
                             </div>
 
                             <div className='flex flex-row items-center gap-4 mb-4'>
                                 <div className="relative">
-                                    <svg className="h-6 w-6 text-yellow-500" fill="currentColor" viewBox="0 0 24 24">
-                                        <circle cx="12" cy="12" r="10" />
-                                    </svg>
+                                    <ClockIcon className="h-8 w-8 bg-white-500 text-orange-500 rounded-lg" />
                                 </div>
-                                <span className='text-gray-700 font-medium'>Preparing: 5</span>
+                                <span className='text-gray-700 font-medium'>
+                                    Đơn hàng đang chuẩn bị: {orderPreparing}
+                                </span>
                             </div>
 
                             <div className='flex flex-row items-center gap-4 mb-4'>
                                 <div className="relative">
-                                    <svg className="h-6 w-6 text-green-500" fill="currentColor" viewBox="0 0 24 24">
-                                        <circle cx="12" cy="12" r="10" />
-                                    </svg>
+                                    <CheckCircleIcon className="h-8 w-8 bg-white-500 text-green-500 rounded-lg" />
                                 </div>
-                                <span className='text-gray-700 font-medium'>Success: 20</span>
+                                <span className='text-gray-700 font-medium'>
+                                    Đơn hàng thành công: {orderSuccess}
+                                </span>
                             </div>
 
                             <div className='flex flex-row items-center gap-4 mb-4'>
                                 <div className="relative">
-                                    <svg className="h-6 w-6 text-purple-500" fill="currentColor" viewBox="0 0 24 24">
-                                        <circle cx="12" cy="12" r="10" />
-                                    </svg>
+                                    <CurrencyDollarIcon className="h-8 w-8 bg-white-500 text-green-500 rounded-lg" />
                                 </div>
-                                <span className='text-gray-700 font-medium'>Paided: 15</span>
+                                <span className='text-gray-700 font-medium'>
+                                    Đơn hàng đã thanh toán: {orderPaided}
+                                </span>
                             </div>
 
                             <div className='flex flex-row items-center gap-4 mb-4'>
                                 <div className="relative">
-                                    <svg className="h-6 w-6 text-red-500" fill="currentColor" viewBox="0 0 24 24">
-                                        <circle cx="12" cy="12" r="10" />
-                                    </svg>
+                                    <CurrencyDollarIcon className="h-8 w-8 bg-white-500 text-red-500 rounded-lg" />
                                 </div>
-                                <span className='text-gray-700 font-medium'>Failed: 3</span>
+                                <span className='text-gray-700 font-medium'>
+                                    Đơn hàng thanh toán thất bại: {orderFailed}
+                                </span>
                             </div>
 
                             <div className='flex flex-row items-center gap-4'>
                                 <div className="relative">
-                                    <svg className="h-6 w-6 text-gray-500" fill="currentColor" viewBox="0 0 24 24">
-                                        <circle cx="12" cy="12" r="10" />
-                                    </svg>
+                                    <ExclamationCircleIcon className="h-8 w-8 text-red-500 bg-white-500 rounded-lg" />
                                 </div>
-                                <span className='text-gray-700 font-medium'>Canceled: 8</span>
+                                <span className='text-gray-700 font-medium'>
+                                    Đơn hàng đã hủy: {orderCanceled}
+                                </span>
                             </div>
                         </div>
 
