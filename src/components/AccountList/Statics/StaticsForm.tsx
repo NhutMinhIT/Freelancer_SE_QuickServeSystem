@@ -42,6 +42,10 @@ const StaticForm = ({ onSubmit }: StaticProps) => {
     return (
         <div className='mt-8 mr-2'>
             <Grid container spacing={3}>
+
+                <Grid item md={9}>
+                    <AccountCard />
+                </Grid>
                 <Grid item md={3}>
                     <FormControl fullWidth sx={{ mb: 2 }}>
                         <InputLabel>Tìm kiếm</InputLabel>
@@ -158,9 +162,6 @@ const StaticForm = ({ onSubmit }: StaticProps) => {
                             </div>
                         )}
                     </form>
-                </Grid>
-                <Grid item md={9}>
-                    <AccountCard />
                 </Grid>
             </Grid>
 

@@ -21,7 +21,6 @@ import Payment from "../pages/brand-manager/payment/Payment";
 import PaymentStore from "../pages/store-manager/payment/Payment";
 import Order from "../pages/brand-manager/order/Order";
 import OrderManagement from "../pages/store-manager/order-management/OrderManagement";
-import AccountStatics from "../pages/admin/account-statics/AccountStatics";
 
 const AppRouter = () => {
   const token = sessionStorage.getItem("quickServeToken");
@@ -50,10 +49,6 @@ const AppRouter = () => {
               <Route
                 path="/account-management"
                 element={<AccountManagement />}
-              />
-              <Route
-                path="/account-statics"
-                element={<AccountStatics />}
               />
               <Route path="/store-management" element={<StoreManagement />} />
               <Route path="/admin-register" element={<RegisterAccount />} />

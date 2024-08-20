@@ -19,10 +19,6 @@ const listMenu = {
                     title: 'Ds. Tài khoản',
                     url: '/account-management',
                 },
-                {
-                    title: 'Thống kê tài khoản',
-                    url: '/account-statics',
-                },
             ],
         },
         {

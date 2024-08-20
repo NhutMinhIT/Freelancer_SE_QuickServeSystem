@@ -13,6 +13,8 @@ import { useForm } from 'react-hook-form';
 import { useAppSelector } from '../../../services/store/store';
 import { formatAnyDate, formatNumberWithDots } from '../../../utils';
 import { CircularProgress } from '@mui/material';
+import { FaListAlt } from 'react-icons/fa';
+import Statics from '../../AccountList/Statics/Statics';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
@@ -212,6 +214,18 @@ const Revenue = ({ onSubmit }: RevenueProps) => {
                             )}
                         </form>
                     </div>
+                </div>
+            </div>
+            <div className="md:col-span-10 mt-20 mb-4">
+                <div className="flex">
+                    <div className="flex flex-row text-3xl">
+                        <FaListAlt className="text-orange-500" />
+                        <h3 className="font-bold ml-6">Thống kê tài khoản</h3>
+                    </div>
+
+                </div>
+                <div className="w-full overflow-auto">
+                    <Statics />
                 </div>
             </div>
         </div>
