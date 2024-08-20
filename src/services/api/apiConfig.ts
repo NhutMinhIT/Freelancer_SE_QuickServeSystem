@@ -102,6 +102,7 @@ export const getRevenueReportOfStoreEndpoint = `${BASE_URL}/Orders/RevenueReport
 export const getBestSellingReportOfStoreEndpoint = `${BASE_URL}/Orders/BestSellingProductTemplates/Store`;
 export const getBestSellingReportOfBrandEndpoint = `${BASE_URL}/Orders/BestSellingProductTemplates`;
 export const getRevenueReportOfAdminEndpoint = `${BASE_URL}/Orders/RevenueReport`;
+export const getAccountReportEndpoint = `${BASE_URL}/Accounts/report`;
 
 //Payments
 export const getPaymentsEndpoint = `${BASE_URL}/Payments`
@@ -110,4 +111,5 @@ export const getPaymentsByStoreEndpoint = `${BASE_URL}/Payments/by-store`
 //Orders
 export const getOrderListEndpoint = `${BASE_URL}/Orders/OrderList`
 export const getOrderListByStoreIdEndpoint = `${BASE_URL}/Orders/OrderListByStoreId`
+
 

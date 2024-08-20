@@ -1,15 +1,14 @@
 import { useState } from "react";
 import { useAppSelector } from "../../../services/store/store";
 import { Controller, useForm } from "react-hook-form";
-import { CircularProgress, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, Tab, Tabs } from "@mui/material";
+import { CircularProgress, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 import { formatAnyDate } from "../../../utils";
-import BestSellingProduct from "./BestSellingProduct";
-import BestSellingIngredient from "./BestSellingIngredient";
+import AccountCard from "./AccountCard";
 
-type BestSellingOfBrandProps = {
+type StaticProps = {
     onSubmit: (data: any, action: string) => void;
 };
-type FormBestSellingValues = {
+type FormStaticValues = {
     specificDate: string;
     monthYear: string,
     year: string,
@@ -18,17 +17,15 @@ type FormBestSellingValues = {
     storeId: string;
 }
 
-const BestSellingOfBrand = ({ onSubmit }: BestSellingOfBrandProps) => {
+const StaticForm = ({ onSubmit }: StaticProps) => {
     const [showForm, setShowForm] = useState('month');
     const [, newMonth, newYear] = (formatAnyDate(new Date()) ?? '').split('-');
-    const [tab, setTab] = useState(1);
-
 
     const { loadingBestSelling } = useAppSelector(state => state.revenues)
 
     const { stores } = useAppSelector(state => state.stores)
 
-    const { register, handleSubmit, formState: { errors }, control } = useForm<FormBestSellingValues>({
+    const { register, handleSubmit, formState: { errors }, control } = useForm<FormStaticValues>({
         defaultValues: {
             monthYear: `${newYear}-${newMonth}`,
             storeId: "",
@@ -38,12 +35,7 @@ const BestSellingOfBrand = ({ onSubmit }: BestSellingOfBrandProps) => {
         setShowForm(event.target.value as string);
     };
 
-
-    const handleChangeTab = (_: React.SyntheticEvent, newValue: number) => {
-        setTab(newValue);
-    };
-
-    const onSubmitForm = (data: FormBestSellingValues) => {
+    const onSubmitForm = (data: FormStaticValues) => {
         const action = (document.activeElement as HTMLButtonElement)?.value;
         onSubmit(data, action);
     }
@@ -168,16 +160,7 @@ const BestSellingOfBrand = ({ onSubmit }: BestSellingOfBrandProps) => {
                     </form>
                 </Grid>
                 <Grid item md={9}>
-                    <Tabs value={tab} onChange={handleChangeTab}>
-                        <Tab value={1} label="Sản phẩm bán chạy" />
-                        <Tab value={2} label="Nguyên liệu bán chạy" />
-                    </Tabs>
-                    {tab === 1 && (
-                        <BestSellingProduct />
-                    )}
-                    {tab === 2 && (
-                        <BestSellingIngredient />
-                    )}
+                    <AccountCard />
                 </Grid>
             </Grid>
 
@@ -185,4 +168,4 @@ const BestSellingOfBrand = ({ onSubmit }: BestSellingOfBrandProps) => {
     )
 }
 
-export default BestSellingOfBrand
+export default StaticForm

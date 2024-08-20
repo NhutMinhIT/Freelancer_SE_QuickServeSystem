@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { IBestSellingOfBrand, IBestSellingOfStore, IRevenueOfAdmin, IRevenueOfStore } from "../../models/Statistic";
+import { IAccountStatic, IBestSellingOfBrand, IBestSellingOfStore, IRevenueOfAdmin, IRevenueOfStore } from "../../models/Statistic";
 import axiosInstance from "../api/axiosInstance";
-import { getBestSellingReportOfBrandEndpoint, getBestSellingReportOfStoreEndpoint, getRevenueReportOfAdminEndpoint, getRevenueReportOfStoreEndpoint } from "../api/apiConfig";
+import { getAccountReportEndpoint, getBestSellingReportOfBrandEndpoint, getBestSellingReportOfStoreEndpoint, getRevenueReportOfAdminEndpoint, getRevenueReportOfStoreEndpoint } from "../api/apiConfig";
 
 type RevenueState = {
     loading: boolean;
@@ -10,6 +10,7 @@ type RevenueState = {
     bestSellingOfStore: IBestSellingOfStore | null;
     bestSellingOfBrand: IBestSellingOfBrand | null;
     revenueOfAdmin: IRevenueOfAdmin | null;
+    accountStatics: IAccountStatic | null;
     error: string[] | unknown;
     success: boolean;
 };
@@ -21,6 +22,7 @@ const initialState: RevenueState = {
     bestSellingOfStore: null,
     bestSellingOfBrand: null,
     revenueOfAdmin: null,
+    accountStatics: null,
     error: null,
     success: false,
 };
@@ -111,6 +113,28 @@ export const getBestSellingOfBrand = createAsyncThunk<IBestSellingOfBrand, { dat
     }
 );
 
+export const getAccountStatic = createAsyncThunk<IAccountStatic, { data: any }>(
+    'static/getAccountStatic',
+    async (params, thunkAPI) => {
+        try {
+            const token = sessionStorage.getItem('quickServeToken');
+            // Format the URL with query parameters including Month and Year
+            const formattedURL = `${getAccountReportEndpoint}?${params.data}`;
+            const response = await axiosInstance.get(
+                formattedURL,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            return response.data.data;
+        } catch (error: any) {
+            return thunkAPI.rejectWithValue(error.response.data);
+        }
+    }
+);
+
 export const revenueSlice = createSlice({
     name: 'revenues',
     initialState,
@@ -166,6 +190,17 @@ export const revenueSlice = createSlice({
         });
         builder.addCase(getBestSellingOfStore.rejected, (state, action) => {
             state.loadingBestSelling = false;
+            state.error = action.payload as string[];
+        });
+        builder.addCase(getAccountStatic.pending, (state) => {
+            state.loading = true;
+        });
+        builder.addCase(getAccountStatic.fulfilled, (state, action) => {
+            state.loading = false;
+            state.accountStatics = action.payload;
+        });
+        builder.addCase(getAccountStatic.rejected, (state, action) => {
+            state.loading = false;
             state.error = action.payload as string[];
         });
     }
