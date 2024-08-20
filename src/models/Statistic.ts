@@ -56,3 +56,16 @@ export interface IRevenueOfAdmin {
     monthlyRevenues: IMonthlyRevenues[]
 }
 
+export interface IAccountStatic {
+    totalAccounts: number
+    accountsByRole: {
+        Staff: number
+        Admin: number
+        Customer: number
+        Store_Manager: number
+        Brand_Manager: number
+    };
+    totalEmployeeCount: number;
+    employeeByStoreCount: number;
+}
+
