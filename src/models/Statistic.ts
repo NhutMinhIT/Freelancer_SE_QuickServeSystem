@@ -44,7 +44,7 @@ export interface IRevenueOfStore {
     totalOrderCount: number;
     specificOrderCount: number
     monthlyRevenues: IMonthlyRevenues[]
-    orderStatusCounts: IOrderStatusCount[]
+    orderStatusCounts: IOrderStatusCount
 }
 export interface IRevenueOfAdmin {
     startDate: Date;

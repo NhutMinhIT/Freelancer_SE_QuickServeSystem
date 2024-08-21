@@ -92,27 +92,14 @@ const Revenue = ({ onSubmit }: RevenueProps) => {
         },
     };
 
-    const orderPending = Array.isArray(revenueOfStore?.orderStatusCounts)
-        ? revenueOfStore.orderStatusCounts.find(status => status.Pending)?.Pending ?? 0
-        : 0;
-    const orderPreparing = Array.isArray(revenueOfStore?.orderStatusCounts)
-        ? revenueOfStore.orderStatusCounts.find(status => status.Preparing)?.Preparing ?? 0
-        : 0;
-    const orderSuccess = Array.isArray(revenueOfStore?.orderStatusCounts)
-        ? revenueOfStore.orderStatusCounts.find(status => status.Success)?.Success ?? 0
-        : 0;
+    const orderPending = revenueOfStore?.orderStatusCounts?.Pending ?? 0;
+    const orderPreparing = revenueOfStore?.orderStatusCounts?.Preparing ?? 0;
+    const orderSuccess = revenueOfStore?.orderStatusCounts?.Success ?? 0;
+    const orderPaided = revenueOfStore?.orderStatusCounts?.Paided ?? 0;
+    const orderFailed = revenueOfStore?.orderStatusCounts?.Failed ?? 0;
+    const orderCanceled = revenueOfStore?.orderStatusCounts?.Canceled ?? 0;
 
-    const orderPaided = Array.isArray(revenueOfStore?.orderStatusCounts)
-        ? revenueOfStore.orderStatusCounts.find(status => status.Paided)?.Paided ?? 0
-        : 0;
-
-    const orderFailed = Array.isArray(revenueOfStore?.orderStatusCounts)
-        ? revenueOfStore.orderStatusCounts.find(status => status.Failed)?.Failed ?? 0
-        : 0;
-
-    const orderCanceled = Array.isArray(revenueOfStore?.orderStatusCounts)
-        ? revenueOfStore.orderStatusCounts.find(status => status.Canceled)?.Canceled ?? 0
-        : 0;
+    console.log(revenueOfStore?.orderStatusCounts)
 
     return (
         <div className='mt-4 mr-2'>

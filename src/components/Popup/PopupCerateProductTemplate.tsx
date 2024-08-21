@@ -59,11 +59,11 @@ const PopupCreateProductTemplate: React.FC<PopupCreateProductTemplateProps> = ({
 
         dispatch(createProductTemplate(formData))
             .unwrap()
-            .then((res) => {    
-                if(res){
-                    dispatch(getProductTemplateById({ id: res?.data}));
+            .then((res) => {
+                if (res) {
+                    dispatch(getProductTemplateById({ id: res?.data }));
                     reset();
-                    setTimeout(()=>{
+                    setTimeout(() => {
                         navigate(`/product-template-step/${res?.data}`);
                         closePopup();
                     }, 1000);
@@ -76,7 +76,7 @@ const PopupCreateProductTemplate: React.FC<PopupCreateProductTemplateProps> = ({
     return (
         isPopupOpen && (
             <div className="fixed inset-0 flex items-center justify-center z-50 bg-gray-900 bg-opacity-50">
-                <div className="bg-white-500 px-2 relative bg-white border rounded-lg shadow-lg overflow-y-scroll lg:h-[500px] lg:w-[500px] w-auto h-auto">
+                <div className="p-4 relative bg-white border rounded-lg shadow-lg bg-white-400 overflow-y-auto lg:h-[500px] lg:w-[720px] w-auto h-auto">
                     <button
                         onClick={closePopup}
                         className="absolute top-2 right-2 text-gray-600 hover:text-gray-900"
@@ -87,20 +87,38 @@ const PopupCreateProductTemplate: React.FC<PopupCreateProductTemplateProps> = ({
                         <h2 className="text-xl font-bold mb-4 mt-2">Tạo Mẫu Sản Phẩm</h2>
                     </div>
                     <form onSubmit={handleSubmit(onSubmit)} className="p-2">
-                        <div className="mb-4">
-                            <label htmlFor="categoryId" className="block text-sm font-medium text-gray-700">Thể Loại</label>
-                            <select
-                                {...register('categoryId')}
-                                name="categoryId"
-                                id="categoryId"
-                                required
-                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
-                                <option value="">Chọn thể loại</option>
-                                {categoryData && categoryData.map((cate) => (
-                                    <option key={cate.id} value={cate.id}>{cate.name}</option>
-                                ))}
-                            </select>
-                            {errors.categoryId && <p className='text-red-500 text-xs mt-2'>* {errors.categoryId.message}</p>}
+                        <div className="flex flex-row justify-between">
+                            <div className="mb-4 w-80">
+                                <label htmlFor="categoryId" className="block text-sm font-medium text-gray-700">Thể Loại</label>
+                                <select
+                                    {...register('categoryId')}
+                                    name="categoryId"
+                                    id="categoryId"
+                                    required
+                                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
+                                    <option value="">Chọn thể loại</option>
+                                    {categoryData && categoryData.map((cate) => (
+                                        <option key={cate.id} value={cate.id}>{cate.name}</option>
+                                    ))}
+                                </select>
+                                {errors.categoryId && <p className='text-red-500 text-xs mt-2'>* {errors.categoryId.message}</p>}
+                            </div>
+                            <div className="mb-4 w-80">
+                                <label htmlFor="size" className="block text-sm font-medium text-gray-700">Kích cỡ</label>
+                                <select
+                                    {...register('size')}
+                                    name="size"
+                                    id="size"
+                                    required
+                                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                                >
+                                    <option value="">Chọn kích cỡ</option>
+                                    <option value="small">Nhỏ</option>
+                                    <option value="medium">Trung bình</option>
+                                    <option value="large">Lớn</option>
+                                </select>
+                                {errors.size && <p className='text-red-500 text-xs mt-2'>* {errors.size.message}</p>}
+                            </div>
                         </div>
                         <div className="mb-4">
                             <label htmlFor="name" className="block text-sm font-medium text-gray-700">Tên Mẫu Sản Phẩm</label>
@@ -114,22 +132,7 @@ const PopupCreateProductTemplate: React.FC<PopupCreateProductTemplateProps> = ({
                             />
                             {errors.name && <p className='text-red-500 text-xs mt-2'>* {errors.name.message}</p>}
                         </div>
-                        <div className="mb-4">
-                            <label htmlFor="size" className="block text-sm font-medium text-gray-700">Kích cỡ</label>
-                            <select
-                                {...register('size')}
-                                name="size"
-                                id="size"
-                                required
-                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
-                            >
-                                <option value="">Chọn kích cỡ</option>
-                                <option value="small">Nhỏ</option>
-                                <option value="medium">Trung bình</option>
-                                <option value="large">Lớn</option>
-                            </select>
-                            {errors.size && <p className='text-red-500 text-xs mt-2'>* {errors.size.message}</p>}
-                        </div>
+
                         <div className="mb-4">
                             <label htmlFor="description" className="block text-sm font-medium text-gray-700">Mô tả</label>
                             <textarea
@@ -143,14 +146,19 @@ const PopupCreateProductTemplate: React.FC<PopupCreateProductTemplateProps> = ({
                         </div>
                         <div className="mb-4">
                             <label htmlFor="image" className="block text-sm font-medium text-gray-700">Hình ảnh</label>
-                            <input
-                                {...register('image')}
-                                type="file"
-                                name="image"
-                                id="image"
-                                required
-                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
-                            />
+                            <div className="relative">
+                                <input
+                                    {...register('image')}
+                                    type="file"
+                                    name="image"
+                                    id="image"
+                                    required
+                                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm opacity-0 absolute inset-0 z-50"
+                                />
+                                <div className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm bg-white text-gray-500 cursor-pointer">
+                                    Chọn hình ảnh
+                                </div>
+                            </div>
                             {errors.image && <p className='text-red-500 text-xs mt-2'>* {errors.image.message}</p>}
                         </div>
                         <div className="flex justify-end">

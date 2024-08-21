@@ -46,7 +46,7 @@ const PopupCreateIngredientNutritions = ({
 
     useEffect(() => {
         if (isPopupOpen && fields.length === 0) {
-            append({id: 0});
+            append({ id: 0 });
         }
     }, [isPopupOpen, append, fields.length]);
 
@@ -56,7 +56,7 @@ const PopupCreateIngredientNutritions = ({
 
     const handleAddMore = () => {
         if (fields.length < 3) {
-            append({id: 0});
+            append({ id: 0 });
         }
     };
 
@@ -76,8 +76,6 @@ const PopupCreateIngredientNutritions = ({
             .finally(() => setIsLoading(false));
         reset();
 
-        console.log(dataSend);
-        
     };
 
     return (

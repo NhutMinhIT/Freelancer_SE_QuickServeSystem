@@ -49,12 +49,12 @@ const PopupCreateCategory: React.FC<PopupCreateCategoryProps> = ({ isPopupOpen, 
                         <XMarkIcon width={24} height={24} />
                     </button>
                     <div className="text-center">
-                        <h2 className="text-xl font-bold mb-4">Create Category</h2>
+                        <h2 className="text-xl font-bold mb-4">Tạo thể loại</h2>
                     </div>
                     <div>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <div className="mb-4">
-                                <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
+                                <label htmlFor="name" className="block text-sm font-medium text-gray-700">Tên</label>
                                 <input
                                     {...register('name')}
                                     type="text"
@@ -87,7 +87,7 @@ const PopupCreateCategory: React.FC<PopupCreateCategoryProps> = ({ isPopupOpen, 
                                             ></path>
                                         </svg>
                                     ) : (
-                                        'Create'
+                                        'Tạo'
                                     )}
                                 </button>
                             </div>

@@ -76,7 +76,7 @@ const PopupCreateIngredient: React.FC<PopupCreateIngredientProps> = ({
     return (
         isPopupOpen && (
             <div className="fixed inset-0 flex items-center justify-center z-50 bg-gray-900 bg-opacity-50">
-                <div className="px-2 relative bg-white border rounded-lg shadow-lg bg-white-400 overflow-y-scroll lg:h-[500px] lg:w-[500px] w-auto h-auto">
+                <div className="p-4 relative bg-white border rounded-lg shadow-lg bg-white-400 overflow-y-auto lg:h-[580px] lg:w-[720px] w-auto h-auto">
                     <button
                         onClick={closePopup}
                         className="absolute top-2 right-2 text-gray-600 hover:text-gray-900"
@@ -99,41 +99,79 @@ const PopupCreateIngredient: React.FC<PopupCreateIngredientProps> = ({
                             />
                             {errors.name && <p className='text-red-500 text-xs mt-2'>* {errors.name.message}</p>}
                         </div>
-                        <div className="mb-4">
-                            <label htmlFor="price" className="block text-sm font-medium text-gray-700">Giá Nguyên Liệu</label>
-                            <input
-                                {...register('price')}
-                                type="number"
-                                name="price"
-                                id="price"
-                                required
-                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
-                            />
-                            {errors.price && <p className='text-red-500 text-xs mt-2'>* {errors.price.message}</p>}
+                        <div className="flex flex-row justify-between">
+                            <div className="mb-4 w-80">
+                                <label htmlFor="price" className="block text-sm font-medium text-gray-700">Giá Nguyên Liệu</label>
+                                <input
+                                    {...register('price')}
+                                    type="number"
+                                    name="price"
+                                    id="price"
+                                    required
+                                    min={0}
+                                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                                    onKeyDown={(e) => {
+                                        if (e.key === '-' || e.key === 'e' || e.key === 'E') {
+                                            e.preventDefault();
+                                        }
+                                    }}
+                                />
+                                {errors.price && <p className='text-red-500 text-xs mt-2'>* {errors.price.message}</p>}
+                            </div>
+
+                            <div className="mb-4 w-80">
+                                <label htmlFor="defaultQuantity" className="block text-sm font-medium text-gray-700">Số lượng nguyên liệu</label>
+                                <input
+                                    {...register('defaultQuantity')}
+                                    type="number"
+                                    name="defaultQuantity"
+                                    id="defaultQuantity"
+                                    min={0}
+                                    required
+                                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                                    onKeyDown={(e) => {
+                                        if (e.key === '-' || e.key === 'e' || e.key === 'E') {
+                                            e.preventDefault();
+                                        }
+                                    }}
+                                />
+                                {errors.defaultQuantity && <p className='text-red-500 text-xs mt-2'>* {errors.defaultQuantity.message}</p>}
+                            </div>
                         </div>
-                        <div className="mb-4">
-                            <label htmlFor="defaultQuantity" className="block text-sm font-medium text-gray-700">Số lượng nguyên liệu</label>
-                            <input
-                                {...register('defaultQuantity')}
-                                type="number"
-                                name="defaultQuantity"
-                                id="defaultQuantity"
-                                required
-                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
-                            />
-                            {errors.defaultQuantity && <p className='text-red-500 text-xs mt-2'>* {errors.defaultQuantity.message}</p>}
-                        </div>
-                        <div className="mb-4">
-                            <label htmlFor="calo" className="block text-sm font-medium text-gray-700">Calo Nguyên Liệu</label>
-                            <input
-                                {...register('calo')}
-                                type="number"
-                                name="calo"
-                                id="calo"
-                                required
-                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
-                            />
-                            {errors.calo && <p className='text-red-500 text-xs mt-2'>* {errors.calo.message}</p>}
+                        <div className="flex flex-row justify-between">
+                            <div className="mb-4 w-80">
+                                <label htmlFor="calo" className="block text-sm font-medium text-gray-700">Calo Nguyên Liệu</label>
+                                <input
+                                    {...register('calo')}
+                                    type="number"
+                                    name="calo"
+                                    id="calo"
+                                    min={0}
+                                    required
+                                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                                    onKeyDown={(e) => {
+                                        if (e.key === '-' || e.key === 'e' || e.key === 'E') {
+                                            e.preventDefault();
+                                        }
+                                    }}
+                                />
+                                {errors.calo && <p className='text-red-500 text-xs mt-2'>* {errors.calo.message}</p>}
+                            </div>
+                            <div className="mb-4 w-80">
+                                <label htmlFor="ingredientTypeId" className="block text-sm font-medium text-gray-700">Loại nguyên liệu</label>
+                                <select
+                                    {...register('ingredientTypeId')}
+                                    name="ingredientTypeId"
+                                    id="ingredientTypeId"
+                                    required
+                                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
+                                    <option value="">Chọn loại nguyên liệu</option>
+                                    {ingredientTypeData && ingredientTypeData.map((type) => (
+                                        <option key={type.id} value={type.id}>{type.name}</option>
+                                    ))}
+                                </select>
+                                {errors.ingredientTypeId && <p className='text-red-500 text-xs mt-2'>* {errors.ingredientTypeId.message}</p>}
+                            </div>
                         </div>
                         <div className="mb-4">
                             <label htmlFor="description" className="block text-sm font-medium text-gray-700">Mô tả nguyên liệu</label>
@@ -148,31 +186,22 @@ const PopupCreateIngredient: React.FC<PopupCreateIngredientProps> = ({
                         </div>
                         <div className="mb-4">
                             <label htmlFor="image" className="block text-sm font-medium text-gray-700">Hình ảnh nguyên liệu</label>
-                            <input
-                                {...register('image')}
-                                type="file"
-                                name="image"
-                                id="image"
-                                required
-                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
-                            />
+                            <div className="relative">
+                                <input
+                                    {...register('image')}
+                                    type="file"
+                                    name="image"
+                                    id="image"
+                                    required
+                                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm opacity-0 absolute inset-0 z-50"
+                                />
+                                <div className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm bg-white text-gray-500 cursor-pointer">
+                                    Chọn hình ảnh
+                                </div>
+                            </div>
                             {errors.image && <p className='text-red-500 text-xs mt-2'>* {errors.image.message}</p>}
                         </div>
-                        <div className="mb-4">
-                            <label htmlFor="ingredientTypeId" className="block text-sm font-medium text-gray-700">Loại nguyên liệu</label>
-                            <select
-                                {...register('ingredientTypeId')}
-                                name="ingredientTypeId"
-                                id="ingredientTypeId"
-                                required
-                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
-                                <option value="">Chọn loại nguyên liệu</option>
-                                {ingredientTypeData && ingredientTypeData.map((type) => (
-                                    <option key={type.id} value={type.id}>{type.name}</option>
-                                ))}
-                            </select>
-                            {errors.ingredientTypeId && <p className='text-red-500 text-xs mt-2'>* {errors.ingredientTypeId.message}</p>}
-                        </div>
+
                         <div className="flex justify-end">
                             <button
                                 type="submit"
