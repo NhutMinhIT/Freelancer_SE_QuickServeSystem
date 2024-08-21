@@ -21,7 +21,7 @@ const StaticForm = ({ onSubmit }: StaticProps) => {
     const [showForm, setShowForm] = useState('month');
     const [, newMonth, newYear] = (formatAnyDate(new Date()) ?? '').split('-');
 
-    const { loadingBestSelling } = useAppSelector(state => state.revenues)
+    const { loadingAcc } = useAppSelector(state => state.revenues)
 
     const { stores } = useAppSelector(state => state.stores)
 
@@ -92,8 +92,8 @@ const StaticForm = ({ onSubmit }: StaticProps) => {
                                     className="border border-gray-500 rounded-md p-2 w-full"
                                 />
                                 {errors.specificDate && <span className="text-red-500">{errors.specificDate.message}</span>}
-                                <button className="p-3 bg-orange-500 rounded-md mt-2 w-full" type="submit" name="specificDate" value="specificDate" disabled={loadingBestSelling}>
-                                    {loadingBestSelling ? <CircularProgress size={24} /> : 'Tìm kiếm'}
+                                <button className="p-3 bg-orange-500 rounded-md mt-2 w-full" type="submit" name="specificDate" value="specificDate" disabled={loadingAcc}>
+                                    {loadingAcc ? <CircularProgress size={24} /> : 'Tìm kiếm'}
                                 </button>
                             </div>
                         )}
@@ -107,8 +107,8 @@ const StaticForm = ({ onSubmit }: StaticProps) => {
                                     className="border border-gray-500 rounded-md p-2 w-full"
                                 />
                                 {errors.monthYear && <span className="text-red-500">{errors.monthYear.message}</span>}
-                                <button className="p-3 bg-orange-500 rounded-md mt-2 w-full" type="submit" name="month" value="month" disabled={loadingBestSelling}>
-                                    {loadingBestSelling ? <CircularProgress size={24} /> : 'Tìm kiếm'}
+                                <button className="p-3 bg-orange-500 rounded-md mt-2 w-full" type="submit" name="month" value="month" disabled={loadingAcc}>
+                                    {loadingAcc ? <CircularProgress size={24} /> : 'Tìm kiếm'}
                                 </button>
                             </div>
                         )}
@@ -126,8 +126,8 @@ const StaticForm = ({ onSubmit }: StaticProps) => {
                                     ))}
                                 </select>
                                 {errors.year && <span className="text-red-500">{errors.year.message}</span>}
-                                <button className="p-3 bg-orange-500 rounded-md mt-2 w-full" type="submit" name="year" value="year" disabled={loadingBestSelling}>
-                                    {loadingBestSelling ? <CircularProgress size={24} /> : 'Tìm kiếm'}
+                                <button className="p-3 bg-orange-500 rounded-md mt-2 w-full" type="submit" name="year" value="year" disabled={loadingAcc}>
+                                    {loadingAcc ? <CircularProgress size={24} /> : 'Tìm kiếm'}
                                 </button>
                             </div>
                         )}
@@ -156,8 +156,8 @@ const StaticForm = ({ onSubmit }: StaticProps) => {
                                         {errors.endDate && <span className="text-red-500">{errors.endDate.message}</span>}
                                     </div>
                                 </div>
-                                <button className="p-3 bg-orange-500 rounded-md mt-2 w-full" type="submit" name="aboutTime" value="aboutTime" disabled={loadingBestSelling}>
-                                    {loadingBestSelling ? <CircularProgress size={24} /> : 'Tìm kiếm'}
+                                <button className="p-3 bg-orange-500 rounded-md mt-2 w-full" type="submit" name="aboutTime" value="aboutTime" disabled={loadingAcc}>
+                                    {loadingAcc ? <CircularProgress size={24} /> : 'Tìm kiếm'}
                                 </button>
                             </div>
                         )}

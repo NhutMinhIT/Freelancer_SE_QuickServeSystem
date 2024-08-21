@@ -14,12 +14,6 @@ const listMenu = {
             title: 'QL. Tài Khoản',
             url: '/account-management',
             icon: adminIcon,
-            subAdminMenu: [
-                {
-                    title: 'Ds. Tài khoản',
-                    url: '/account-management',
-                },
-            ],
         },
         {
             title: 'QL. Cửa Hàng',
@@ -30,18 +24,6 @@ const listMenu = {
             title: 'QL. Báo Cáo',
             url: '/admin-revenue-report',
             icon: adminReportIcon,
-            // subAdminMenu: [
-            //     {
-            //         title: 'Doanh thu',
-            //         url: '/admin-revenue-report',
-            //         icon: chartRevenueIcon,
-            //     },
-            //     {
-            //         title: 'Phản hồi',
-            //         url: '/admin-feedback',
-            //         icon: feedbackIcon,
-            //     },
-            // ],
         },
     ],
     storeManagementMenu: [

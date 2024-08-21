@@ -6,6 +6,7 @@ import { getAccountReportEndpoint, getBestSellingReportOfBrandEndpoint, getBestS
 type RevenueState = {
     loading: boolean;
     loadingBestSelling: boolean;
+    loadingAcc: boolean;
     revenueOfStore: IRevenueOfStore | null;
     bestSellingOfStore: IBestSellingOfStore | null;
     bestSellingOfBrand: IBestSellingOfBrand | null;
@@ -18,6 +19,7 @@ type RevenueState = {
 const initialState: RevenueState = {
     loading: false,
     loadingBestSelling: false,
+    loadingAcc: false,
     revenueOfStore: null,
     bestSellingOfStore: null,
     bestSellingOfBrand: null,
@@ -193,14 +195,14 @@ export const revenueSlice = createSlice({
             state.error = action.payload as string[];
         });
         builder.addCase(getAccountStatic.pending, (state) => {
-            state.loading = true;
+            state.loadingAcc = true;
         });
         builder.addCase(getAccountStatic.fulfilled, (state, action) => {
-            state.loading = false;
+            state.loadingAcc = false;
             state.accountStatics = action.payload;
         });
         builder.addCase(getAccountStatic.rejected, (state, action) => {
-            state.loading = false;
+            state.loadingAcc = false;
             state.error = action.payload as string[];
         });
     }
