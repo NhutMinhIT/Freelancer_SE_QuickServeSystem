@@ -17,6 +17,7 @@ type FormCreateIngredientValues = {
     name: string;
     price: number;
     defaultQuantity: number; // Ensure `calo` is a number
+    quantityMax: number; // Ensure `calo` is a number
     calo: number; // Ensure `calo` is a number
     description: string;
     image: FileList // Ensure `image` is lowercase to match schema
@@ -54,6 +55,7 @@ const PopupCreateIngredient: React.FC<PopupCreateIngredientProps> = ({
         formData.append('name', data.name);
         formData.append('price', data.price.toString());
         formData.append('defaultQuantity', data.defaultQuantity.toString());
+        formData.append('quantityMax', data.quantityMax.toString());
         formData.append('calo', data.calo.toString());
         formData.append('description', data.description);
         if (data.image && data.image.length > 0) {
@@ -172,6 +174,19 @@ const PopupCreateIngredient: React.FC<PopupCreateIngredientProps> = ({
                                 </select>
                                 {errors.ingredientTypeId && <p className='text-red-500 text-xs mt-2'>* {errors.ingredientTypeId.message}</p>}
                             </div>
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="quantityMax" className="block text-sm font-medium text-gray-700">Số lượng tối đa</label>
+                            <input
+                                {...register('quantityMax')}
+                                type="number"
+                                min={0}
+                                name="quantityMax"
+                                required
+                                id="quantityMax"
+                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                            />
+                            {errors.quantityMax && <p className='text-red-500 text-xs mt-2'>* {errors.quantityMax.message}</p>}
                         </div>
                         <div className="mb-4">
                             <label htmlFor="description" className="block text-sm font-medium text-gray-700">Mô tả nguyên liệu</label>
