@@ -36,6 +36,7 @@ export interface IIngredientCreate {
     name: string;
     price: number;
     defaultQuantity: number;
+    quantityMax: number;
     calo: number;
     description: string;
     image: File;
@@ -47,6 +48,7 @@ export interface IIngredientUpdate {
     price: number;
     calo: number;
     description: string;
+    quantityMax: number;
     ingredientTypeId: number;
 }
 

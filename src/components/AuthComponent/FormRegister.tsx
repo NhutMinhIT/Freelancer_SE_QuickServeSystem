@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
-import { useAppDispatch } from "../../services/store/store";
+import { useAppDispatch, useAppSelector } from "../../services/store/store";
 import { useForm } from "react-hook-form";
 import { registerAccountByAdmin, setError } from "../../services/features/authSlice";
+import { getAllStore } from "../../services/features/storeSlice";
 
 type FormRegisterProps = {
     email: string,
     username: string,
+    name: string,
     role: string,
     password: string,
     confirmPassword: string
+    storeId: string
 }
 
 const FormRegister = () => {
@@ -16,6 +19,13 @@ const FormRegister = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPass, setShowConfirmPass] = useState(false);
+    const [showStore, setShowStore] = useState(false);
+
+    const { stores } = useAppSelector(state => state.stores)
+
+    useEffect(() => {
+        dispatch(getAllStore());
+    }, [dispatch])
 
     const handleShowPass = () => {
         setShowPassword(!showPassword);
@@ -36,18 +46,29 @@ const FormRegister = () => {
     const { register, handleSubmit, formState, reset, watch } = form;
     const { errors } = formState;
     const password = watch('password');
+    const role = watch('role');
+
+    useEffect(() => {
+        if(role === 'Store_Manager') {
+            setShowStore(true)
+        }else{
+            setShowStore(false)
+        }
+    }, [role])
 
     const onSubmit = (data: FormRegisterProps) => {
         setIsLoading(true);
         dispatch(registerAccountByAdmin(data))
             .unwrap()
-            .then(() => {
+            .then(() => {                
                 reset({
                     email: '',
                     username: '',
                     role: '',
                     password: '',
-                    confirmPassword: ''
+                    confirmPassword: '',
+                    storeId: '',
+                    name: ''
                 });
                 setIsLoading(false);
             })
@@ -76,9 +97,6 @@ const FormRegister = () => {
                             type="email" name="email" required placeholder="Nhập Email Của Nhân Viên...."
                             className='mt-2 p-2 border-2 border-orange-400 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 w-full' />
                     </div>
-                </div>
-
-                <div className='flex flex-col md:flex-row md:gap-12'>
                     <div className='mb-6 md:w-1/3'>
                         <div className="flex">
                             <label htmlFor="username" className='text-base font-semibold'>Tên đăng nhập: </label>
@@ -86,6 +104,17 @@ const FormRegister = () => {
                         </div>
                         <input {...register('username', { required: 'Bạn Chưa Nhập Tên' })}
                             type="text" required name="username" placeholder="Tên đăng nhập...."
+                            className='mt-2 p-2 border-2 border-orange-400 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 w-full' />
+                    </div>
+                </div>
+                <div className='flex flex-col md:flex-row md:gap-12'>
+                    <div className='mb-6 md:w-1/3'>
+                        <div className="flex">
+                            <label htmlFor="name" className='text-base font-semibold'>Tên </label>
+                            {errors.name && <p className='text-sm text-red-500'>* {errors.name.message}</p>}
+                        </div>
+                        <input {...register('name', { required: 'Bạn Chưa Nhập Tên' })}
+                            type="text" required name="name" placeholder="Tên...."
                             className='mt-2 p-2 border-2 border-orange-400 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 w-full' />
                     </div>
                     <div className='mb-6 md:w-1/3'>
@@ -102,6 +131,29 @@ const FormRegister = () => {
                             <option value="Brand_Manager">Brand</option>
                         </select>
                     </div>
+                </div>
+
+
+                <div className='flex flex-col md:flex-row md:gap-12'>
+                    
+                    
+                    {showStore && (
+                         <div className='mb-6 md:w-1/3'>
+                         <div className="flex">
+                             <label htmlFor="role" className='text-base font-semibold'>Cửa hàng: </label>
+                             {errors.role && <p className='text-sm text-red-500'>* {errors.role.message}</p>}
+                         </div>
+                         <select {...register('storeId', { required: 'Bạn Chưa Chọn Cửa hàng' })}
+                             name="storeId" required
+                             className='mt-2 p-2 border-2 border-orange-400 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 w-full'
+                        >        
+                            <option value="" disabled selected>- - Chọn - - </option>
+                            {stores && stores.map((store) => (
+                                <option value={store.id}>{store.name}</option>
+                            ))}
+                         </select>
+                     </div>
+                    )}
                 </div>
                 <div className='flex flex-col md:flex-row md:gap-12'>
                     <div className='mb-6 md:w-1/3'>

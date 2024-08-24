@@ -43,11 +43,16 @@ const descriptionSchema = yup.string()
 
 const ingredientTypeIdSchema = yup.number()
     .required('Loại nguyên liệu không được bỏ trống');
+    
+
+const quantityMaxSchema = yup.number()
+    .required('Số lượng tối đa không được bỏ trống');
 
 export const schemaCreateIngredient = yup.object().shape({
     name: nameSchema,
     price: priceSchema,
     defaultQuantity: defaultQuantitySchema,
+    quantityMax: quantityMaxSchema,
     calo: caloSchema,
     description: descriptionSchema,
     image: yup.mixed().required('Hình ảnh không được bỏ trống'),
@@ -58,6 +63,7 @@ export const schemaUpdateIngredient = yup.object().shape({
     name: nameSchema,
     price: priceSchema,
     defaultQuantity: defaultQuantitySchema,
+    quantityMax: quantityMaxSchema,
     calo: caloSchema,
     description: descriptionSchema,
     image: yup.mixed(),

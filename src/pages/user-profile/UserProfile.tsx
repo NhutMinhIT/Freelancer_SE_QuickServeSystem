@@ -3,16 +3,9 @@ import SidebarComponent from "../../components/ManagementComponent/SidebarCompon
 import UserInformation from "../../components/UserProfileComponent/UserInformation"
 import { Link } from "react-router-dom"
 import { useAppSelector } from "../../services/store/store"
-// import { useEffect } from "react"
-// import { getUserById } from "../../services/features/userSlice"
 
 const UserProfile = () => {
-    // const dispatch = useAppDispatch()
     const { account } = useAppSelector((state: any) => state.account)
-
-    // useEffect(() => {
-    //     dispatch(getUserById({ id: account.id }))
-    // }, [account.id, dispatch])
 
     return (
 
@@ -39,7 +32,6 @@ const UserProfile = () => {
                     </div>
                     <div>
                         <UserInformation
-                            // userId={user?.id}
                             username={account.userName}
                             email={account?.email}
                             role={account?.roles}
@@ -47,7 +39,6 @@ const UserProfile = () => {
                             name={account?.name}
                             address={account?.address}
                             avatar={account?.avatar}
-                            created={account?.created}
                         />
                     </div>
                 </div>

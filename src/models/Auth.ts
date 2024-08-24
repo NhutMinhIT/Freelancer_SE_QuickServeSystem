@@ -22,5 +22,7 @@ export interface IRegister {
     email: string;
     password: string;
     userName: string;
+    name: string;
     role: string;
+    storeId: string;
 }
