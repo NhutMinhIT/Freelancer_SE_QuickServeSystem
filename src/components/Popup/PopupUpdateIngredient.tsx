@@ -18,6 +18,8 @@ type FormUpdateIngredientValues = {
     name: string;
     price: number;
     calo: number;
+    defaultQuantity: number
+    quantityMax: number;
     description: string;
     ingredientTypeId: number;
 }
@@ -28,7 +30,7 @@ const PopupUpdateIngredient: React.FC<PopupUpdateIngredientProps> = ({
     onClosePopupDetail,
 }) => {
     const dispatch = useAppDispatch();
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);    
 
     const { ingredientTypes } = useAppSelector((state) => state.ingredientTypes);
     const ingredientData = useAppSelector((state) => state.ingredients.ingredient);
@@ -51,13 +53,16 @@ const PopupUpdateIngredient: React.FC<PopupUpdateIngredientProps> = ({
             setValue('name', ingredientData?.name);
             setValue('price', ingredientData?.price);
             setValue('calo', ingredientData?.calo);
+            setValue('defaultQuantity', ingredientData?.defaultQuantity);
+            setValue('quantityMax', ingredientData?.quantityMax);
             setValue('description', ingredientData?.description);
             setValue('ingredientTypeId', ingredientData?.ingredientTypeId);
         }
     }, [ingredientData, setValue])
 
     const onSubmit = (data: FormUpdateIngredientValues) => {
-        setIsLoading(true);
+        setIsLoading(true);        
+        console.log(data);
 
         dispatch(updateIngredientById({ id: ingredientData?.id as number, data }))
             .unwrap()
@@ -120,6 +125,30 @@ const PopupUpdateIngredient: React.FC<PopupUpdateIngredientProps> = ({
                                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
                             />
                             {errors.calo && <p className='text-red-500 text-xs mt-2'>* {errors.calo.message}</p>}
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="defaultQuantity" className="block text-sm font-medium text-gray-700">Số lượng mặc định</label>
+                            <input
+                                {...register('defaultQuantity')}
+                                type="number"
+                                name="defaultQuantity"
+                                id="defaultQuantity"
+                                required
+                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                            />
+                            {errors.defaultQuantity && <p className='text-red-500 text-xs mt-2'>* {errors.defaultQuantity.message}</p>}
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="quantityMax" className="block text-sm font-medium text-gray-700">Số lượng tối đa</label>
+                            <input
+                                {...register('quantityMax')}
+                                type="number"
+                                name="quantityMax"
+                                id="quantityMax"
+                                required
+                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                            />
+                            {errors.quantityMax && <p className='text-red-500 text-xs mt-2'>* {errors.quantityMax.message}</p>}
                         </div>
                         <div className="mb-4">
                             <label htmlFor="description" className="block text-sm font-medium text-gray-700">Mô tả nguyên liệu</label>
