@@ -17,6 +17,8 @@ export interface IIngredient {
     imageUrl: string;
     ingredientTypeId: number;
     status: number;
+    defaultQuantity: number;
+    quantityMax: number;
     ingredientType: IIngredientType;
     createdBy: string;
     created: Date | string;
@@ -52,7 +54,7 @@ export interface IIngredientUpdate {
     ingredientTypeId: number;
 }
 
-export interface IIngredientSold{
+export interface IIngredientSold {
     id: number
     name: string;
     urlImage: string;

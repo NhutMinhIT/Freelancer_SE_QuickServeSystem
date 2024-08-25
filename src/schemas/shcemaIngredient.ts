@@ -20,7 +20,6 @@ const priceSchema = yup.number()
 
 const defaultQuantitySchema = yup.number()
     .required('Số lượng không được bỏ trống')
-    .positive('Số lượng phải là số dương')
     .max(999999999, 'Số lượng không được lớn hơn 9 chữ số');
 
 const caloSchema = yup.number()
@@ -43,7 +42,7 @@ const descriptionSchema = yup.string()
 
 const ingredientTypeIdSchema = yup.number()
     .required('Loại nguyên liệu không được bỏ trống');
-    
+
 
 const quantityMaxSchema = yup.number()
     .required('Số lượng tối đa không được bỏ trống');
