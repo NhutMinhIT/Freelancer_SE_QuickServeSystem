@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from "../../../services/store/store";
 import { getIngredientSessionBySessionId, updateIngredientSession } from "../../../services/features/ingredientSessionSlice";
 import { schemaUpdateIngredientSession } from "../../../schemas/schemaCreateIngredientSession";
 import { Grid } from "@mui/material";
+import Select, { SingleValue } from 'react-select';
 
 type PopupUpdateIngredientSessionProps = {
     sessionId: number;
@@ -21,6 +22,11 @@ type FormUpdateIngredientSessionStepValues = {
     }[];
 };
 
+type IngredientOption = {
+    value: number;
+    label: string;
+};
+
 const PopupUpdateIngredientSession = ({
     sessionId,
     isPopupOpen,
@@ -29,8 +35,8 @@ const PopupUpdateIngredientSession = ({
     const dispatch = useAppDispatch();
     const [isLoading, setIsLoading] = useState(false);
 
-    const ingredientsActive = useAppSelector((state)=> state.ingredients.ingredientsActive);
-    const ingredientSessionById = useAppSelector(state =>state.ingredientSession.ingredientSessionById)
+    const ingredientsActive = useAppSelector((state) => state.ingredients.ingredientsActive);
+    const ingredientSessionById = useAppSelector(state => state.ingredientSession.ingredientSessionById)
 
     const {
         register,
@@ -59,10 +65,10 @@ const PopupUpdateIngredientSession = ({
         }
     }, [ingredientSessionById, reset, sessionId]);
 
-    useEffect(()=> {
-        if(ingredientSessionById?.ingredients && ingredientSessionById?.ingredients.length !== 0){
+    useEffect(() => {
+        if (ingredientSessionById?.ingredients && ingredientSessionById?.ingredients.length !== 0) {
             ingredientSessionById?.ingredients.forEach((ingredient, index) => {
-                if(!fields[index]){
+                if (!fields[index]) {
                     append({
                         id: 0,
                         quantity: 0,
@@ -80,10 +86,10 @@ const PopupUpdateIngredientSession = ({
 
     const onSubmit = (data: FormUpdateIngredientSessionStepValues) => {
         setIsLoading(true);
-        dispatch(updateIngredientSession({sessionId, data}))
+        dispatch(updateIngredientSession({ sessionId, data }))
             .unwrap()
             .then(() => {
-                dispatch(getIngredientSessionBySessionId({sessionId: sessionId}));
+                dispatch(getIngredientSessionBySessionId({ sessionId: sessionId }));
                 closePopup();
             })
             .catch((error) => console.log(error))
@@ -117,7 +123,7 @@ const PopupUpdateIngredientSession = ({
                                         <label
                                             htmlFor="id"
                                             className="block w-full px-3 py-2 sm:text-sm"
-                                            >
+                                        >
                                             Nguyên Liệu
                                         </label>
                                     </Grid>
@@ -125,54 +131,55 @@ const PopupUpdateIngredientSession = ({
                                         <label
                                             htmlFor="quantity"
                                             className="block w-full px-3 py-2 sm:text-sm"
-                                            >
+                                        >
                                             Số lượng
                                         </label>
                                     </Grid>
                                     <Grid item md={1} xs={1} xl={1} lg={1} />
                                 </Grid>
                                 <div className="overflow-y-auto h-80">
-                                <Grid container >
-                                    {fields.map((field, index) => (
-                                    <Grid container key={field.id} rowSpacing={2} columnSpacing={2} sx={{marginBottom: 2}}>
-                                        <Grid item md={9} xs={9} xl={9} lg={9} rowSpacing={2} columnSpacing={2}>
-                                            <select
-                                                {...register(`ingredients.${index}.id`)}
-                                                className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
-                                            >
-                                                <option value="0">Chọn nguyên liệu</option>
-                                                {ingredientsActive && ingredientsActive.map((ingredient) => (
-                                                    <option key={ingredient.id} value={ingredient.id}>
-                                                        {ingredient.name}
-                                                    </option>
-                                                ))}
-                                            </select>
-                                        </Grid>
-                                        <Grid item md={2} xs={2} xl={2} lg={2} rowSpacing={2} columnSpacing={2}>
-                                            <input
-                                                {...register(`ingredients.${index}.quantity`)}
-                                                type="number"
-                                                min={1}
-                                                placeholder="Min"
-                                                className="w-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
-                                            />
-                                           
-                                        </Grid>
-                                        {fields.length === 1 ? '' : (
-                                            <Grid item md={1} xs={1} xl={1} lg={1} alignSelf="center">
-                                            <button
-                                                    type="button"
-                                                    onClick={() => handleRemove(index)}
-                                                    className="text-red-500 hover:text-red-700"
-                                                >
-                                                    <XMarkIcon width={24} height={24} />
-                                                </button>
+                                    <Grid container >
+                                        {fields.map((field, index) => (
+                                            <Grid container key={field.id} rowSpacing={2} columnSpacing={2} sx={{ marginBottom: 2 }}>
+                                                <Grid item md={9} xs={9} xl={9} lg={9} rowSpacing={2} columnSpacing={2}>
+                                                    <Select
+                                                        options={ingredientsActive?.map(ingredient => ({
+                                                            value: ingredient.id,
+                                                            label: ingredient.name,
+                                                        })) as IngredientOption[]}
+                                                        onChange={(selectedOption: SingleValue<IngredientOption>) =>
+                                                            setValue(`ingredients.${index}.id`, selectedOption?.value ?? 0)
+                                                        }
+                                                        defaultValue={{
+                                                            value: field.id,
+                                                            label: ingredientsActive?.find(ingredient => ingredient.id === field.id)?.name || "Chọn nguyên liệu",
+                                                        }}
+                                                    />
+                                                </Grid>
+                                                <Grid item md={2} xs={2} xl={2} lg={2} rowSpacing={2} columnSpacing={2}>
+                                                    <input
+                                                        {...register(`ingredients.${index}.quantity`)}
+                                                        type="number"
+                                                        min={1}
+                                                        placeholder="Min"
+                                                        className="w-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                                                    />
+                                                </Grid>
+                                                {fields.length > 1 && (
+                                                    <Grid item md={1} xs={1} xl={1} lg={1} alignSelf="center">
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => handleRemove(index)}
+                                                            className="text-red-500 hover:text-red-700"
+                                                        >
+                                                            <XMarkIcon width={24} height={24} />
+                                                        </button>
+                                                    </Grid>
+                                                )}
                                             </Grid>
-                                        )}
-                                        </Grid>
-                                    ))}
-                                </Grid>
-                            </div>
+                                        ))}
+                                    </Grid>
+                                </div>
                             </div>
                             <div className="flex justify-between mt-4">
                                 <button
