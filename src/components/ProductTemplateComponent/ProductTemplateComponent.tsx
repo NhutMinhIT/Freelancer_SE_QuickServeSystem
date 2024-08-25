@@ -13,6 +13,10 @@ import PopupCheck from '../Popup/PopupCheck';
 import PopupChangeImageProductTemplate from '../Popup/PopupChangeImageProductTemplate';
 import PopupUpdateProductTemplate from '../Popup/PopupUpdateProductTemplate';
 
+// Truncate the code by creating a reusable component
+const truncateDescription = (description: string) => {
+    return description.length > 35 ? description.substring(0, 35) + '...' : description;
+};
 const columns: MRT_ColumnDef<IProductTemplate>[] = [
     {
         accessorKey: 'categoryId',
@@ -49,7 +53,8 @@ const columns: MRT_ColumnDef<IProductTemplate>[] = [
     },
     {
         accessorKey: 'description',
-        header: 'Mô tả'
+        header: 'Mô tả',
+        Cell: ({ cell }) => truncateDescription(cell.getValue<string>()),
     },
     {
         accessorKey: 'created',

@@ -11,6 +11,11 @@ import PopupUpdateNutrition from "./nutrition-popup/PopupUpdateInfoNutrition"
 import PopupCreateNutrition from "./nutrition-popup/PopupCreateNutrition"
 import PopupCheck from "../Popup/PopupCheck"
 
+// Truncate the code by creating a reusable component
+const truncateDescription = (description: string) => {
+    return description.length > 35 ? description.substring(0, 35) + '...' : description;
+};
+
 const columns: MRT_ColumnDef<INutrition>[] = [
     {
         accessorKey: 'name',
@@ -27,6 +32,7 @@ const columns: MRT_ColumnDef<INutrition>[] = [
     {
         accessorKey: 'description',
         header: 'Mô tả',
+        Cell: ({ cell }) => truncateDescription(cell.getValue<string>()),
     },
     {
         accessorKey: 'status',
