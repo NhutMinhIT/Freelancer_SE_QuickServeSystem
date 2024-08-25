@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from "../../../services/store/store";
 import { createIngredientSession, getIngredientSessionBySessionId } from "../../../services/features/ingredientSessionSlice";
 import { schemaCreateIngredientSession } from "../../../schemas/schemaCreateIngredientSession";
 import { Grid } from "@mui/material";
+import Select, { SingleValue } from 'react-select';
 
 type PopupCreateIngredientSessionProps = {
     sessionId: number;
@@ -20,6 +21,11 @@ type FormCreateIngredientSessionStepValues = {
         quantity: number;
     }[];
 };
+type IngredientOption = {
+    value: number;
+    label: string;
+};
+
 
 const PopupCreateIngredientSession = ({
     sessionId,
@@ -36,6 +42,7 @@ const PopupCreateIngredientSession = ({
         handleSubmit,
         control,
         reset,
+        setValue,
     } = useForm<FormCreateIngredientSessionStepValues>({
         resolver: yupResolver(schemaCreateIngredientSession),
         defaultValues: {
@@ -106,17 +113,19 @@ const PopupCreateIngredientSession = ({
                                         {fields.map((field, index) => (
                                             <Grid container key={field.id} rowSpacing={2} columnSpacing={2} sx={{ marginBottom: 2 }}>
                                                 <Grid item md={9} xs={9} xl={9} lg={9} rowSpacing={2} columnSpacing={2}>
-                                                    <select
-                                                        {...register(`ingredients.${index}.id`)}
-                                                        className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
-                                                    >
-                                                        <option value="0">Chọn nguyên liệu</option>
-                                                        {ingredientsActive && ingredientsActive.map((ingredient) => (
-                                                            <option key={ingredient.id} value={ingredient.id}>
-                                                                {ingredient.name}
-                                                            </option>
-                                                        ))}
-                                                    </select>
+                                                    <Select
+                                                        options={ingredientsActive?.map(ingredient => ({
+                                                            value: ingredient.id,
+                                                            label: ingredient.name,
+                                                        })) as IngredientOption[]}
+                                                        onChange={(selectedOption: SingleValue<IngredientOption>) =>
+                                                            setValue(`ingredients.${index}.id`, selectedOption?.value ?? 0)
+                                                        }
+                                                        defaultValue={{
+                                                            value: field.id,
+                                                            label: ingredientsActive?.find(ingredient => ingredient.id === field.id)?.name || "Chọn nguyên liệu",
+                                                        }}
+                                                    />
                                                 </Grid>
                                                 <Grid item md={2} xs={2} xl={2} lg={2} rowSpacing={2} columnSpacing={2}>
                                                     <input

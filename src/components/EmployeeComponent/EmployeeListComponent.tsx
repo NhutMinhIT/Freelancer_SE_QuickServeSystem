@@ -11,14 +11,14 @@ import PopupEmployeeDetail from '../Popup/PopupEmployeeDetail';
 
 const rolesSelect = [
     {
-      value: "Staff",
-      name: 'Nhân viên'
+        value: "Staff",
+        name: 'Nhân viên'
     },
     {
-      value: "Store_Manager",
-      name: 'QL. Cửa hàng'
+        value: "Store_Manager",
+        name: 'QL. Cửa hàng'
     },
-  ]
+]
 
 const columns: MRT_ColumnDef<IEmployee>[] = [
     {
@@ -72,27 +72,27 @@ const EmployeeListComponent = () => {
 
     useEffect(() => {
         dispatch(getAllEmployees(filterConfig));
-      }, [dispatch, filterConfig]);
-    
-      const handleShowDetail = (user: IEmployee) => {
+    }, [dispatch, filterConfig]);
+
+    const handleShowDetail = (user: IEmployee) => {
         setEmployeeData(user);
         setOnPopupDetail(true);
-      };
+    };
 
-      const handleFilterChange = (key: keyof FilterConfig, value: string | number) => {
+    const handleFilterChange = (key: keyof FilterConfig, value: string | number) => {
         dispatch(setFilterConfig({ ...filterConfig, [key]: value }));
-      };
-    
-      const handlePageChange = (newPageIndex: number) => {
+    };
+
+    const handlePageChange = (newPageIndex: number) => {
         dispatch(setFilterConfig({
-          ...filterConfig,
-          pageNumber: newPageIndex + 1,
+            ...filterConfig,
+            pageNumber: newPageIndex + 1,
         }));
         dispatch(getAllEmployees({
-          ...filterConfig,
-          pageNumber: newPageIndex + 1,
+            ...filterConfig,
+            pageNumber: newPageIndex + 1,
         }));
-      };
+    };
 
 
     const handlePopupOpen = () => {
