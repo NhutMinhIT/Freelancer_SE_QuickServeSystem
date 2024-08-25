@@ -67,9 +67,17 @@ const PaymentStoreComponent = () => {
       Cell: ({ cell }) => {
         const status = cell.row.original.status;
         if (status === 1) {
-          return <span style={{ color: 'green', fontWeight: "bold" }}>Thành công</span>;
-        } else {
-          return <span style={{ color: 'red', fontWeight: "bold" }}>Thất bại</span>;
+          return <span style={{ color: '#e5af08', fontWeight: "bold" }}>Đang chờ</span>;
+        } else if (status === 2) {
+          return <span style={{ color: '#22c55e', fontWeight: "bold" }}>Đã thanh toán</span>;
+        } else if (status === 3) {
+          return <span style={{ color: '#ed8936', fontWeight: "bold" }}>Đang chuẩn bị</span>;
+        } else if (status === 4) {
+          return <span style={{ color: '#22c55e', fontWeight: "bold" }}>Thành công</span>;
+        } else if (status === 5) {
+          return <span style={{ color: '#f56565', fontWeight: "bold" }}>Thất bại</span>;
+        } else if (status === 6) {
+          return <span style={{ color: '#f56565', fontWeight: "bold" }}>Đã hủy</span>;
         }
       },
     },
