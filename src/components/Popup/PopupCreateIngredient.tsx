@@ -122,7 +122,7 @@ const PopupCreateIngredient: React.FC<PopupCreateIngredientProps> = ({
                             </div>
 
                             <div className="mb-4 w-80">
-                                <label htmlFor="defaultQuantity" className="block text-sm font-medium text-gray-700">Số lượng nguyên liệu</label>
+                                <label htmlFor="defaultQuantity" className="block text-sm font-medium text-gray-700">Số lượng mặc định</label>
                                 <input
                                     {...register('defaultQuantity')}
                                     type="number"
