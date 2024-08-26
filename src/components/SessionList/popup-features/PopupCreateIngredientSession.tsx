@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { useForm, useFieldArray } from "react-hook-form";
+import { useForm, useFieldArray, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { XMarkIcon } from "@heroicons/react/16/solid";
 import { useAppDispatch, useAppSelector } from "../../../services/store/store";
 import { createIngredientSession, getIngredientSessionBySessionId } from "../../../services/features/ingredientSessionSlice";
 import { schemaCreateIngredientSession } from "../../../schemas/schemaCreateIngredientSession";
 import { Grid } from "@mui/material";
-import Select, { SingleValue } from 'react-select';
+import Select from 'react-select';
 
 type PopupCreateIngredientSessionProps = {
     sessionId: number;
@@ -42,7 +42,6 @@ const PopupCreateIngredientSession = ({
         handleSubmit,
         control,
         reset,
-        setValue,
     } = useForm<FormCreateIngredientSessionStepValues>({
         resolver: yupResolver(schemaCreateIngredientSession),
         defaultValues: {
@@ -113,18 +112,31 @@ const PopupCreateIngredientSession = ({
                                         {fields.map((field, index) => (
                                             <Grid container key={field.id} rowSpacing={2} columnSpacing={2} sx={{ marginBottom: 2 }}>
                                                 <Grid item md={9} xs={9} xl={9} lg={9} rowSpacing={2} columnSpacing={2}>
-                                                    <Select
-                                                        options={ingredientsActive?.map(ingredient => ({
-                                                            value: ingredient.id,
-                                                            label: ingredient.name,
-                                                        })) as IngredientOption[]}
-                                                        onChange={(selectedOption: SingleValue<IngredientOption>) =>
-                                                            setValue(`ingredients.${index}.id`, selectedOption?.value ?? 0)
-                                                        }
-                                                        defaultValue={{
-                                                            value: field.id,
-                                                            label: ingredientsActive?.find(ingredient => ingredient.id === field.id)?.name || "Chọn nguyên liệu",
-                                                        }}
+                                                    <Controller
+                                                        name={`ingredients.${index}.id`}
+                                                        control={control}
+                                                        render={({ field }) => (
+                                                            <Select
+                                                                {...field}
+                                                                options={ingredientsActive?.map((ingredient) => ({
+                                                                    value: ingredient.id,
+                                                                    label: ingredient.name,
+                                                                })) as IngredientOption[]}
+                                                                onChange={(newValue) => {
+                                                                    field.onChange(newValue?.value);
+                                                                }}
+                                                                value={
+                                                                    ingredientsActive?.find((ingredient) => ingredient.id === field.value)
+                                                                        ? {
+                                                                            value: field.value,
+                                                                            label: ingredientsActive.find(
+                                                                                (ingredient) => ingredient.id === field.value
+                                                                            )?.name,
+                                                                        }
+                                                                        : null
+                                                                }
+                                                            />
+                                                        )}
                                                     />
                                                 </Grid>
                                                 <Grid item md={2} xs={2} xl={2} lg={2} rowSpacing={2} columnSpacing={2}>
