@@ -73,7 +73,7 @@ const listMenu = {
                 }],
         },
         {
-            title: 'QL. Phân Loại',
+            title: 'QL. Danh Mục',
             url: '/brand-category',
             icon: feedbackIcon,
         },
