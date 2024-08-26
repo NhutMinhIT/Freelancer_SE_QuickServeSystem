@@ -71,7 +71,7 @@ const PopupCreateIngredientSession = ({
     return (
         isPopupOpen && (
             <div className="fixed inset-0 flex items-center justify-center z-50 bg-gray-900 bg-opacity-50">
-                <div className="relative p-6 bg-white-500 border rounded-lg shadow-lg w-full max-w-3xl">
+                <div className="relative p-6 bg-white-500 border rounded-lg shadow-lg w-full max-w-4xl">
                     <button
                         onClick={closePopup}
                         className="absolute top-2 right-2 text-gray-600 hover:text-gray-900"
