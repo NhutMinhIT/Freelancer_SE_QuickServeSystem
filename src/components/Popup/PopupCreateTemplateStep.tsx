@@ -5,6 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { schemaCreateTemplateStep } from "../../schemas/schemaCreateTemplateStep";
 import { createTemplateStep, getAllTemplateSteps } from "../../services/features/templateStepSlice";
 import { XMarkIcon } from "@heroicons/react/16/solid";
+import Select from 'react-select';
 
 type PopupCreateTemplateStepProps = {
     productTemplateId: number;
@@ -35,6 +36,7 @@ const PopupCreateTemplateStep = ({
         handleSubmit,
         control,
         reset,
+        setValue,
         formState: { errors },
     } = useForm<FormCreateTemplateStepValues>({
         resolver: yupResolver(schemaCreateTemplateStep),
@@ -49,6 +51,10 @@ const PopupCreateTemplateStep = ({
         control,
         name: "ingredientTypes",
     });
+
+    const handleIngredientTypeChange = (index: number, selectedOption: any) => {
+        setValue(`ingredientTypes.${index}.ingredientTypeId`, selectedOption ? selectedOption.value : '');
+    };
 
     const onSubmit = (data: FormCreateTemplateStepValues) => {
         setIsLoading(true);
@@ -99,31 +105,26 @@ const PopupCreateTemplateStep = ({
                                 )}
                             </div>
                             <div className="mb-4">
-                                <label
-                                    htmlFor="ingredientTypes"
-                                    className="block text-sm font-medium text-gray-700"
-                                >
-                                    Loại Nguyên Liệu
-                                </label>
+                            <label htmlFor="ingredientTypeId" className="block text-sm font-medium text-gray-700">Loại nguyên liệu</label>
                                 <div className="space-y-4">
                                     {fields.map((field, index) => (
                                         <div key={field.id} className="flex space-x-4 items-center">
-                                            <select
-                                                {...register(`ingredientTypes.${index}.ingredientTypeId`)}
-                                                className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
-                                            >
-                                                <option value="0">Chọn loại nguyên liệu</option>
-                                                {ingredientTypes && ingredientTypes.map((ingredientType) => (
-                                                    <option key={ingredientType.id} value={ingredientType.id}>
-                                                        {ingredientType.name}
-                                                    </option>
-                                                ))}
-                                            </select>
+                                            <Select
+                    id={`ingredientTypeId-${index}`}
+                    name={`ingredientTypes[${index}].ingredientTypeId`}
+                    options={ingredientTypes?.map((type) => ({
+                        value: type.id,
+                        label: type.name,
+                    }))}
+                    onChange={(selectedOption) => handleIngredientTypeChange(index, selectedOption)}
+                    className="mt-1 block w-full rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                    placeholder="Chọn loại nguyên liệu"
+                />
                                             <label htmlFor={`ingredientTypes.${index}.quantityMin`}>Từ</label>
                                             <input
                                                 {...register(`ingredientTypes.${index}.quantityMin`)}
                                                 type="number"
-                                                min={1}
+                                                min={0}
                                                 placeholder="Min"
                                                 className="w-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
                                             />

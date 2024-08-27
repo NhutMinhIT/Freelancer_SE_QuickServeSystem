@@ -90,7 +90,7 @@ const PopupCreateIngredientType: React.FC<PopupCreateIngredientTypeProps> = ({
                       ></path>
                     </svg>
                   ) : (
-                    'Create'
+                    'Tạo'
                   )}
                 </button>
               </div>

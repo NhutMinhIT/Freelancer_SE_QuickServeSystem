@@ -7,6 +7,7 @@ import { IIngredientType } from "../../models/Ingredient";
 import { getAllIngredientTypes } from "../../services/features/ingredientTypeSlice";
 import { schemaCreateIngredient } from "../../schemas/shcemaIngredient";
 import { createIngredient, getAllIngredients } from "../../services/features/ingredientSlice";
+import Select from 'react-select';
 
 type PopupCreateIngredientProps = {
     isPopupOpen: boolean;
@@ -34,9 +35,15 @@ const PopupCreateIngredient: React.FC<PopupCreateIngredientProps> = ({
     const { ingredientTypes } = useAppSelector((state) => state.ingredientTypes);
     const [ingredientTypeData, setIngredientTypeData] = useState<IIngredientType[] | null>(null);
 
-    const { register, handleSubmit, reset, formState: { errors } } = useForm<FormCreateIngredientValues>({
+    const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm<FormCreateIngredientValues>({
         resolver: yupResolver(schemaCreateIngredient) as unknown as Resolver<FormCreateIngredientValues>,
     });
+    
+    console.log(ingredientTypeData);
+
+    const handleIngredientTypeChange = (selectedOption: any) => {
+        setValue('ingredientTypeId', selectedOption ? selectedOption.value : '');
+    };
 
     // Handle get IngredientType
     useEffect(() => {
@@ -161,17 +168,17 @@ const PopupCreateIngredient: React.FC<PopupCreateIngredientProps> = ({
                             </div>
                             <div className="mb-4 w-80">
                                 <label htmlFor="ingredientTypeId" className="block text-sm font-medium text-gray-700">Loại nguyên liệu</label>
-                                <select
-                                    {...register('ingredientTypeId')}
-                                    name="ingredientTypeId"
-                                    id="ingredientTypeId"
-                                    required
-                                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
-                                    <option value="">Chọn loại nguyên liệu</option>
-                                    {ingredientTypeData && ingredientTypeData.map((type) => (
-                                        <option key={type.id} value={type.id}>{type.name}</option>
-                                    ))}
-                                </select>
+                                <Select
+                                id="ingredientTypeId"
+                                name="ingredientTypeId"
+                                options={ingredientTypes?.map((type) => ({
+                                    value: type.id,
+                                    label: type.name,
+                                }))}
+                                onChange={handleIngredientTypeChange}
+                                className="mt-1 block w-full rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                                placeholder="Chọn loại nguyên liệu"
+                            />
                                 {errors.ingredientTypeId && <p className='text-red-500 text-xs mt-2'>* {errors.ingredientTypeId.message}</p>}
                             </div>
                         </div>
