@@ -5,6 +5,7 @@ export interface IBestSellingOfStore {
     startDate: Date;
     endDate: Date;
     bestSellingProductTemplates: IBestSellingProductTemplates[]
+    soldIngredients: IIngredientSold[]
 }
 export interface IBestSellingOfBrand {
     startDate: Date;

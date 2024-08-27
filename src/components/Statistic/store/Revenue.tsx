@@ -135,7 +135,16 @@ const Revenue = ({ onSubmit }: RevenueProps) => {
                                     <ArrowPathIcon className="h-8 w-8 bg-white-500 text-yellow-500 rounded-lg" />
                                 </div>
                                 <span className='text-gray-700 font-medium'>
-                                    Đơn hàng đang chờ: {orderPending}
+                                    Đơn hàng đang chờ thanh toán: {orderPending}
+                                </span>
+                            </div>
+
+                            <div className='flex flex-row items-center gap-4 mb-4'>
+                                <div className="relative">
+                                    <CurrencyDollarIcon className="h-8 w-8 bg-white-500 text-green-500 rounded-lg" />
+                                </div>
+                                <span className='text-gray-700 font-medium'>
+                                    Đơn hàng đã thanh toán: {orderPaided}
                                 </span>
                             </div>
 
@@ -153,16 +162,7 @@ const Revenue = ({ onSubmit }: RevenueProps) => {
                                     <CheckCircleIcon className="h-8 w-8 bg-white-500 text-green-500 rounded-lg" />
                                 </div>
                                 <span className='text-gray-700 font-medium'>
-                                    Đơn hàng thành công: {orderSuccess}
-                                </span>
-                            </div>
-
-                            <div className='flex flex-row items-center gap-4 mb-4'>
-                                <div className="relative">
-                                    <CurrencyDollarIcon className="h-8 w-8 bg-white-500 text-green-500 rounded-lg" />
-                                </div>
-                                <span className='text-gray-700 font-medium'>
-                                    Đơn hàng đã thanh toán: {orderPaided}
+                                    Đơn hàng hoàn thành: {orderSuccess}
                                 </span>
                             </div>
 
