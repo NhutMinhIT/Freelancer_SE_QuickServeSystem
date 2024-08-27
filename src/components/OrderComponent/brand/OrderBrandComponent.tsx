@@ -79,9 +79,15 @@ const OrderBrandComponent = () => {
                 } else if (status === 4) {
                     return <span style={{ color: '#22c55e', fontWeight: "bold" }}>Thành công</span>;
                 } else if (status === 5) {
-                    return <span style={{ color: '#f56565', fontWeight: "bold" }}>Thất bại</span>;
+                    return <span style={{ color: '#22c55e', fontWeight: "bold" }}>Đã được lấy</span>;
                 } else if (status === 6) {
                     return <span style={{ color: '#f56565', fontWeight: "bold" }}>Đã hủy</span>;
+                }
+                else if (status === 7) {
+                    return <span style={{ color: '#eb8334', fontWeight: "bold" }}>Đã hoàn tiền</span>;
+                }
+                else if (status === 8) {
+                    return <span style={{ color: '#f56565', fontWeight: "bold" }}>Thất bại</span>;
                 }
             },
         },
