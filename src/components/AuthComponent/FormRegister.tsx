@@ -49,9 +49,9 @@ const FormRegister = () => {
     const role = watch('role');
 
     useEffect(() => {
-        if(role === 'Store_Manager') {
+        if (role === 'Store_Manager') {
             setShowStore(true)
-        }else{
+        } else {
             setShowStore(false)
         }
     }, [role])
@@ -60,7 +60,7 @@ const FormRegister = () => {
         setIsLoading(true);
         dispatch(registerAccountByAdmin(data))
             .unwrap()
-            .then(() => {                
+            .then(() => {
                 reset({
                     email: '',
                     username: '',
@@ -99,7 +99,7 @@ const FormRegister = () => {
                     </div>
                     <div className='mb-6 md:w-1/3'>
                         <div className="flex">
-                            <label htmlFor="username" className='text-base font-semibold'>Tên đăng nhập: </label>
+                            <label htmlFor="username" className='text-base font-semibold'>Tên người dùng: </label>
                             {errors.username && <p className='text-sm text-red-500'>* {errors.username.message}</p>}
                         </div>
                         <input {...register('username', { required: 'Bạn Chưa Nhập Tên' })}
@@ -110,7 +110,7 @@ const FormRegister = () => {
                 <div className='flex flex-col md:flex-row md:gap-12'>
                     <div className='mb-6 md:w-1/3'>
                         <div className="flex">
-                            <label htmlFor="name" className='text-base font-semibold'>Tên </label>
+                            <label htmlFor="name" className='text-base font-semibold'>Họ và Tên </label>
                             {errors.name && <p className='text-sm text-red-500'>* {errors.name.message}</p>}
                         </div>
                         <input {...register('name', { required: 'Bạn Chưa Nhập Tên' })}
@@ -135,24 +135,24 @@ const FormRegister = () => {
 
 
                 <div className='flex flex-col md:flex-row md:gap-12'>
-                    
-                    
+
+
                     {showStore && (
-                         <div className='mb-6 md:w-1/3'>
-                         <div className="flex">
-                             <label htmlFor="role" className='text-base font-semibold'>Cửa hàng: </label>
-                             {errors.role && <p className='text-sm text-red-500'>* {errors.role.message}</p>}
-                         </div>
-                         <select {...register('storeId', { required: 'Bạn Chưa Chọn Cửa hàng' })}
-                             name="storeId" required
-                             className='mt-2 p-2 border-2 border-orange-400 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 w-full'
-                        >        
-                            <option value="" disabled selected>- - Chọn - - </option>
-                            {stores && stores.map((store) => (
-                                <option value={store.id}>{store.name}</option>
-                            ))}
-                         </select>
-                     </div>
+                        <div className='mb-6 md:w-1/3'>
+                            <div className="flex">
+                                <label htmlFor="role" className='text-base font-semibold'>Cửa hàng: </label>
+                                {errors.role && <p className='text-sm text-red-500'>* {errors.role.message}</p>}
+                            </div>
+                            <select {...register('storeId', { required: 'Bạn Chưa Chọn Cửa hàng' })}
+                                name="storeId" required
+                                className='mt-2 p-2 border-2 border-orange-400 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 w-full'
+                            >
+                                <option value="" disabled selected>- - Chọn - - </option>
+                                {stores && stores.map((store) => (
+                                    <option value={store.id}>{store.name}</option>
+                                ))}
+                            </select>
+                        </div>
                     )}
                 </div>
                 <div className='flex flex-col md:flex-row md:gap-12'>
