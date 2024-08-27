@@ -35,6 +35,8 @@ export interface IOrderStatusCount {
     Paided: number;
     Failed: number;
     Canceled: number;
+    Refunded: number;
+    Got: number;
 }
 // Define the interface of IRevenueOfStore model.
 export interface IRevenueOfStore {

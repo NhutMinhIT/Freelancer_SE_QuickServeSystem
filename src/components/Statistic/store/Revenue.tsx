@@ -13,8 +13,7 @@ import { useForm } from 'react-hook-form';
 import { useAppSelector } from '../../../services/store/store';
 import { formatAnyDate, formatNumberWithDots } from '../../../utils';
 import { CircularProgress } from '@mui/material';
-import { ArrowPathIcon, CheckCircleIcon, ClockIcon, CurrencyDollarIcon, ExclamationCircleIcon } from '@heroicons/react/24/solid';
-
+import { ArrowPathIcon, CheckCircleIcon, ClockIcon, CurrencyDollarIcon, ExclamationCircleIcon, ReceiptRefundIcon, ArchiveBoxIcon } from '@heroicons/react/24/solid';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
@@ -98,6 +97,8 @@ const Revenue = ({ onSubmit }: RevenueProps) => {
     const orderPaided = revenueOfStore?.orderStatusCounts?.Paided ?? 0;
     const orderFailed = revenueOfStore?.orderStatusCounts?.Failed ?? 0;
     const orderCanceled = revenueOfStore?.orderStatusCounts?.Canceled ?? 0;
+    const orderRefunded = revenueOfStore?.orderStatusCounts?.Refunded ?? 0;
+    const orderGot = revenueOfStore?.orderStatusCounts?.Got ?? 0;
 
     return (
         <div className='mt-4 mr-2'>
@@ -128,7 +129,7 @@ const Revenue = ({ onSubmit }: RevenueProps) => {
                             <h4 className='font-bold text-xl'>Thống kê trạng thái đơn hàng</h4>
                         </div>
                         <div className='flex flex-col items-start relative p-4 bg-white shadow-md rounded-lg'>
-                            <div className='absolute left-8 transform top-5 bottom-4 w-0.5 bg-green-500 h-64'></div>
+                            <div className='absolute left-8 transform top-5 bottom-4 w-0.5 bg-green-500 h-[340px]'></div>
 
                             <div className='flex flex-row items-center gap-4 mb-4'>
                                 <div className="relative">
@@ -168,19 +169,37 @@ const Revenue = ({ onSubmit }: RevenueProps) => {
 
                             <div className='flex flex-row items-center gap-4 mb-4'>
                                 <div className="relative">
-                                    <CurrencyDollarIcon className="h-8 w-8 bg-white-500 text-red-500 rounded-lg" />
+                                    <ArchiveBoxIcon className="h-8 w-8 bg-white-500 text-green-500 rounded-lg" />
                                 </div>
                                 <span className='text-gray-700 font-medium'>
-                                    Đơn hàng thanh toán thất bại: {orderFailed}
+                                    Đơn hàng đã được lấy: {orderGot}
                                 </span>
                             </div>
 
-                            <div className='flex flex-row items-center gap-4'>
+                            <div className='flex flex-row items-center gap-4 mb-4'>
                                 <div className="relative">
                                     <ExclamationCircleIcon className="h-8 w-8 text-red-500 bg-white-500 rounded-lg" />
                                 </div>
                                 <span className='text-gray-700 font-medium'>
                                     Đơn hàng đã hủy: {orderCanceled}
+                                </span>
+                            </div>
+
+                            <div className='flex flex-row items-center gap-4 mb-4'>
+                                <div className="relative">
+                                    <ReceiptRefundIcon className="h-8 w-8 text-red-500 bg-white-500 rounded-lg" />
+                                </div>
+                                <span className='text-gray-700 font-medium'>
+                                    Đơn hàng đã hoàn tiền: {orderRefunded}
+                                </span>
+                            </div>
+
+                            <div className='flex flex-row items-center gap-4 mb-4'>
+                                <div className="relative">
+                                    <CurrencyDollarIcon className="h-8 w-8 bg-white-500 text-red-500 rounded-lg" />
+                                </div>
+                                <span className='text-gray-700 font-medium'>
+                                    Đơn hàng thất bại: {orderFailed}
                                 </span>
                             </div>
                         </div>
