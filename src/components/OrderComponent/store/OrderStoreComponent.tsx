@@ -32,7 +32,7 @@ const OrderStoreComponent = () => {
         },
         {
             accessorKey: "storeId",
-            header: "Mã cửa hàng",
+            header: "Tên cửa hàng",
             Cell: ({ cell }) => {
                 const storeId = cell.row.original.storeId;
                 const storeName = stores && stores.map(store => {

@@ -108,7 +108,7 @@ const CommonTableFilterPaginationV2 = <T extends MRT_RowData>({
         {isShowFilter && (
           <Box display={'flex'} gap={2}>
             <TextField
-              label={'Mã hóa đơn'}
+              label={'Mã đơn hàng'}
               value={filterConfig?.refOrderId !== null ? filterConfig.refOrderId : ''}
               onChange={(e) => {
                 const value = e.target.value ? Number(e.target.value) : null;
