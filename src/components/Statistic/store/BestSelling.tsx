@@ -1,9 +1,11 @@
 import { useState } from "react";
-import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
+import { FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, Tab, Tabs } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { useAppSelector } from "../../../services/store/store";
 import { CircularProgress } from '@mui/material';
 import { formatAnyDate } from "../../../utils";
+import BestSellingProduct from "./BestSellingProduct";
+import BestSellingIngredient from "./BestSellingIngredient";
 
 type BestSellingProps = {
   onSubmit: (data: any, action: string) => void;
@@ -21,13 +23,18 @@ type FormBestSellingValues = {
 const BestSelling = ({ onSubmit }: BestSellingProps) => {
   const [showForm, setShowForm] = useState('month');
   const [, newMonth, newYear] = (formatAnyDate(new Date()) ?? '').split('-');
+  const [tab, setTab] = useState(1);
 
-  const { bestSellingOfStore, loadingBestSelling } = useAppSelector(state => state.revenues)
+  const { loadingBestSelling } = useAppSelector(state => state.revenues)
   const { register, handleSubmit, formState: { errors } } = useForm<FormBestSellingValues>({
     defaultValues: {
       monthYear: `${newYear}-${newMonth}`,
     }
   });
+
+  const handleChangeTab = (_: React.SyntheticEvent, newValue: number) => {
+    setTab(newValue);
+};
 
   const handleChange = (event: SelectChangeEvent) => {
     setShowForm(event.target.value as string);
@@ -40,54 +47,37 @@ const BestSelling = ({ onSubmit }: BestSellingProps) => {
 
   return (
     <div className='mt-8 mr-2'>
-      <h2 className='text-xl text-black font-bold'>Sản phẩm bán chạy</h2>
-      <div className="mt-3 flex flex-row py-2 gap-4">
-        <div className='flex flex-grow gap-2'>
-          <div className="w-3/4 grid grid-cols-3 gap-3">
-            {/* Thêm các sản phẩm khác tương tự ở đây */}
-            {bestSellingOfStore?.bestSellingProductTemplates.length === 0 && (
-              <h1>Không có sản phẩm nào!</h1>
-            )}
-            {bestSellingOfStore && bestSellingOfStore?.bestSellingProductTemplates?.map((data: any) => (
-              <div className="bg-white border border-gray-900 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700" key={data?.id}>
-                <img className="rounded-t-lg h-48" src={data?.urlImage} alt="" />
-                <div className="p-5">
-                  <a href="#">
-                    <h5 className="mb-2 text-lg font-bold tracking-tight text-gray-900 dark:text-white">{data?.name}</h5>
-                  </a>
-                  <p className="mb-3 font-normal text-gray-700 dark:text-gray-400 flex items-center">
-                    <span className="font-bold">Giá sản phẩm:</span>
-                    <span className="ml-2">{data?.price}</span>
-                  </p>
-                  <p className="mb-3 font-normal text-gray-700 dark:text-gray-400 flex items-center">
-                    <span className="font-bold">Đã bán:</span>
-                    <span className="ml-2">{data?.sellingQuantity}</span>
-                  </p>
-                  <p className="mb-3 font-normal text-gray-700 dark:text-gray-400 flex items-center">
-                    <span className="font-bold">Doanh thu:</span>
-                    <span className="ml-2">{data?.totalRevenue}</span>
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="flex flex-col w-1/4">
-            <FormControl fullWidth sx={{ mb: 2 }}>
-              <InputLabel>Tìm kiếm</InputLabel>
-              <Select
-                value={showForm}
-                label="Tìm kiếm"
-                onChange={handleChange}
-              >
-                <MenuItem value={'specificDate'}>Theo ngày</MenuItem>
-                <MenuItem value={'month'}>Theo tháng</MenuItem>
-                <MenuItem value={'year'}>Theo năm</MenuItem>
-                <MenuItem value={'aboutTime'}>Theo khoảng thời gian</MenuItem>
-              </Select>
-            </FormControl>
-            <form onSubmit={handleSubmit(onSubmitForm)}>
-              {showForm === 'specificDate' && (
-                <div className="flex flex-col items-start border-2 border-black-500 rounded-lg p-2 mb-4">
+      <h2 className='text-xl text-black font-bold'>Thống kê bán chạy</h2>
+      <Grid container spacing={3} mb={2}>
+        <Grid item md={9}>
+          <Tabs value={tab} onChange={handleChangeTab}>
+            <Tab value={1} label="Sản phẩm bán chạy" />
+            <Tab value={2} label="Nguyên liệu bán chạy" />
+          </Tabs>
+          {tab === 1 && (
+            <BestSellingProduct />
+          )}
+          {tab === 2 && (
+            <BestSellingIngredient />
+          )}
+        </Grid>
+        <Grid item md={3}>
+        <FormControl fullWidth sx={{ mb: 2 }}>
+          <InputLabel>Tìm kiếm</InputLabel>
+          <Select
+            value={showForm}
+            label="Tìm kiếm"
+            onChange={handleChange}
+          >
+            <MenuItem value={'specificDate'}>Theo ngày</MenuItem>
+            <MenuItem value={'month'}>Theo tháng</MenuItem>
+            <MenuItem value={'year'}>Theo năm</MenuItem>
+            <MenuItem value={'aboutTime'}>Theo khoảng thời gian</MenuItem>
+          </Select>
+        </FormControl>
+        <form onSubmit={handleSubmit(onSubmitForm)}>
+          {showForm === 'specificDate' && (
+            <div className="flex flex-col items-start border-2 border-black-500 rounded-lg p-2 mb-4">
                   <label htmlFor="date" className="mb-2 font-semibold">Tìm kiếm theo ngày</label>
                   <input
                     type="date"
@@ -166,9 +156,8 @@ const BestSelling = ({ onSubmit }: BestSellingProps) => {
                 </div>
               )}
             </form>
-          </div>
-        </div>
-      </div>
+        </Grid>
+      </Grid>
     </div>
   )
 }
