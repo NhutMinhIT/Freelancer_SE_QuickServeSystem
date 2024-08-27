@@ -99,8 +99,6 @@ const Revenue = ({ onSubmit }: RevenueProps) => {
     const orderFailed = revenueOfStore?.orderStatusCounts?.Failed ?? 0;
     const orderCanceled = revenueOfStore?.orderStatusCounts?.Canceled ?? 0;
 
-    console.log(revenueOfStore?.orderStatusCounts)
-
     return (
         <div className='mt-4 mr-2'>
             <h2 className='text-xl text-black font-bold'>Thống kê chi tiết</h2>

@@ -68,12 +68,6 @@ const PopupUpdateIngredientSession = ({
     useEffect(() => {
         if (ingredientSessionById?.ingredients && ingredientSessionById?.ingredients.length !== 0) {
             ingredientSessionById?.ingredients.forEach((ingredient, index) => {
-                if (!fields[index]) {
-                    append({
-                        id: 0,
-                        quantity: 0,
-                    })
-                }
                 setValue(`ingredients.${index}.id`, ingredient.id);
                 setValue(`ingredients.${index}.quantity`, ingredient.quantity);
             })
